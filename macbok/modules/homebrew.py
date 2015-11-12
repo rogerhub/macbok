@@ -78,7 +78,7 @@ class Homebrew(Task):
 
     def run(self):
         with self.task_lock():
-            if not self._already_installed:
+            if not self._already_installed():
                 yield Chown(self.installation_root, get_username())
                 yield Gitclone("https://github.com/Homebrew/homebrew.git", self.installation_root)
             if self.package and self.package not in self._installed_packages():

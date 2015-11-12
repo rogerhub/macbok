@@ -34,67 +34,8 @@ def main():
     # Sets the repeat rate for held keys
     yield Defaults("NSGlobalDomain", "KeyRepeat", 2)
 
-    # Basic packages
-    yield Homebrew(tap="homebrew/fuse")
-    yield Homebrew(tap="homebrew/x11")
-    yield Homebrew("gcc", force_bottle=True)
-    yield Homebrew("rdiff-backup")
-    yield Homebrew("awscli")
-    yield Homebrew("vim")
-    yield Homebrew("fswatch", force_bottle=True)
-    yield Homebrew("go", force_bottle=True)
-    yield Homebrew("ctags", force_bottle=True)
-    yield Homebrew("the_silver_searcher", force_bottle=True)
-    yield Homebrew("ant", force_bottle=True)
-    yield Homebrew("wget", force_bottle=True)
-    yield Homebrew("pstree", force_bottle=True)
-    yield Homebrew("duplicity", force_bottle=True)
-    yield Homebrew("mcrypt", force_bottle=True)
-    yield Homebrew("iperf")
-    yield Homebrew("mtr", force_bottle=True)
-    yield Homebrew("unrar", force_bottle=True)
-    yield Homebrew("htop-osx", force_bottle=True)
-    yield Homebrew("wakeonlan")
-    yield Homebrew("tmux", force_bottle=True)
-    yield Homebrew("scala", force_bottle=True)
-    yield Homebrew("openssl", force_bottle=True)
-    yield Homebrew("imagemagick", force_bottle=True)
-    yield Homebrew("gettext", force_bottle=True)
-
-    # Fuse-related packages
-    yield Homebrew(cask_package="osxfuse")
-    yield Homebrew(cask_package="sshfs")
-    yield Homebrew("fuse-zip", force_bottle=True)
-
-    # Java-related packages
-    yield Homebrew(cask_package="java")
-    yield Homebrew("maven", force_bottle=True)
-
-    # X11-related packages
-    yield Homebrew(cask_package="xquartz")
-    yield Homebrew("rdesktop", force_bottle=True)
-
-    # MacVim won't compile until the Xcode is installed
-    if exists("/Applications/Xcode.app/"):
-        yield Homebrew("macvim")
-
-    # Cask packages
-    yield Homebrew(cask_package="google-chrome")
-    yield Homebrew(cask_package="keepassx")
-    yield Homebrew(cask_package="gnucash")
-    yield Homebrew(cask_package="google-hangouts")
-    yield Homebrew(cask_package="vlc")
-    yield Homebrew(cask_package="calibre")
-    yield Homebrew(cask_package="caffeine")
-    yield Homebrew(cask_package="tunnelblick")
-    yield Homebrew(cask_package="mactex")
-    yield Homebrew(cask_package="adobe-reader")
-    yield Homebrew(cask_package="adobe-creative-cloud")
-    yield Homebrew(cask_package="seil")
-    yield Homebrew(cask_package="vmware-fusion")
-    yield Homebrew(cask_package="vagrant")
-
-    yield Gitclone("https://github.com/rogerhub/vim-config.git", expanduser("~/.vim-config"))
+    yield Gitclone("https://github.com/rogerhub/vim-config.git", expanduser("~/.vim-config"),
+                   recursive=True)
     yield Link(".vim-config/.vim", expanduser("~/.vim"))
     yield Link(".vim-config/.vimrc", expanduser("~/.vimrc"))
     yield Link(".vim-config/.gvimrc", expanduser("~/.gvimrc"))
@@ -131,6 +72,67 @@ def main():
     yield Gem("tugboat")
     yield Gem("sass")
     yield Gem("uglifier")
+
+    # Basic packages
+    yield Homebrew(tap="homebrew/fuse")
+    yield Homebrew(tap="homebrew/x11")
+    yield Homebrew("gcc", force_bottle=True)
+    yield Homebrew("rdiff-backup")
+    yield Homebrew("awscli")
+    yield Homebrew("vim")
+    yield Homebrew("fswatch", force_bottle=True)
+    yield Homebrew("go", force_bottle=True)
+    yield Homebrew("ctags", force_bottle=True)
+    yield Homebrew("the_silver_searcher", force_bottle=True)
+    yield Homebrew("ant", force_bottle=True)
+    yield Homebrew("wget", force_bottle=True)
+    yield Homebrew("pstree", force_bottle=True)
+    yield Homebrew("duplicity", force_bottle=True)
+    yield Homebrew("mcrypt", force_bottle=True)
+    yield Homebrew("iperf")
+    yield Homebrew("mtr", force_bottle=True)
+    yield Homebrew("unrar", force_bottle=True)
+    yield Homebrew("htop-osx", force_bottle=True)
+    yield Homebrew("wakeonlan")
+    yield Homebrew("tmux", force_bottle=True)
+    yield Homebrew("openssl", force_bottle=True)
+    yield Homebrew("imagemagick", force_bottle=True)
+    yield Homebrew("gettext", force_bottle=True)
+
+    # Fuse-related packages
+    yield Homebrew(cask_package="osxfuse")
+    yield Homebrew(cask_package="sshfs")
+    yield Homebrew("fuse-zip", force_bottle=True)
+
+    # Java-related packages
+    yield Homebrew(cask_package="java")
+    yield Homebrew("maven", force_bottle=True)
+    yield Homebrew("scala", force_bottle=True)
+
+    # X11-related packages
+    yield Homebrew(cask_package="xquartz")
+    yield Homebrew("rdesktop", force_bottle=True)
+
+    # MacVim won't compile until the Xcode is installed
+    if exists("/Applications/Xcode.app/"):
+        yield Homebrew("macvim")
+
+    # Cask packages
+    yield Homebrew(cask_package="google-chrome")
+    yield Homebrew(cask_package="keepassx")
+    yield Homebrew(cask_package="gnucash")
+    yield Homebrew(cask_package="google-hangouts")
+    yield Homebrew(cask_package="vlc")
+    yield Homebrew(cask_package="calibre")
+    yield Homebrew(cask_package="caffeine")
+    yield Homebrew(cask_package="tunnelblick")
+    yield Homebrew(cask_package="adobe-reader")
+    yield Homebrew(cask_package="adobe-creative-cloud")
+    yield Homebrew(cask_package="seil")
+    yield Homebrew(cask_package="vmware-fusion")
+    yield Homebrew(cask_package="vagrant")
+    yield Homebrew(cask_package="dropbox")
+    yield Homebrew(cask_package="mactex")
 
 
 if __name__ == "__main__":
