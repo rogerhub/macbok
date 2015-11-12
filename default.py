@@ -34,6 +34,13 @@ def main():
     # Sets the repeat rate for held keys
     yield Defaults("NSGlobalDomain", "KeyRepeat", 2)
 
+    # Minimize windows to dock icon
+    yield Defaults("com.apple.dock", "minimize-to-application", True)
+
+    # Put the dock on the left
+    yield Defaults("com.apple.dock", "orientation", "left")
+
+    # Get my vim configuration
     yield Gitclone("https://github.com/rogerhub/vim-config.git", expanduser("~/.vim-config"),
                    recursive=True)
     yield Link(".vim-config/.vim", expanduser("~/.vim"))
@@ -132,6 +139,7 @@ def main():
     yield Homebrew(cask_package="vmware-fusion")
     yield Homebrew(cask_package="vagrant")
     yield Homebrew(cask_package="dropbox")
+    yield Homebrew(cask_package="spotify")
     yield Homebrew(cask_package="mactex")
 
 
