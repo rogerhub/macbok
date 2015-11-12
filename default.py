@@ -140,6 +140,7 @@ def main():
     yield Homebrew(cask_package="vagrant")
     yield Homebrew(cask_package="dropbox")
     yield Homebrew(cask_package="spotify")
+    yield Homebrew(cask_package="logitech-options")
     yield Homebrew(cask_package="mactex")
 
 
