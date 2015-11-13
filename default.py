@@ -58,28 +58,6 @@ def main():
         # Avoid creating a dead link
         yield Link("Configuration/ssh", expanduser("~/.ssh"))
 
-    yield Pypi("boto")
-    yield Pypi("dropbox")
-    yield Pypi("flake8")
-    yield Pypi("gdata")
-    yield Pypi("ipdb")
-    yield Pypi("ipython")
-    yield Pypi("line-profiler")
-    yield Pypi("Pillow")
-    yield Pypi("psutil")
-    yield Pypi("pudb")
-    yield Pypi("pycosat")
-    yield Pypi("pyzmq")
-    yield Pypi("requests")
-    yield Pypi("scikit-image")
-    yield Pypi("scikit-learn")
-    yield Pypi("tornado")
-    yield Pypi("virtualenv")
-
-    yield Gem("tugboat")
-    yield Gem("sass")
-    yield Gem("uglifier")
-
     # Basic packages
     yield Homebrew(tap="homebrew/fuse")
     yield Homebrew(tap="homebrew/x11")
@@ -105,6 +83,7 @@ def main():
     yield Homebrew("openssl", force_bottle=True)
     yield Homebrew("imagemagick", force_bottle=True)
     yield Homebrew("gettext", force_bottle=True)
+    yield Homebrew("python", force_bottle=True)
 
     # Fuse-related packages
     yield Homebrew(cask_package="osxfuse")
@@ -142,6 +121,31 @@ def main():
     yield Homebrew(cask_package="spotify")
     yield Homebrew(cask_package="logitech-options")
     yield Homebrew(cask_package="mactex")
+
+    yield Pypi("boto")
+    yield Pypi("dropbox")
+    yield Pypi("flake8")
+    yield Pypi("gdata")
+    yield Pypi("ipdb")
+    yield Pypi("ipython")
+    yield Pypi("line-profiler")
+    yield Pypi("matplotlib")
+    yield Pypi("numpy")
+    yield Pypi("Pillow")
+    yield Pypi("psutil")
+    yield Pypi("pudb")
+    yield Pypi("pycosat")
+    yield Pypi("pyzmq")
+    yield Pypi("requests")
+    yield Pypi("scipy")
+    yield Pypi("scikit-image")
+    yield Pypi("scikit-learn")
+    yield Pypi("tornado")
+    yield Pypi("virtualenv")
+
+    yield Gem("tugboat")
+    yield Gem("sass")
+    yield Gem("uglifier")
 
 
 if __name__ == "__main__":
