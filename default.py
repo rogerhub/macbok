@@ -1,4 +1,5 @@
 import macbok
+import sys
 from macbok.modules.defaults import Defaults
 from macbok.modules.gitclone import Gitclone
 from macbok.modules.homebrew import Homebrew
@@ -121,6 +122,9 @@ def main():
     yield Homebrew(cask_package="spotify")
     yield Homebrew(cask_package="logitech-options")
     yield Homebrew(cask_package="mactex")
+
+    assert sys.executable == "/usr/local/opt/python/bin/python2.7", \
+        "Please restart your shell and run this script again, so we install using homebrew's python"
 
     yield Pypi("boto")
     yield Pypi("dropbox")
