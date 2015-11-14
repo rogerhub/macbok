@@ -49,15 +49,15 @@ def main():
     yield Link(".vim-config/.gvimrc", expanduser("~/.gvimrc"))
 
     yield Link("Development/Configuration", expanduser("~/Configuration"))
-    yield Link("Configuration/atom", expanduser("~/.atom"))
-    yield Link("Configuration/bcrc", expanduser("~/.bcrc"))
-    yield Link("Configuration/gitconfig", expanduser("~/.gitconfig"))
-    yield Link("Configuration/ipython", expanduser("~/.ipython"))
-    yield Link("Configuration/tmux.conf", expanduser("~/.tmux.conf"))
-    yield Link("Configuration/zshconfig", expanduser("~/.zshconfig"))
 
-    if exists(expanduser("~/Configuration/ssh")):
-        # Avoid creating a dead link
+    if exists(expanduser("~/Development/Configuration")):
+        # Avoid creating a dead links
+        yield Link("Configuration/atom", expanduser("~/.atom"))
+        yield Link("Configuration/bcrc", expanduser("~/.bcrc"))
+        yield Link("Configuration/gitconfig", expanduser("~/.gitconfig"))
+        yield Link("Configuration/ipython", expanduser("~/.ipython"))
+        yield Link("Configuration/tmux.conf", expanduser("~/.tmux.conf"))
+        yield Link("Configuration/zshconfig", expanduser("~/.zshconfig"))
         yield Link("Configuration/ssh", expanduser("~/.ssh"))
 
     # Basic packages
