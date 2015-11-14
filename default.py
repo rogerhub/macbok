@@ -49,6 +49,7 @@ def main():
     yield Link(".vim-config/.gvimrc", expanduser("~/.gvimrc"))
 
     yield Link("Development/Configuration", expanduser("~/Configuration"))
+    yield Link("Configuration/atom", expanduser("~/.atom"))
     yield Link("Configuration/bcrc", expanduser("~/.bcrc"))
     yield Link("Configuration/gitconfig", expanduser("~/.gitconfig"))
     yield Link("Configuration/ipython", expanduser("~/.ipython"))
@@ -122,6 +123,7 @@ def main():
     yield Homebrew(cask_package="spotify")
     yield Homebrew(cask_package="logitech-options")
     yield Homebrew(cask_package="mactex")
+    yield Homebrew(cask_package="atom")
 
     assert sys.executable == "/usr/local/opt/python/bin/python2.7", \
         "Please restart your shell and run this script again, so we install using homebrew's python"
