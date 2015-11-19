@@ -1,5 +1,7 @@
 import macbok
 import sys
+from macbok.common.util import get_username
+from macbok.modules.chown import Chown
 from macbok.modules.defaults import Defaults
 from macbok.modules.gitclone import Gitclone
 from macbok.modules.homebrew import Homebrew
@@ -55,10 +57,13 @@ def main():
         yield Link("Configuration/atom", expanduser("~/.atom"))
         yield Link("Configuration/bcrc", expanduser("~/.bcrc"))
         yield Link("Configuration/gitconfig", expanduser("~/.gitconfig"))
+        yield Link("Configuration/gitignore", expanduser("~/.gitignore"))
         yield Link("Configuration/ipython", expanduser("~/.ipython"))
         yield Link("Configuration/tmux.conf", expanduser("~/.tmux.conf"))
         yield Link("Configuration/zshconfig", expanduser("~/.zshconfig"))
         yield Link("Configuration/ssh", expanduser("~/.ssh"))
+
+    yield Chown("/etc/hosts", get_username(), group="staff")
 
     # Basic packages
     yield Homebrew(tap="homebrew/fuse")
