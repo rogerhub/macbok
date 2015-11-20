@@ -146,6 +146,7 @@ def main():
     yield Pypi("psutil")
     yield Pypi("pudb")
     yield Pypi("pycosat")
+    yield Pypi("pytest")
     yield Pypi("pyzmq")
     yield Pypi("requests")
     yield Pypi("scipy")
