@@ -3,11 +3,12 @@ import sys
 from macbok.common.util import get_username
 from macbok.modules.chown import Chown
 from macbok.modules.defaults import Defaults
+from macbok.modules.gem import Gem
 from macbok.modules.gitclone import Gitclone
 from macbok.modules.homebrew import Homebrew
 from macbok.modules.link import Link
+from macbok.modules.npm import Npm
 from macbok.modules.pypi import Pypi
-from macbok.modules.gem import Gem
 from os.path import exists, expanduser
 
 
@@ -91,6 +92,7 @@ def main():
     yield Homebrew("imagemagick", force_bottle=True)
     yield Homebrew("gettext", force_bottle=True)
     yield Homebrew("python", force_bottle=True)
+    yield Homebrew("node", force_bottle=True)
 
     # Fuse-related packages
     yield Homebrew(cask_package="osxfuse")
@@ -153,11 +155,16 @@ def main():
     yield Pypi("scikit-image")
     yield Pypi("scikit-learn")
     yield Pypi("tornado")
+    yield Pypi("unittest2")
     yield Pypi("virtualenv")
 
     yield Gem("tugboat")
     yield Gem("sass")
     yield Gem("uglifier")
+
+    yield Npm("uglify-js")
+    yield Npm("coffee-script")
+    yield Npm("bower")
 
 
 if __name__ == "__main__":
