@@ -93,6 +93,7 @@ def main():
     yield Homebrew("gettext", force_bottle=True)
     yield Homebrew("python", force_bottle=True)
     yield Homebrew("node", force_bottle=True)
+    yield Homebrew("hping")
 
     # Fuse-related packages
     yield Homebrew(cask_package="osxfuse")
@@ -165,6 +166,7 @@ def main():
     yield Npm("uglify-js")
     yield Npm("coffee-script")
     yield Npm("bower")
+    yield Npm("gulp")
 
 
 if __name__ == "__main__":
