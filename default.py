@@ -69,6 +69,7 @@ def main():
     # Basic packages
     yield Homebrew(tap="homebrew/fuse")
     yield Homebrew(tap="homebrew/x11")
+    yield Homebrew(tap="homebrew/science")
     yield Homebrew("gcc", force_bottle=True)
     yield Homebrew("rdiff-backup")
     yield Homebrew("awscli")
@@ -94,6 +95,8 @@ def main():
     yield Homebrew("python", force_bottle=True)
     yield Homebrew("node", force_bottle=True)
     yield Homebrew("hping")
+    yield Homebrew("ffmpeg", force_bottle=True)
+    yield Homebrew("opencv", force_bottle=True)
 
     # Fuse-related packages
     yield Homebrew(cask_package="osxfuse")
@@ -143,7 +146,7 @@ def main():
     yield Pypi("ipdb")
     yield Pypi("ipython")
     yield Pypi("line-profiler")
-    yield Pypi("matplotlib")
+    yield Pypi("matplotlib", version="1.4.3")
     yield Pypi("numpy")
     yield Pypi("Pillow")
     yield Pypi("psutil")
