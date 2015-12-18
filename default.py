@@ -96,7 +96,6 @@ def main():
     yield Homebrew("node", force_bottle=True)
     yield Homebrew("hping")
     yield Homebrew("ffmpeg", force_bottle=True)
-    yield Homebrew("opencv", force_bottle=True)
 
     # Fuse-related packages
     yield Homebrew(cask_package="osxfuse")
