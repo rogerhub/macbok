@@ -42,7 +42,7 @@ def main():
     yield Defaults("com.apple.dock", "minimize-to-application", True)
 
     # Put the dock on the left
-    yield Defaults("com.apple.dock", "orientation", "left")
+    yield Defaults("com.apple.dock", "orientation", "bottom")
 
     # Get my vim configuration
     yield Gitclone("https://github.com/rogerhub/vim-config.git", expanduser("~/.vim-config"),
@@ -96,6 +96,8 @@ def main():
     yield Homebrew("node", force_bottle=True)
     yield Homebrew("hping")
     yield Homebrew("ffmpeg", force_bottle=True)
+    yield Homebrew("gradle")
+    yield Homebrew("mysql")
 
     # Fuse-related packages
     yield Homebrew(cask_package="osxfuse")
@@ -134,6 +136,7 @@ def main():
     yield Homebrew(cask_package="logitech-options")
     yield Homebrew(cask_package="mactex")
     yield Homebrew(cask_package="atom")
+    yield Homebrew(cask_package="intellij-idea")
 
     assert sys.executable == "/usr/local/opt/python/bin/python2.7", \
         "Please restart your shell and run this script again, so we install using homebrew's python"
