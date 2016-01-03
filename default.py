@@ -1,3 +1,5 @@
+#!/usr/bin/env python2.7
+
 import macbok
 import sys
 from macbok.common.util import get_username
@@ -137,6 +139,7 @@ def main():
     yield Homebrew(cask_package="mactex")
     yield Homebrew(cask_package="atom")
     yield Homebrew(cask_package="intellij-idea")
+    yield Homebrew(cask_package="google-cloud-sdk")
 
     assert sys.executable == "/usr/local/opt/python/bin/python2.7", \
         "Please restart your shell and run this script again, so we install using homebrew's python"
