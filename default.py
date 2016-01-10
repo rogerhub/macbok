@@ -100,6 +100,7 @@ def main():
     yield Homebrew("ffmpeg", force_bottle=True)
     yield Homebrew("gradle")
     yield Homebrew("mysql")
+    yield Homebrew("clang-format", force_bottle=True)
 
     # Fuse-related packages
     yield Homebrew(cask_package="osxfuse")
