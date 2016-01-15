@@ -57,7 +57,6 @@ def main():
 
     if exists(expanduser("~/Development/Configuration")):
         # Avoid creating a dead links
-        yield Link("Configuration/atom", expanduser("~/.atom"))
         yield Link("Configuration/bcrc", expanduser("~/.bcrc"))
         yield Link("Configuration/gitconfig", expanduser("~/.gitconfig"))
         yield Link("Configuration/gitignore", expanduser("~/.gitignore"))
@@ -65,6 +64,9 @@ def main():
         yield Link("Configuration/tmux.conf", expanduser("~/.tmux.conf"))
         yield Link("Configuration/zshconfig", expanduser("~/.zshconfig"))
         yield Link("Configuration/ssh", expanduser("~/.ssh"))
+
+    if exists(expanduser("~/.gradle")):
+        yield Link("../Configuration/gradle.properties", expanduser("~/.gradle/gradle.properties"))
 
     yield Chown("/etc/hosts", get_username(), group="staff")
 
@@ -138,7 +140,6 @@ def main():
     yield Homebrew(cask_package="spotify")
     yield Homebrew(cask_package="logitech-options")
     yield Homebrew(cask_package="mactex")
-    yield Homebrew(cask_package="atom")
     yield Homebrew(cask_package="intellij-idea")
     yield Homebrew(cask_package="google-cloud-sdk")
 
@@ -167,6 +168,7 @@ def main():
     yield Pypi("tornado")
     yield Pypi("unittest2")
     yield Pypi("virtualenv")
+    yield Pypi("websocket-client")
 
     yield Gem("tugboat")
     yield Gem("sass")
