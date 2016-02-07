@@ -133,7 +133,6 @@ def main():
     yield Homebrew(cask_package="tunnelblick")
     yield Homebrew(cask_package="adobe-reader")
     yield Homebrew(cask_package="adobe-creative-cloud")
-    yield Homebrew(cask_package="seil")
     yield Homebrew(cask_package="vmware-fusion")
     yield Homebrew(cask_package="vagrant")
     yield Homebrew(cask_package="dropbox")
