@@ -57,6 +57,7 @@ def main():
 
     if exists(expanduser("~/Development/Configuration")):
         # Avoid creating a dead links
+        yield Link("Configuration/atom", expanduser("~/.atom"))
         yield Link("Configuration/bcrc", expanduser("~/.bcrc"))
         yield Link("Configuration/gitconfig", expanduser("~/.gitconfig"))
         yield Link("Configuration/gitignore", expanduser("~/.gitignore"))
@@ -142,6 +143,7 @@ def main():
     yield Homebrew(cask_package="intellij-idea")
     yield Homebrew(cask_package="google-cloud-sdk")
     yield Homebrew(cask_package="android-studio")
+    yield Homebrew(cask_package="atom")
 
     assert sys.executable == "/usr/local/opt/python/bin/python2.7", \
         "Please restart your shell and run this script again, so we install using homebrew's python"
