@@ -46,6 +46,9 @@ def main():
     # Put the dock on the left
     yield Defaults("com.apple.dock", "orientation", "bottom")
 
+    # Put the dock on the left
+    yield Defaults("com.apple.dock", "tilesize", 48)
+
     # Get my vim configuration
     yield Gitclone("https://github.com/rogerhub/vim-config.git", expanduser("~/.vim-config"),
                    recursive=True)
