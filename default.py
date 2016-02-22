@@ -147,6 +147,7 @@ def main():
     yield Homebrew(cask_package="google-cloud-sdk")
     yield Homebrew(cask_package="android-studio")
     yield Homebrew(cask_package="atom")
+    yield Homebrew(cask_package="puppet")
 
     assert sys.executable == "/usr/local/opt/python/bin/python2.7", \
         "Please restart your shell and run this script again, so we install using homebrew's python"
