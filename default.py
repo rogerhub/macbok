@@ -47,7 +47,7 @@ def main():
     yield Defaults("com.apple.dock", "orientation", "bottom")
 
     # Put the dock on the left
-    yield Defaults("com.apple.dock", "tilesize", 36)
+    yield Defaults("com.apple.dock", "tilesize", 48)
 
     # Get my vim configuration
     yield Gitclone("https://github.com/rogerhub/vim-config.git", expanduser("~/.vim-config"),
@@ -142,13 +142,13 @@ def main():
     yield Homebrew(cask_package="dropbox")
     yield Homebrew(cask_package="spotify")
     yield Homebrew(cask_package="logitech-options")
-    yield Homebrew(cask_package="mactex")
     yield Homebrew(cask_package="intellij-idea")
     yield Homebrew(cask_package="google-cloud-sdk")
     yield Homebrew(cask_package="android-studio")
     yield Homebrew(cask_package="atom")
     yield Homebrew(cask_package="puppet")
     yield Homebrew(cask_package="wireshark")
+    yield Homebrew(cask_package="firefox")
 
     assert sys.executable == "/usr/local/opt/python/bin/python2.7", \
         "Please restart your shell and run this script again, so we install using homebrew's python"
@@ -185,6 +185,10 @@ def main():
     yield Npm("coffee-script")
     yield Npm("bower")
     yield Npm("gulp")
+
+    # Mactex is hosted on some remote European web server.
+    # It takes forever to download (1-2 hours) regardless of your internet connection, so do it last.
+    yield Homebrew(cask_package="mactex")
 
 
 if __name__ == "__main__":
