@@ -149,6 +149,7 @@ def main():
     yield Homebrew(cask_package="puppet")
     yield Homebrew(cask_package="wireshark")
     yield Homebrew(cask_package="firefox")
+    yield Homebrew(cask_package="1password")
 
     assert sys.executable == "/usr/local/opt/python/bin/python2.7", \
         "Please restart your shell and run this script again, so we install using homebrew's python"
