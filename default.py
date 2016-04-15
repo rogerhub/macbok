@@ -44,10 +44,10 @@ def main():
     yield Defaults("com.apple.dock", "minimize-to-application", True)
 
     # Put the dock on the left
-    yield Defaults("com.apple.dock", "orientation", "bottom")
+    yield Defaults("com.apple.dock", "orientation", "left")
 
     # Put the dock on the left
-    yield Defaults("com.apple.dock", "tilesize", 48)
+    yield Defaults("com.apple.dock", "tilesize", 36)
 
     # Get my vim configuration
     yield Gitclone("https://github.com/rogerhub/vim-config.git", expanduser("~/.vim-config"),
@@ -177,10 +177,14 @@ def main():
     yield Pypi("unittest2")
     yield Pypi("virtualenv")
     yield Pypi("websocket-client")
+    yield Pypi("pyOpenSSL")
 
     yield Gem("tugboat")
     yield Gem("sass")
     yield Gem("uglifier")
+    yield Gem("jekyll")
+    yield Gem("jekyll-paginate")
+    yield Gem("jekyll-gist")
 
     yield Npm("uglify-js")
     yield Npm("coffee-script")
