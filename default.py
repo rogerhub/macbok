@@ -107,6 +107,7 @@ def main():
     yield Homebrew("gradle")
     yield Homebrew("mysql")
     yield Homebrew("clang-format", force_bottle=True)
+    yield Homebrew("git", force_bottle=True)
 
     # Fuse-related packages
     yield Homebrew(cask_package="osxfuse")
@@ -178,6 +179,9 @@ def main():
     yield Pypi("virtualenv")
     yield Pypi("websocket-client")
     yield Pypi("pyOpenSSL")
+    yield Pypi("autopep8")
+    yield Pypi("python-geoip")
+    yield Pypi("python-geoip-geolite2")
 
     yield Gem("tugboat")
     yield Gem("sass")
