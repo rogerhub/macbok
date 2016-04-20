@@ -26,7 +26,7 @@ def main():
     yield Defaults("NSGlobalDomain", "NSAutomaticSpellingCorrectionEnabled", False)
 
     # Enables keyboard access for dialog controls
-    yield Defaults("NSGlobalDomain", "AppleKeyboardUIMode", 3)
+    # yield Defaults("NSGlobalDomain", "AppleKeyboardUIMode", 3)
 
     # Disables keyboard press-and-hold for accented character entry
     yield Defaults("NSGlobalDomain", "ApplePressAndHoldEnabled", False)
@@ -44,17 +44,17 @@ def main():
     yield Defaults("com.apple.dock", "minimize-to-application", True)
 
     # Put the dock on the left
-    yield Defaults("com.apple.dock", "orientation", "left")
+    yield Defaults("com.apple.dock", "orientation", "bottom")
 
     # Put the dock on the left
-    yield Defaults("com.apple.dock", "tilesize", 36)
+    yield Defaults("com.apple.dock", "tilesize", 48)
 
     # Get my vim configuration
-    yield Gitclone("https://github.com/rogerhub/vim-config.git", expanduser("~/.vim-config"),
-                   recursive=True)
-    yield Link(".vim-config/.vim", expanduser("~/.vim"))
-    yield Link(".vim-config/.vimrc", expanduser("~/.vimrc"))
-    yield Link(".vim-config/.gvimrc", expanduser("~/.gvimrc"))
+    # yield Gitclone("https://github.com/rogerhub/vim-config.git", expanduser("~/.vim-config"),
+    #                recursive=True)
+    # yield Link(".vim-config/.vim", expanduser("~/.vim"))
+    # yield Link(".vim-config/.vimrc", expanduser("~/.vimrc"))
+    # yield Link(".vim-config/.gvimrc", expanduser("~/.gvimrc"))
 
     yield Link("Development/Configuration", expanduser("~/Configuration"))
 
@@ -65,7 +65,7 @@ def main():
         yield Link("Configuration/gitconfig", expanduser("~/.gitconfig"))
         yield Link("Configuration/gitignore", expanduser("~/.gitignore"))
         yield Link("Configuration/ipython", expanduser("~/.ipython"))
-        yield Link("Configuration/tmux.conf", expanduser("~/.tmux.conf"))
+        # yield Link("Configuration/tmux.conf", expanduser("~/.tmux.conf"))
         yield Link("Configuration/zshconfig", expanduser("~/.zshconfig"))
         yield Link("Configuration/ssh", expanduser("~/.ssh"))
 
@@ -81,7 +81,7 @@ def main():
     yield Homebrew("gcc", force_bottle=True)
     yield Homebrew("rdiff-backup")
     yield Homebrew("awscli")
-    yield Homebrew("vim")
+    # yield Homebrew("vim")
     yield Homebrew("fswatch", force_bottle=True)
     yield Homebrew("go", force_bottle=True)
     yield Homebrew("ctags", force_bottle=True)
@@ -96,7 +96,7 @@ def main():
     yield Homebrew("unrar", force_bottle=True)
     yield Homebrew("htop-osx", force_bottle=True)
     yield Homebrew("wakeonlan")
-    yield Homebrew("tmux", force_bottle=True)
+    # yield Homebrew("tmux", force_bottle=True)
     yield Homebrew("openssl", force_bottle=True)
     yield Homebrew("imagemagick", force_bottle=True)
     yield Homebrew("gettext", force_bottle=True)
@@ -124,28 +124,28 @@ def main():
     yield Homebrew("rdesktop", force_bottle=True)
 
     # MacVim won't compile until the Xcode is installed
-    if exists("/Applications/Xcode.app/"):
-        yield Homebrew("macvim")
+    # if exists("/Applications/Xcode.app/"):
+    #     yield Homebrew("macvim")
 
     # Cask packages
     yield Homebrew(cask_package="google-chrome")
-    yield Homebrew(cask_package="keepassx")
+    # yield Homebrew(cask_package="keepassx")
     yield Homebrew(cask_package="gnucash")
     yield Homebrew(cask_package="google-hangouts")
     yield Homebrew(cask_package="vlc")
     yield Homebrew(cask_package="calibre")
     yield Homebrew(cask_package="caffeine")
-    yield Homebrew(cask_package="tunnelblick")
-    yield Homebrew(cask_package="adobe-reader")
-    yield Homebrew(cask_package="adobe-creative-cloud")
+    # yield Homebrew(cask_package="tunnelblick")
+    # yield Homebrew(cask_package="adobe-reader")
+    # yield Homebrew(cask_package="adobe-creative-cloud")
     yield Homebrew(cask_package="vmware-fusion")
     yield Homebrew(cask_package="vagrant")
     yield Homebrew(cask_package="dropbox")
     yield Homebrew(cask_package="spotify")
     yield Homebrew(cask_package="logitech-options")
-    yield Homebrew(cask_package="intellij-idea")
+    # yield Homebrew(cask_package="intellij-idea")
     yield Homebrew(cask_package="google-cloud-sdk")
-    yield Homebrew(cask_package="android-studio")
+    # yield Homebrew(cask_package="android-studio")
     yield Homebrew(cask_package="atom")
     yield Homebrew(cask_package="puppet")
     yield Homebrew(cask_package="wireshark")
@@ -185,10 +185,9 @@ def main():
 
     yield Gem("tugboat")
     yield Gem("sass")
-    yield Gem("uglifier")
     yield Gem("jekyll")
-    yield Gem("jekyll-paginate")
-    yield Gem("jekyll-gist")
+    # yield Gem("jekyll-paginate")
+    # yield Gem("jekyll-gist")
 
     yield Npm("uglify-js")
     yield Npm("coffee-script")
