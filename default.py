@@ -123,6 +123,7 @@ def main():
     yield Homebrew("mysql")
     yield Homebrew("clang-format", force_bottle=True)
     yield Homebrew("git", force_bottle=True)
+    yield Homebrew("webp", force_bottle=True)
 
     # Fuse-related packages
     yield Homebrew(cask_package="osxfuse")
