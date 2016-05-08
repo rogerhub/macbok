@@ -93,6 +93,7 @@ def main():
     yield Homebrew(tap="homebrew/fuse")
     yield Homebrew(tap="homebrew/x11")
     yield Homebrew(tap="homebrew/science")
+    yield Homebrew(tap="linode/cli")
     yield Homebrew("gcc", force_bottle=True)
     yield Homebrew("rdiff-backup")
     yield Homebrew("awscli")
@@ -138,6 +139,9 @@ def main():
     # X11-related packages
     yield Homebrew(cask_package="xquartz")
     yield Homebrew("rdesktop", force_bottle=True)
+
+    # Linode CLI
+    yield Homebrew("linode-cli")
 
     # MacVim won't compile until the Xcode is installed
     # if exists("/Applications/Xcode.app/"):
@@ -198,6 +202,7 @@ def main():
     yield Pypi("autopep8")
     yield Pypi("python-geoip")
     yield Pypi("python-geoip-geolite2")
+    yield Pypi("ansible")
 
     yield Gem("tugboat")
     yield Gem("sass")
