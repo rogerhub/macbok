@@ -163,7 +163,7 @@ def main():
     yield Homebrew(cask_package="dropbox")
     yield Homebrew(cask_package="spotify")
     yield Homebrew(cask_package="logitech-options")
-    # yield Homebrew(cask_package="intellij-idea")
+    yield Homebrew(cask_package="intellij-idea")
     yield Homebrew(cask_package="google-cloud-sdk")
     # yield Homebrew(cask_package="android-studio")
     yield Homebrew(cask_package="atom")
