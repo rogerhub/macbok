@@ -69,8 +69,6 @@ class Homebrew(Task):
             if self.package and self.package not in self._installed_packages():
                 return True
             if self.cask_package:
-                if "brew-cask" not in self._installed_packages():
-                    return True
                 if self.cask_package not in self._cask_installed_packages():
                     return True
             if self.tap and self.tap not in self._taps():
@@ -87,8 +85,6 @@ class Homebrew(Task):
                     extra_options = "--force-bottle"
                 yield Script("brew install %s %s" % (extra_options, bash_quote(self.package)))
             if self.cask_package:
-                if "brew-cask" not in self._installed_packages():
-                    yield Script("brew install brew-cask")
                 if self.cask_package not in self._cask_installed_packages():
                     yield Script("brew cask install %s" % bash_quote(self.cask_package))
             if self.tap and self.tap not in self._taps():

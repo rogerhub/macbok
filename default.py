@@ -90,6 +90,7 @@ def main():
     yield Chown("/etc/hosts", get_username(), group="staff")
 
     # Basic packages
+    yield Homebrew(tap="caskroom/cask")
     yield Homebrew(tap="homebrew/fuse")
     yield Homebrew(tap="homebrew/x11")
     yield Homebrew(tap="homebrew/science")
@@ -125,6 +126,10 @@ def main():
     yield Homebrew("clang-format", force_bottle=True)
     yield Homebrew("git", force_bottle=True)
     yield Homebrew("webp", force_bottle=True)
+    yield Homebrew("docker", force_bottle=True)
+    yield Homebrew("docker-machine", force_bottle=True)
+    yield Homebrew("app-engine-java")
+    yield Homebrew("app-engine-go-64")
 
     # Fuse-related packages
     yield Homebrew(cask_package="osxfuse")
@@ -171,6 +176,8 @@ def main():
     yield Homebrew(cask_package="wireshark")
     yield Homebrew(cask_package="firefox")
     yield Homebrew(cask_package="1password")
+    yield Homebrew(cask_package="google-photos-backup")
+    yield Homebrew(cask_package="handbrake")
 
     assert sys.executable == "/usr/local/opt/python/bin/python2.7", \
         "Please restart your shell and run this script again, so we install using homebrew's python"
