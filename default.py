@@ -94,11 +94,8 @@ def main():
     yield Homebrew(tap="homebrew/fuse")
     yield Homebrew(tap="homebrew/x11")
     yield Homebrew(tap="homebrew/science")
-    yield Homebrew(tap="linode/cli")
     yield Homebrew("gcc", force_bottle=True)
-    yield Homebrew("rdiff-backup")
     yield Homebrew("awscli")
-    # yield Homebrew("vim")
     yield Homebrew("fswatch", force_bottle=True)
     yield Homebrew("go", force_bottle=True)
     yield Homebrew("ctags", force_bottle=True)
@@ -113,7 +110,6 @@ def main():
     yield Homebrew("unrar", force_bottle=True)
     yield Homebrew("htop-osx", force_bottle=True)
     yield Homebrew("wakeonlan")
-    # yield Homebrew("tmux", force_bottle=True)
     yield Homebrew("openssl", force_bottle=True)
     yield Homebrew("imagemagick", force_bottle=True)
     yield Homebrew("gettext", force_bottle=True)
@@ -128,8 +124,6 @@ def main():
     yield Homebrew("webp", force_bottle=True)
     yield Homebrew("docker", force_bottle=True)
     yield Homebrew("docker-machine", force_bottle=True)
-    yield Homebrew("app-engine-java")
-    yield Homebrew("app-engine-go-64")
 
     # Fuse-related packages
     yield Homebrew(cask_package="osxfuse")
@@ -145,38 +139,29 @@ def main():
     yield Homebrew(cask_package="xquartz")
     yield Homebrew("rdesktop", force_bottle=True)
 
-    # Linode CLI
-    yield Homebrew("linode-cli")
-
     # MacVim won't compile until the Xcode is installed
     # if exists("/Applications/Xcode.app/"):
     #     yield Homebrew("macvim")
 
     # Cask packages
     yield Homebrew(cask_package="google-chrome")
-    # yield Homebrew(cask_package="keepassx")
     yield Homebrew(cask_package="gnucash")
     yield Homebrew(cask_package="google-hangouts")
     yield Homebrew(cask_package="vlc")
     yield Homebrew(cask_package="calibre")
     yield Homebrew(cask_package="caffeine")
-    # yield Homebrew(cask_package="tunnelblick")
-    # yield Homebrew(cask_package="adobe-reader")
-    # yield Homebrew(cask_package="adobe-creative-cloud")
     yield Homebrew(cask_package="vmware-fusion")
     yield Homebrew(cask_package="vagrant")
     yield Homebrew(cask_package="dropbox")
     yield Homebrew(cask_package="spotify")
-    yield Homebrew(cask_package="logitech-options")
+    # yield Homebrew(cask_package="logitech-options")
     yield Homebrew(cask_package="intellij-idea")
     yield Homebrew(cask_package="google-cloud-sdk")
-    # yield Homebrew(cask_package="android-studio")
     yield Homebrew(cask_package="atom")
     yield Homebrew(cask_package="puppet")
     yield Homebrew(cask_package="wireshark")
     yield Homebrew(cask_package="firefox")
     yield Homebrew(cask_package="1password")
-    yield Homebrew(cask_package="google-photos-backup")
     yield Homebrew(cask_package="handbrake")
 
     assert sys.executable == "/usr/local/opt/python/bin/python2.7", \
@@ -214,8 +199,6 @@ def main():
     yield Gem("tugboat")
     yield Gem("sass")
     yield Gem("jekyll")
-    # yield Gem("jekyll-paginate")
-    # yield Gem("jekyll-gist")
 
     yield Npm("uglify-js")
     yield Npm("coffee-script")
