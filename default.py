@@ -64,6 +64,9 @@ def main():
     # Only show scrollbars when scrolling
     yield Defaults("Apple Global Domain", "AppleShowScrollBars", "WhenScrolling")
 
+    # Set ask for password delay
+    yield Defaults("com.apple.screensaver", "askForPasswordDelay", 0)
+
     # Get my vim configuration
     # yield Gitclone("https://github.com/rogerhub/vim-config.git", expanduser("~/.vim-config"),
     #                recursive=True)
@@ -124,6 +127,7 @@ def main():
     yield Homebrew("webp", force_bottle=True)
     yield Homebrew("docker", force_bottle=True)
     yield Homebrew("docker-machine", force_bottle=True)
+    yield Homebrew("nmap", force_bottle=True)
 
     # Fuse-related packages
     yield Homebrew(cask_package="osxfuse")
@@ -154,7 +158,7 @@ def main():
     yield Homebrew(cask_package="vagrant")
     yield Homebrew(cask_package="dropbox")
     yield Homebrew(cask_package="spotify")
-    # yield Homebrew(cask_package="logitech-options")
+    yield Homebrew(cask_package="logitech-options")
     yield Homebrew(cask_package="intellij-idea")
     yield Homebrew(cask_package="google-cloud-sdk")
     yield Homebrew(cask_package="atom")
