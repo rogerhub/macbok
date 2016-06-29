@@ -43,10 +43,10 @@ def main():
     # Minimize windows to dock icon
     yield Defaults("com.apple.dock", "minimize-to-application", True)
 
-    # Put the dock on the left
+    # Put the dock on the bottom
     yield Defaults("com.apple.dock", "orientation", "bottom")
 
-    # Put the dock on the left
+    # Change icon size
     yield Defaults("com.apple.dock", "tilesize", 48)
 
     # Auto-hide the dock
@@ -121,13 +121,15 @@ def main():
     yield Homebrew("hping")
     yield Homebrew("ffmpeg", force_bottle=True)
     yield Homebrew("gradle")
-    yield Homebrew("mysql")
+    # yield Homebrew("mysql")
     yield Homebrew("clang-format", force_bottle=True)
     yield Homebrew("git", force_bottle=True)
     yield Homebrew("webp", force_bottle=True)
     yield Homebrew("docker", force_bottle=True)
-    yield Homebrew("docker-machine", force_bottle=True)
+    # yield Homebrew("docker-machine", force_bottle=True)
     yield Homebrew("nmap", force_bottle=True)
+    yield Homebrew("nasm", force_bottle=True)
+    yield Homebrew("doctl", force_bottle=True)
 
     # Fuse-related packages
     yield Homebrew(cask_package="osxfuse")
@@ -154,12 +156,12 @@ def main():
     yield Homebrew(cask_package="vlc")
     yield Homebrew(cask_package="calibre")
     yield Homebrew(cask_package="caffeine")
-    yield Homebrew(cask_package="vmware-fusion")
-    yield Homebrew(cask_package="vagrant")
+    # yield Homebrew(cask_package="vmware-fusion")
+    # yield Homebrew(cask_package="vagrant")
     yield Homebrew(cask_package="dropbox")
     yield Homebrew(cask_package="spotify")
     yield Homebrew(cask_package="logitech-options")
-    yield Homebrew(cask_package="intellij-idea")
+    # yield Homebrew(cask_package="intellij-idea")
     yield Homebrew(cask_package="google-cloud-sdk")
     yield Homebrew(cask_package="atom")
     yield Homebrew(cask_package="puppet")
@@ -172,25 +174,25 @@ def main():
         "Please restart your shell and run this script again, so we install using homebrew's python"
 
     yield Pypi("boto")
-    yield Pypi("dropbox")
+    # yield Pypi("dropbox")
     yield Pypi("flake8")
-    yield Pypi("gdata")
+    # yield Pypi("gdata")
     yield Pypi("ipdb")
     yield Pypi("ipython")
     yield Pypi("line-profiler")
     yield Pypi("matplotlib", version="1.4.3")
     yield Pypi("numpy")
     yield Pypi("Pillow")
-    yield Pypi("psutil")
-    yield Pypi("pudb")
-    yield Pypi("pycosat")
+    # yield Pypi("psutil")
+    # yield Pypi("pudb")
+    # yield Pypi("pycosat")
     yield Pypi("pytest")
-    yield Pypi("pyzmq")
+    # yield Pypi("pyzmq")
     yield Pypi("requests")
     yield Pypi("scipy")
     yield Pypi("scikit-image")
     yield Pypi("scikit-learn")
-    yield Pypi("tornado")
+    # yield Pypi("tornado")
     yield Pypi("unittest2")
     yield Pypi("virtualenv")
     yield Pypi("websocket-client")
@@ -198,9 +200,9 @@ def main():
     yield Pypi("autopep8")
     yield Pypi("python-geoip")
     yield Pypi("python-geoip-geolite2")
-    yield Pypi("ansible")
+    # yield Pypi("ansible")
 
-    yield Gem("tugboat")
+    # yield Gem("tugboat")
     yield Gem("sass")
     yield Gem("jekyll")
 
