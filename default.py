@@ -93,6 +93,7 @@ def main():
     yield Chown("/etc/hosts", get_username(), group="staff")
 
     # Basic packages
+    yield Homebrew(tap="homebrew/core")
     yield Homebrew(tap="caskroom/cask")
     yield Homebrew(tap="homebrew/fuse")
     yield Homebrew(tap="homebrew/x11")
@@ -120,7 +121,6 @@ def main():
     yield Homebrew("node", force_bottle=True)
     yield Homebrew("hping")
     yield Homebrew("ffmpeg", force_bottle=True)
-    yield Homebrew("gradle")
     # yield Homebrew("mysql")
     yield Homebrew("clang-format", force_bottle=True)
     yield Homebrew("git", force_bottle=True)
@@ -140,10 +140,11 @@ def main():
     yield Homebrew(cask_package="java")
     yield Homebrew("maven", force_bottle=True)
     yield Homebrew("scala", force_bottle=True)
+    yield Homebrew("gradle")
 
     # X11-related packages
-    yield Homebrew(cask_package="xquartz")
-    yield Homebrew("rdesktop", force_bottle=True)
+    # yield Homebrew(cask_package="xquartz")
+    # yield Homebrew("rdesktop", force_bottle=True)
 
     # MacVim won't compile until the Xcode is installed
     # if exists("/Applications/Xcode.app/"):
@@ -164,7 +165,7 @@ def main():
     # yield Homebrew(cask_package="intellij-idea")
     yield Homebrew(cask_package="google-cloud-sdk")
     yield Homebrew(cask_package="atom")
-    yield Homebrew(cask_package="puppet")
+    # yield Homebrew(cask_package="puppet-agent")
     yield Homebrew(cask_package="wireshark")
     yield Homebrew(cask_package="firefox")
     yield Homebrew(cask_package="1password")

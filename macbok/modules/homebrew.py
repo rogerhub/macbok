@@ -11,7 +11,7 @@ from os.path import exists, join
 
 class Homebrew(Task):
     installation_root = "/usr/local"
-    cask_installation_root = "/opt/homebrew-cask"
+    cask_installation_root = installation_root
 
     def __init__(self, package=None, cask_package=None, tap=None, force_bottle=False):
         """
@@ -64,7 +64,7 @@ class Homebrew(Task):
 
     def onlyif(self):
         with self.task_lock():
-            if not self._already_installed:
+            if not self._already_installed():
                 return True
             if self.package and self.package not in self._installed_packages():
                 return True
@@ -78,7 +78,7 @@ class Homebrew(Task):
         with self.task_lock():
             if not self._already_installed():
                 yield Chown(self.installation_root, get_username())
-                yield Gitclone("https://github.com/Homebrew/homebrew.git", self.installation_root)
+                yield Gitclone("https://github.com/Homebrew/brew.git", self.installation_root)
             if self.package and self.package not in self._installed_packages():
                 extra_options = ""
                 if self.force_bottle:
