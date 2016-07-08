@@ -130,6 +130,7 @@ def main():
     yield Homebrew("nmap", force_bottle=True)
     yield Homebrew("nasm", force_bottle=True)
     yield Homebrew("doctl", force_bottle=True)
+    yield Homebrew("source-highlight", force_bottle=True)
 
     # Fuse-related packages
     yield Homebrew(cask_package="osxfuse")
@@ -157,7 +158,7 @@ def main():
     yield Homebrew(cask_package="vlc")
     yield Homebrew(cask_package="calibre")
     yield Homebrew(cask_package="caffeine")
-    # yield Homebrew(cask_package="vmware-fusion")
+    yield Homebrew(cask_package="vmware-fusion")
     # yield Homebrew(cask_package="vagrant")
     yield Homebrew(cask_package="dropbox")
     yield Homebrew(cask_package="spotify")
