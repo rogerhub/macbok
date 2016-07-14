@@ -64,8 +64,11 @@ def main():
     # Only show scrollbars when scrolling
     yield Defaults("Apple Global Domain", "AppleShowScrollBars", "WhenScrolling")
 
-    # Set ask for password delay
+    # Set ask for password delay to 0
     yield Defaults("com.apple.screensaver", "askForPasswordDelay", 0)
+
+    # Turn off Apple Airplay status bar icon
+    yield Defaults("com.apple.airplay", "showInMenuBarIfPresent", 0)
 
     # Get my vim configuration
     # yield Gitclone("https://github.com/rogerhub/vim-config.git", expanduser("~/.vim-config"),
@@ -131,6 +134,7 @@ def main():
     yield Homebrew("nasm", force_bottle=True)
     yield Homebrew("doctl", force_bottle=True)
     yield Homebrew("source-highlight", force_bottle=True)
+    yield Homebrew("lftp", force_bottle=True)
 
     # Fuse-related packages
     yield Homebrew(cask_package="osxfuse")
