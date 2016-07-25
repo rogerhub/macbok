@@ -47,10 +47,10 @@ def main():
     yield Defaults("com.apple.dock", "orientation", "bottom")
 
     # Change icon size
-    yield Defaults("com.apple.dock", "tilesize", 48)
+    yield Defaults("com.apple.dock", "tilesize", 36)
 
     # Auto-hide the dock
-    yield Defaults("com.apple.dock", "autohide", 1)
+    yield Defaults("com.apple.dock", "autohide", 0)
 
     # Fast updates for Activity Monitor (every second)
     yield Defaults("com.apple.ActivityMonitor", "UpdatePeriod", 1)
@@ -69,6 +69,18 @@ def main():
 
     # Turn off Apple Airplay status bar icon
     yield Defaults("com.apple.airplay", "showInMenuBarIfPresent", 0)
+
+    # Tunnelblick: Inhibit outbound traffic
+    yield Defaults("net.tunnelblick.tunnelblick", "inhibitOutboundTunneblickTraffic", 1)
+
+    # Tunnelblick: Turn off keyboard shortcut
+    yield Defaults("net.tunnelblick.tunnelblick", "keyboardShortcutIndex", 0)
+
+    # Tunnelblick: Monochrome icon
+    # yield Defaults("net.tunnelblick.tunnelblick", "menuIconSet", "TunnelBlick-black-white.TBMenuIcons")
+
+    # Tunnelblick: Move icon to left
+    yield Defaults("net.tunnelblick.tunnelblick", "placeIconInStandardPositionInStatusBar", 1)
 
     # Get my vim configuration
     # yield Gitclone("https://github.com/rogerhub/vim-config.git", expanduser("~/.vim-config"),
@@ -175,6 +187,7 @@ def main():
     yield Homebrew(cask_package="firefox")
     yield Homebrew(cask_package="1password")
     yield Homebrew(cask_package="handbrake")
+    yield Homebrew(cask_package="tunnelblick")
 
     assert sys.executable == "/usr/local/opt/python/bin/python2.7", \
         "Please restart your shell and run this script again, so we install using homebrew's python"
