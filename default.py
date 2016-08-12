@@ -101,6 +101,7 @@ def main():
         # yield Link("Configuration/tmux.conf", expanduser("~/.tmux.conf"))
         yield Link("Configuration/zshconfig", expanduser("~/.zshconfig"))
         yield Link("Configuration/ssh", expanduser("~/.ssh"))
+        yield Link("Configuration/pydistutils.cfg", expanduser("~/.pydistutils.cfg"))
 
     if exists(expanduser("~/.gradle")):
         yield Link("../Configuration/gradle.properties", expanduser("~/.gradle/gradle.properties"))
@@ -147,6 +148,8 @@ def main():
     yield Homebrew("doctl", force_bottle=True)
     yield Homebrew("source-highlight", force_bottle=True)
     yield Homebrew("lftp", force_bottle=True)
+    yield Homebrew("arping", force_bottle=True)
+    # yield Homebrew("app-engine-python", force_bottle=True)
 
     # Fuse-related packages
     yield Homebrew(cask_package="osxfuse")
@@ -220,6 +223,9 @@ def main():
     yield Pypi("python-geoip")
     yield Pypi("python-geoip-geolite2")
     # yield Pypi("ansible")
+    yield Pypi("Cython")
+    yield Pypi("pycrypto")
+    yield Pypi("pyyaml")
 
     # yield Gem("tugboat")
     yield Gem("sass")
@@ -227,8 +233,6 @@ def main():
 
     yield Npm("uglify-js")
     yield Npm("coffee-script")
-    yield Npm("bower")
-    yield Npm("gulp")
 
     # Mactex is hosted on some remote European web server.
     # It takes forever to download (1-2 hours) regardless of your internet connection, so do it last.
