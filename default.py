@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 
+from __future__ import print_function
+
 import macbok
 import sys
 from macbok.common.util import get_username
@@ -193,8 +195,9 @@ def main():
     yield Homebrew(cask_package="handbrake")
     yield Homebrew(cask_package="tunnelblick")
 
-    assert sys.executable == "/usr/local/opt/python3/bin/python3.5", \
-        "Please restart your shell and run this script again, so we install using homebrew's python"
+    if sys.executable != "/usr/local/opt/python3/bin/python3.5":
+        print("Please restart your shell and run this script again using homebrew's python")
+        sys.exit(0)
 
     yield Pypi("boto")
     yield Pypi("flake8")
