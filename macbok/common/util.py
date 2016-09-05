@@ -1,7 +1,7 @@
 import os
 import pwd
 import threading
-from itertools import imap, repeat
+from itertools import repeat
 from os.path import exists, join
 
 
@@ -37,9 +37,10 @@ def get_username():
 def which(name):
     env_path = os.environ.get("PATH")
     if env_path:
-        matches = filter(exists, imap(join, env_path.split(":"), repeat(name)))
-        if matches:
-            return matches[0]
+        for bin_directory in env_path.split(":"):
+            full_path = join(bin_directory, name)
+            if exists(full_path):
+                return full_path
 
 
 def bash_quote(s):

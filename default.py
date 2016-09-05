@@ -1,4 +1,4 @@
-#!/usr/bin/env python2.7
+#!/usr/bin/env python3
 
 import macbok
 import sys
@@ -134,6 +134,7 @@ def main():
     yield Homebrew("imagemagick", force_bottle=True)
     yield Homebrew("gettext", force_bottle=True)
     yield Homebrew("python", force_bottle=True)
+    yield Homebrew("python3", force_bottle=True)
     yield Homebrew("node", force_bottle=True)
     yield Homebrew("hping")
     yield Homebrew("ffmpeg", force_bottle=True)
@@ -192,29 +193,22 @@ def main():
     yield Homebrew(cask_package="handbrake")
     yield Homebrew(cask_package="tunnelblick")
 
-    assert sys.executable == "/usr/local/opt/python/bin/python2.7", \
+    assert sys.executable == "/usr/local/opt/python3/bin/python3.5", \
         "Please restart your shell and run this script again, so we install using homebrew's python"
 
     yield Pypi("boto")
-    # yield Pypi("dropbox")
     yield Pypi("flake8")
-    # yield Pypi("gdata")
     yield Pypi("ipdb")
     yield Pypi("ipython")
     yield Pypi("line-profiler")
     yield Pypi("matplotlib", version="1.4.3")
     yield Pypi("numpy")
     yield Pypi("Pillow")
-    # yield Pypi("psutil")
-    # yield Pypi("pudb")
-    # yield Pypi("pycosat")
     yield Pypi("pytest")
-    # yield Pypi("pyzmq")
     yield Pypi("requests")
     yield Pypi("scipy")
     yield Pypi("scikit-image")
     yield Pypi("scikit-learn")
-    # yield Pypi("tornado")
     yield Pypi("unittest2")
     yield Pypi("virtualenv")
     yield Pypi("websocket-client")
@@ -222,10 +216,11 @@ def main():
     yield Pypi("autopep8")
     yield Pypi("python-geoip")
     yield Pypi("python-geoip-geolite2")
-    # yield Pypi("ansible")
     yield Pypi("Cython")
     yield Pypi("pycrypto")
-    yield Pypi("pyyaml")
+    yield Pypi("PyYAML")
+    yield Pypi("six")
+    yield Pypi("nose")
 
     # yield Gem("tugboat")
     yield Gem("sass")

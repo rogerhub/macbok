@@ -1,8 +1,10 @@
+from __future__ import print_function
+
 import types
 from macbok.common.task import Task
 
 
-_primitive_types = (bool, int, basestring)
+_primitive_types = (bool, int, type(u""), type(b""))
 
 
 def execute(task_generator):
@@ -27,7 +29,7 @@ def _execute_task(task):
             if not _execute_task(task.onlyif()):
                 return
         if not task.is_hidden():
-            print "Running", repr(task)
+            print("Running", repr(task))
         run_result = task.run()
         if run_result is not None:
             return _execute_task(run_result)
