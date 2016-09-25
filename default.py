@@ -13,6 +13,7 @@ from macbok.modules.homebrew import Homebrew
 from macbok.modules.link import Link
 from macbok.modules.npm import Npm
 from macbok.modules.pypi import Pypi
+from os import mkdir
 from os.path import exists, expanduser
 
 
@@ -26,9 +27,6 @@ def main():
 
     # Disable autocorrect
     yield Defaults("NSGlobalDomain", "NSAutomaticSpellingCorrectionEnabled", False)
-
-    # Enables keyboard access for dialog controls
-    # yield Defaults("NSGlobalDomain", "AppleKeyboardUIMode", 3)
 
     # Disables keyboard press-and-hold for accented character entry
     yield Defaults("NSGlobalDomain", "ApplePressAndHoldEnabled", False)
@@ -72,37 +70,24 @@ def main():
     # Turn off Apple Airplay status bar icon
     yield Defaults("com.apple.airplay", "showInMenuBarIfPresent", 0)
 
-    # Tunnelblick: Inhibit outbound traffic
-    yield Defaults("net.tunnelblick.tunnelblick", "inhibitOutboundTunneblickTraffic", 1)
+    yield Link("Bok/Configuration", expanduser("~/Configuration"))
 
-    # Tunnelblick: Turn off keyboard shortcut
-    yield Defaults("net.tunnelblick.tunnelblick", "keyboardShortcutIndex", 0)
-
-    # Tunnelblick: Monochrome icon
-    # yield Defaults("net.tunnelblick.tunnelblick", "menuIconSet", "TunnelBlick-black-white.TBMenuIcons")
-
-    # Tunnelblick: Move icon to left
-    yield Defaults("net.tunnelblick.tunnelblick", "placeIconInStandardPositionInStatusBar", 1)
-
-    # Get my vim configuration
-    # yield Gitclone("https://github.com/rogerhub/vim-config.git", expanduser("~/.vim-config"),
-    #                recursive=True)
-    # yield Link(".vim-config/.vim", expanduser("~/.vim"))
-    # yield Link(".vim-config/.vimrc", expanduser("~/.vimrc"))
-    # yield Link(".vim-config/.gvimrc", expanduser("~/.gvimrc"))
-
-    yield Link("Development/Configuration", expanduser("~/Configuration"))
-
-    if exists(expanduser("~/Development/Configuration")):
+    if exists(expanduser("~/Bok/Configuration")):
         # Avoid creating a dead links
-        yield Link("Configuration/atom", expanduser("~/.atom"))
+        if not exists(expanduser("~/.atom")):
+            mkdir(expanduser("~/.atom"))
+        for atom_path in ["config.cson", "keymap.cson", "snippets.cson", "styles.less"]:
+            yield Link("../Configuration/atom/" + atom_path, expanduser("~/.atom/" + atom_path))
         yield Link("Configuration/bcrc", expanduser("~/.bcrc"))
         yield Link("Configuration/gitconfig", expanduser("~/.gitconfig"))
         yield Link("Configuration/gitignore", expanduser("~/.gitignore"))
-        yield Link("Configuration/ipython", expanduser("~/.ipython"))
-        # yield Link("Configuration/tmux.conf", expanduser("~/.tmux.conf"))
         yield Link("Configuration/zshconfig", expanduser("~/.zshconfig"))
-        yield Link("Configuration/ssh", expanduser("~/.ssh"))
+        if not exists(expanduser("~/.ssh")):
+            mkdir(expanduser("~/.ssh"))
+        if not exists(expanduser("~/.ssh/ctl")):
+            mkdir(expanduser("~/.ssh/ctl"))
+        yield Link("../Configuration/ssh/known_hosts", expanduser("~/.ssh/known_hosts"))
+        yield Link("../Configuration/ssh/config", expanduser("~/.ssh/config"))
         yield Link("Configuration/pydistutils.cfg", expanduser("~/.pydistutils.cfg"))
 
     if exists(expanduser("~/.gradle")):
@@ -140,19 +125,15 @@ def main():
     yield Homebrew("node", force_bottle=True)
     yield Homebrew("hping")
     yield Homebrew("ffmpeg", force_bottle=True)
-    # yield Homebrew("mysql")
     yield Homebrew("clang-format", force_bottle=True)
     yield Homebrew("git", force_bottle=True)
     yield Homebrew("webp", force_bottle=True)
-    yield Homebrew("docker", force_bottle=True)
-    # yield Homebrew("docker-machine", force_bottle=True)
     yield Homebrew("nmap", force_bottle=True)
     yield Homebrew("nasm", force_bottle=True)
     yield Homebrew("doctl", force_bottle=True)
     yield Homebrew("source-highlight", force_bottle=True)
     yield Homebrew("lftp", force_bottle=True)
     yield Homebrew("arping", force_bottle=True)
-    # yield Homebrew("app-engine-python", force_bottle=True)
 
     # Fuse-related packages
     yield Homebrew(cask_package="osxfuse")
@@ -169,31 +150,22 @@ def main():
     # yield Homebrew(cask_package="xquartz")
     # yield Homebrew("rdesktop", force_bottle=True)
 
-    # MacVim won't compile until the Xcode is installed
-    # if exists("/Applications/Xcode.app/"):
-    #     yield Homebrew("macvim")
-
     # Cask packages
     yield Homebrew(cask_package="google-chrome")
     yield Homebrew(cask_package="gnucash")
-    yield Homebrew(cask_package="google-hangouts")
+    # yield Homebrew(cask_package="google-hangouts")
     yield Homebrew(cask_package="vlc")
     yield Homebrew(cask_package="calibre")
     yield Homebrew(cask_package="caffeine")
     yield Homebrew(cask_package="vmware-fusion")
-    # yield Homebrew(cask_package="vagrant")
     yield Homebrew(cask_package="dropbox")
     yield Homebrew(cask_package="spotify")
     yield Homebrew(cask_package="logitech-options")
-    # yield Homebrew(cask_package="intellij-idea")
     yield Homebrew(cask_package="google-cloud-sdk")
     yield Homebrew(cask_package="atom")
-    # yield Homebrew(cask_package="puppet-agent")
     yield Homebrew(cask_package="wireshark")
-    yield Homebrew(cask_package="firefox")
     yield Homebrew(cask_package="1password")
     yield Homebrew(cask_package="handbrake")
-    yield Homebrew(cask_package="tunnelblick")
 
     if sys.executable != "/usr/local/opt/python3/bin/python3.5":
         print("Please restart your shell and run this script again using homebrew's python")
@@ -225,7 +197,6 @@ def main():
     yield Pypi("six")
     yield Pypi("nose")
 
-    # yield Gem("tugboat")
     yield Gem("sass")
     yield Gem("jekyll")
 
