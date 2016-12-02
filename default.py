@@ -47,7 +47,7 @@ def main():
     yield Defaults("com.apple.dock", "orientation", "bottom")
 
     # Change icon size
-    # yield Defaults("com.apple.dock", "tilesize", 36)
+    yield Defaults("com.apple.dock", "tilesize", 52)
 
     # Auto-hide the dock
     # yield Defaults("com.apple.dock", "autohide", 0)
@@ -89,10 +89,10 @@ def main():
             mkdir(expanduser("~/.ssh/ctl"))
         yield Link("../Configuration/ssh/known_hosts", expanduser("~/.ssh/known_hosts"))
         yield Link("../Configuration/ssh/config", expanduser("~/.ssh/config"))
-        yield Link("Configuration/pydistutils.cfg", expanduser("~/.pydistutils.cfg"))
+        # yield Link("Configuration/pydistutils.cfg", expanduser("~/.pydistutils.cfg"))
 
-    if exists(expanduser("~/.gradle")):
-        yield Link("../Configuration/gradle.properties", expanduser("~/.gradle/gradle.properties"))
+    # if exists(expanduser("~/.gradle")):
+    #     yield Link("../Configuration/gradle.properties", expanduser("~/.gradle/gradle.properties"))
 
     yield Chown("/etc/hosts", get_username(), group="staff")
 
@@ -123,12 +123,12 @@ def main():
     # yield Homebrew("gettext", force_bottle=True)
     yield Homebrew("python", force_bottle=True)
     yield Homebrew("python3", force_bottle=True)
-    yield Homebrew("node", force_bottle=True)
+    # yield Homebrew("node", force_bottle=True)
     yield Homebrew("hping")
     yield Homebrew("ffmpeg", force_bottle=True)
     # yield Homebrew("clang-format", force_bottle=True)
     yield Homebrew("git", force_bottle=True)
-    yield Homebrew("webp", force_bottle=True)
+    # yield Homebrew("webp", force_bottle=True)
     yield Homebrew("nmap", force_bottle=True)
     yield Homebrew("nasm", force_bottle=True)
     # yield Homebrew("doctl", force_bottle=True)
@@ -142,7 +142,7 @@ def main():
     yield Homebrew("fuse-zip", force_bottle=True)
 
     # Java-related packages
-    yield Homebrew(cask_package="java")
+    # yield Homebrew(cask_package="java")
     # yield Homebrew("maven", force_bottle=True)
     # yield Homebrew("scala", force_bottle=True)
     # yield Homebrew("gradle")
@@ -167,7 +167,7 @@ def main():
     yield Homebrew(cask_package="wireshark")
     yield Homebrew(cask_package="1password")
     yield Homebrew(cask_package="handbrake")
-    yield Homebrew(cask_package="unetbootin")
+    # yield Homebrew(cask_package="unetbootin")
 
     # if sys.executable != "/usr/local/opt/python3/bin/python3.5":
     #     print("Please restart your shell and run this script again using homebrew's python")
