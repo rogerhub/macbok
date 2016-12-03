@@ -102,6 +102,7 @@ def main():
     yield Homebrew(tap="homebrew/fuse")
     yield Homebrew(tap="homebrew/x11")
     yield Homebrew(tap="homebrew/science")
+    yield Homebrew(tap="rogerhub/sman")
     # yield Homebrew("gcc", force_bottle=True)
     # yield Homebrew("awscli")
     # yield Homebrew("fswatch", force_bottle=True)
@@ -167,6 +168,7 @@ def main():
     yield Homebrew(cask_package="wireshark")
     yield Homebrew(cask_package="1password")
     yield Homebrew(cask_package="handbrake")
+    yield Homebrew(cask_package="sman")
     # yield Homebrew(cask_package="unetbootin")
 
     # if sys.executable != "/usr/local/opt/python3/bin/python3.5":
