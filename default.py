@@ -79,7 +79,6 @@ def main():
         for atom_path in ["config.cson", "keymap.cson", "snippets.cson", "styles.less"]:
             yield Link("../Configuration/atom/" + atom_path, expanduser("~/.atom/" + atom_path))
         yield Link("Configuration/bcrc", expanduser("~/.bcrc"))
-        yield Link("Configuration/boto", expanduser("~/.boto"))
         yield Link("Configuration/gitconfig", expanduser("~/.gitconfig"))
         yield Link("Configuration/gitignore", expanduser("~/.gitignore"))
         yield Link("Configuration/zshconfig", expanduser("~/.zshconfig"))
