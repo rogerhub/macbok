@@ -138,7 +138,7 @@ def main():
 
     # Fuse-related packages
     yield Homebrew(cask_package="osxfuse")
-    yield Homebrew(cask_package="sshfs")
+    yield Homebrew("sshfs")
     yield Homebrew("fuse-zip", force_bottle=True)
 
     # Java-related packages
@@ -162,9 +162,9 @@ def main():
     yield Homebrew(cask_package="dropbox")
     yield Homebrew(cask_package="spotify")
     yield Homebrew(cask_package="logitech-options")
-    yield Homebrew(cask_package="google-cloud-sdk")
+    # yield Homebrew(cask_package="google-cloud-sdk")
     yield Homebrew(cask_package="atom")
-    yield Homebrew(cask_package="wireshark")
+    # yield Homebrew(cask_package="wireshark")
     yield Homebrew(cask_package="1password")
     yield Homebrew(cask_package="handbrake")
     yield Homebrew(cask_package="sman")
