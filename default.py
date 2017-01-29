@@ -98,6 +98,7 @@ def main():
     # Basic packages
     yield Homebrew(tap="homebrew/core")
     yield Homebrew(tap="caskroom/cask")
+    yield Homebrew(tap="caskroom/versions")
     yield Homebrew(tap="homebrew/fuse")
     yield Homebrew(tap="homebrew/x11")
     yield Homebrew(tap="homebrew/science")
@@ -135,6 +136,8 @@ def main():
     yield Homebrew("source-highlight", force_bottle=True)
     # yield Homebrew("lftp", force_bottle=True)
     yield Homebrew("arping", force_bottle=True)
+    yield Homebrew("socat", force_bottle=True)
+    yield Homebrew("colordiff", force_bottle=True)
 
     # Fuse-related packages
     yield Homebrew(cask_package="osxfuse")
@@ -163,7 +166,8 @@ def main():
     yield Homebrew(cask_package="spotify")
     yield Homebrew(cask_package="logitech-options")
     # yield Homebrew(cask_package="google-cloud-sdk")
-    yield Homebrew(cask_package="atom")
+    # yield Homebrew(cask_package="atom")
+    yield Homebrew(cask_package="atom-beta")
     # yield Homebrew(cask_package="wireshark")
     yield Homebrew(cask_package="1password")
     yield Homebrew(cask_package="handbrake")
