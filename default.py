@@ -13,6 +13,7 @@ from macbok.modules.homebrew import Homebrew
 from macbok.modules.link import Link
 from macbok.modules.npm import Npm
 from macbok.modules.pypi import Pypi
+from macbok.modules.touch import Touch
 from os import mkdir
 from os.path import exists, expanduser
 
@@ -71,6 +72,7 @@ def main():
     yield Defaults("com.apple.airplay", "showInMenuBarIfPresent", 0)
 
     yield Link("Bok/Configuration", expanduser("~/Configuration"))
+    yield Link("Library/Application Support/MobileSync", expanduser("~/MobileSync"))
 
     if exists(expanduser("~/Bok/Configuration")):
         # Avoid creating a dead links
@@ -81,7 +83,10 @@ def main():
         yield Link("Configuration/bcrc", expanduser("~/.bcrc"))
         yield Link("Configuration/gitconfig", expanduser("~/.gitconfig"))
         yield Link("Configuration/gitignore", expanduser("~/.gitignore"))
-        yield Link("Configuration/zshconfig", expanduser("~/.zshconfig"))
+        yield Link("Configuration/bash_aliases", expanduser("~/.bash_aliases"))
+        yield Link("Configuration/bash_profile", expanduser("~/.bash_profile"))
+        yield Link("Configuration/bash_profile", expanduser("~/.bash_profile"))
+        # yield Link("Configuration/zshconfig", expanduser("~/.zshconfig"))
         if not exists(expanduser("~/.ssh")):
             mkdir(expanduser("~/.ssh"))
         if not exists(expanduser("~/.ssh/ctl")):
@@ -89,6 +94,8 @@ def main():
         yield Link("../Configuration/ssh/known_hosts", expanduser("~/.ssh/known_hosts"))
         yield Link("../Configuration/ssh/config", expanduser("~/.ssh/config"))
         # yield Link("Configuration/pydistutils.cfg", expanduser("~/.pydistutils.cfg"))
+
+    yield Touch(expanduser("~/.bash_sessions_disable"))
 
     # if exists(expanduser("~/.gradle")):
     #     yield Link("../Configuration/gradle.properties", expanduser("~/.gradle/gradle.properties"))
