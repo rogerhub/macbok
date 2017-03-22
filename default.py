@@ -100,7 +100,8 @@ def main():
     # if exists(expanduser("~/.gradle")):
     #     yield Link("../Configuration/gradle.properties", expanduser("~/.gradle/gradle.properties"))
 
-    yield Chown("/etc/hosts", get_username(), group="staff")
+    # Chrome doesn't respect /etc/hosts if not owned by root (?)
+    # yield Chown("/etc/hosts", get_username(), group="staff")
 
     # Basic packages
     yield Homebrew(tap="homebrew/core")
