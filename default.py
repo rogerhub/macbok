@@ -111,6 +111,7 @@ def main():
     yield Homebrew(tap="homebrew/x11")
     yield Homebrew(tap="homebrew/science")
     yield Homebrew(tap="rogerhub/sman")
+    yield Homebrew(tap="rogerhub/transmit-disk")
     # yield Homebrew("gcc", force_bottle=True)
     # yield Homebrew("awscli")
     # yield Homebrew("fswatch", force_bottle=True)
@@ -181,6 +182,8 @@ def main():
     yield Homebrew(cask_package="handbrake")
     yield Homebrew(cask_package="sman")
     # yield Homebrew(cask_package="unetbootin")
+    yield Homebrew(cask_package="transmit")
+    yield Homebrew(cask_package="transmit-disk")
 
     # if sys.executable != "/usr/local/opt/python3/bin/python3.5":
     #     print("Please restart your shell and run this script again using homebrew's python")
