@@ -71,34 +71,27 @@ def main():
     # Turn off Apple Airplay status bar icon
     yield Defaults("com.apple.airplay", "showInMenuBarIfPresent", 0)
 
-    yield Link("Bok/Configuration", expanduser("~/Configuration"))
     yield Link("Library/Application Support/MobileSync", expanduser("~/MobileSync"))
 
-    if exists(expanduser("~/Bok/Configuration")):
+    if exists(expanduser("~/C8")):
         # Avoid creating a dead links
         if not exists(expanduser("~/.atom")):
             mkdir(expanduser("~/.atom"))
         for atom_path in ["config.cson", "keymap.cson", "snippets.cson", "styles.less"]:
-            yield Link("../Configuration/atom/" + atom_path, expanduser("~/.atom/" + atom_path))
-        yield Link("Configuration/bcrc", expanduser("~/.bcrc"))
-        yield Link("Configuration/gitconfig", expanduser("~/.gitconfig"))
-        yield Link("Configuration/gitignore", expanduser("~/.gitignore"))
-        yield Link("Configuration/bash_aliases", expanduser("~/.bash_aliases"))
-        yield Link("Configuration/bash_profile", expanduser("~/.bash_profile"))
-        yield Link("Configuration/bash_profile", expanduser("~/.bash_profile"))
-        # yield Link("Configuration/zshconfig", expanduser("~/.zshconfig"))
+            yield Link("../C8/atom/" + atom_path, expanduser("~/.atom/" + atom_path))
+        yield Link("C8/.bcrc", expanduser("~/.bcrc"))
+        yield Link("C8/.gitconfig", expanduser("~/.gitconfig"))
+        yield Link("C8/.gitignore", expanduser("~/.gitignore"))
+        yield Link("C8/.bash_aliases", expanduser("~/.bash_aliases"))
+        yield Link("C8/.bash_profile", expanduser("~/.bash_profile"))
         if not exists(expanduser("~/.ssh")):
             mkdir(expanduser("~/.ssh"))
+        yield Link("../C8/.ssh/known_hosts", expanduser("~/.ssh/known_hosts"))
+        yield Link("../C8/.ssh/config", expanduser("~/.ssh/config"))
         if not exists(expanduser("~/.ssh/ctl")):
             mkdir(expanduser("~/.ssh/ctl"))
-        yield Link("../Configuration/ssh/known_hosts", expanduser("~/.ssh/known_hosts"))
-        yield Link("../Configuration/ssh/config", expanduser("~/.ssh/config"))
-        # yield Link("Configuration/pydistutils.cfg", expanduser("~/.pydistutils.cfg"))
 
     yield Touch(expanduser("~/.bash_sessions_disable"))
-
-    # if exists(expanduser("~/.gradle")):
-    #     yield Link("../Configuration/gradle.properties", expanduser("~/.gradle/gradle.properties"))
 
     # Chrome doesn't respect /etc/hosts if not owned by root (?)
     # yield Chown("/etc/hosts", get_username(), group="staff")
@@ -172,7 +165,7 @@ def main():
     # yield Homebrew(cask_package="caffeine")
     yield Homebrew(cask_package="vmware-fusion")
     yield Homebrew(cask_package="dropbox")
-    yield Homebrew(cask_package="spotify")
+    # yield Homebrew(cask_package="spotify")
     yield Homebrew(cask_package="logitech-options")
     # yield Homebrew(cask_package="google-cloud-sdk")
     # yield Homebrew(cask_package="atom")
