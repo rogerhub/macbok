@@ -4,7 +4,7 @@ import types
 from macbok.common.task import Task
 
 
-_primitive_types = (bool, int, type(u""), type(b""))
+_primitive_types = (bool, int, type(u""), type(b""), dict)
 
 
 def execute(task_generator):

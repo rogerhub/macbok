@@ -76,6 +76,10 @@ def main():
     if exists(expanduser("~/Library/Preferences/com.panic.Transmit.plist")):
         yield Defaults("com.panic.transmit", "OpenMountedFinderWindow", False)
 
+    # On AC Power, keep the display and system on for 3 hours of inactivity.
+    yield Pmset('displaysleep', '180', 'c')
+    yield Pmset('sleep', '180', 'c')
+
     yield Link("Library/Application Support/MobileSync", expanduser("~/MobileSync"))
 
     if exists(expanduser("~/C8")):
