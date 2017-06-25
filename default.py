@@ -12,6 +12,7 @@ from macbok.modules.gitclone import Gitclone
 from macbok.modules.homebrew import Homebrew
 from macbok.modules.link import Link
 from macbok.modules.npm import Npm
+from macbok.modules.pmset import Pmset
 from macbok.modules.pypi import Pypi
 from macbok.modules.touch import Touch
 from os import mkdir
@@ -57,7 +58,7 @@ def main():
     yield Defaults("com.apple.ActivityMonitor", "UpdatePeriod", 1)
 
     # Dark interface
-    yield Defaults("Apple Global Domain", "AppleInterfaceStyle", "Dark")
+    # yield Defaults("Apple Global Domain", "AppleInterfaceStyle", "Dark")
 
     # Finder show all file extensions
     yield Defaults("Apple Global Domain", "AppleShowAllExtensions", 1)
@@ -71,13 +72,17 @@ def main():
     # Turn off Apple Airplay status bar icon
     yield Defaults("com.apple.airplay", "showInMenuBarIfPresent", 0)
 
+    # Turn off Finder opening when Transmit mounts.
+    if exists(expanduser("~/Library/Preferences/com.panic.Transmit.plist")):
+        yield Defaults("com.panic.transmit", "OpenMountedFinderWindow", False)
+
     yield Link("Library/Application Support/MobileSync", expanduser("~/MobileSync"))
 
     if exists(expanduser("~/C8")):
         # Avoid creating a dead links
         if not exists(expanduser("~/.atom")):
             mkdir(expanduser("~/.atom"))
-        for atom_path in ["config.cson", "keymap.cson", "snippets.cson", "styles.less"]:
+        for atom_path in ["config.cson", "init.coffee", "keymap.cson", "snippets.cson", "styles.less"]:
             yield Link("../C8/atom/" + atom_path, expanduser("~/.atom/" + atom_path))
         yield Link("C8/.bcrc", expanduser("~/.bcrc"))
         yield Link("C8/.gitconfig", expanduser("~/.gitconfig"))
@@ -106,36 +111,24 @@ def main():
     yield Homebrew(tap="homebrew/science")
     yield Homebrew(tap="rogerhub/sman")
     yield Homebrew(tap="rogerhub/transmit-disk")
-    # yield Homebrew("gcc", force_bottle=True)
-    # yield Homebrew("awscli")
-    # yield Homebrew("fswatch", force_bottle=True)
-    # yield Homebrew("go", force_bottle=True)
-    # yield Homebrew("ctags", force_bottle=True)
-    # yield Homebrew("the_silver_searcher", force_bottle=True)
-    # yield Homebrew("ant", force_bottle=True)
-    # yield Homebrew("wget", force_bottle=True)
     yield Homebrew("pstree", force_bottle=True)
     yield Homebrew("duplicity", force_bottle=True)
     yield Homebrew("mcrypt", force_bottle=True)
     # yield Homebrew("iperf")
     yield Homebrew("mtr", force_bottle=True)
     yield Homebrew("unrar", force_bottle=True)
-    # yield Homebrew("htop-osx", force_bottle=True)
     yield Homebrew("wakeonlan")
     yield Homebrew("openssl", force_bottle=True)
     # yield Homebrew("imagemagick", force_bottle=True)
     # yield Homebrew("gettext", force_bottle=True)
     yield Homebrew("python", force_bottle=True)
     yield Homebrew("python3", force_bottle=True)
-    # yield Homebrew("node", force_bottle=True)
     # yield Homebrew("hping")
     # yield Homebrew("ffmpeg", force_bottle=True)
-    # yield Homebrew("clang-format", force_bottle=True)
     yield Homebrew("git", force_bottle=True)
     # yield Homebrew("webp", force_bottle=True)
     yield Homebrew("nmap", force_bottle=True)
     # yield Homebrew("nasm", force_bottle=True)
-    # yield Homebrew("doctl", force_bottle=True)
     yield Homebrew("source-highlight", force_bottle=True)
     # yield Homebrew("lftp", force_bottle=True)
     yield Homebrew("arping", force_bottle=True)
@@ -147,30 +140,14 @@ def main():
     yield Homebrew("sshfs")
     yield Homebrew("fuse-zip", force_bottle=True)
 
-    # Java-related packages
-    # yield Homebrew(cask_package="java")
-    # yield Homebrew("maven", force_bottle=True)
-    # yield Homebrew("scala", force_bottle=True)
-    # yield Homebrew("gradle")
-
-    # X11-related packages
-    # yield Homebrew(cask_package="xquartz")
-    # yield Homebrew("rdesktop", force_bottle=True)
-
     # Cask packages
     yield Homebrew(cask_package="google-chrome")
     yield Homebrew(cask_package="gnucash")
-    # yield Homebrew(cask_package="google-hangouts")
     yield Homebrew(cask_package="vlc")
     yield Homebrew(cask_package="calibre")
-    # yield Homebrew(cask_package="caffeine")
     yield Homebrew(cask_package="vmware-fusion")
-    # yield Homebrew(cask_package="dropbox")
-    # yield Homebrew(cask_package="spotify")
     yield Homebrew(cask_package="logitech-options")
-    # yield Homebrew(cask_package="google-cloud-sdk")
-    # yield Homebrew(cask_package="atom")
-    yield Homebrew(cask_package="atom-beta")
+    yield Homebrew(cask_package="atom")
     # yield Homebrew(cask_package="wireshark")
     yield Homebrew(cask_package="1password")
     yield Homebrew(cask_package="handbrake")
@@ -178,42 +155,6 @@ def main():
     # yield Homebrew(cask_package="unetbootin")
     yield Homebrew(cask_package="transmit")
     yield Homebrew(cask_package="transmit-disk")
-
-    # if sys.executable != "/usr/local/opt/python3/bin/python3.5":
-    #     print("Please restart your shell and run this script again using homebrew's python")
-    #     sys.exit(0)
-    #
-    # yield Pypi("boto")
-    # yield Pypi("flake8")
-    # yield Pypi("ipdb")
-    # yield Pypi("ipython")
-    # yield Pypi("line-profiler")
-    # yield Pypi("matplotlib", version="1.4.3")
-    # yield Pypi("numpy")
-    # yield Pypi("Pillow")
-    # yield Pypi("pytest")
-    # yield Pypi("requests")
-    # yield Pypi("scipy")
-    # yield Pypi("scikit-image")
-    # yield Pypi("scikit-learn")
-    # yield Pypi("unittest2")
-    # yield Pypi("virtualenv")
-    # yield Pypi("websocket-client")
-    # yield Pypi("pyOpenSSL")
-    # yield Pypi("autopep8")
-    # yield Pypi("python-geoip")
-    # yield Pypi("python-geoip-geolite2")
-    # yield Pypi("Cython")
-    # yield Pypi("pycrypto")
-    # yield Pypi("PyYAML")
-    # yield Pypi("six")
-    # yield Pypi("nose")
-    #
-    # yield Gem("sass")
-    # yield Gem("jekyll")
-    #
-    # yield Npm("uglify-js")
-    # yield Npm("coffee-script")
 
     # Mactex is hosted on some remote European web server.
     # It takes forever to download (1-2 hours) regardless of your internet connection, so do it last.
