@@ -7,13 +7,17 @@ symbolic links and configures some OS X settings.
 
 You probably want to set up an OS X virtual machine, rather than run it live.
 
-1. Install Xcode command line tools with `xcode-select --install` (Or install the full Xcode app from the Mac App Store)
+1. Install Xcode command line tools with `xcode-select --install` (Or install the full Xcode app
+   from the Mac App Store)
 2. Download macbok, and run `python2.7 default.py`
 3. If it doesn't work, run it a few more times.
+4. If that doesn't work, reboot, then go back to step 3.
 
 ## Philosophy
 
-This project was born out of frustration with Boxen's complexity, slow performance, and constant bugs. I personally don't need most of the features that Boxen offers. But on the other hand, I can't go back to the stone ages of setting up computer manually.
+This project was born out of frustration with Boxen's complexity, slow performance, and constant
+bugs. I personally don't need most of the features that Boxen offers. But on the other hand, I can't
+go back to the stone ages of setting up computer manually.
 
 Each module in this project does a single task. Modules can be composed into more complex ideas.
 The modules do not support every possible use case. They won't fix version numbers. They won't let
@@ -55,13 +59,9 @@ Sorry.
 
 Yeah I know, it's getting there.
 
-## Linter?
+## But muh PEP8
 
-Here you go:
-
-```shell
-flake8 --max-line-length=100 macbok/
-```
+Sorry.
 
 ## License
 
