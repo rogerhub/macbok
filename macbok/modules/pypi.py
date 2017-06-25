@@ -1,10 +1,10 @@
-from macbok.common.task import Task
-from macbok.common.util import bash_quote, which
-from macbok.modules.script import Script
-from macbok.modules.homebrew import Homebrew
+from macbok.common import task
+from macbok.common import util
+from macbok.modules import homebrew
+from macbok.modules import script
 
 
-class Pypi(Task):
+class Pypi(task.Task):
   """Installs Python 3 packages from PyPI to the local user home directory."""
 
   def __init__(self, package=None, version=None):
@@ -16,33 +16,34 @@ class Pypi(Task):
     if self.package:
       arguments.append(repr(self.package))
     if self.version:
-      arguments.append("version=%r" % self.version)
-    return "Pypi(%s)" % (", ".join(arguments))
+      arguments.append('version=%r' % self.version)
+    return 'Pypi(%s)' % (', '.join(arguments))
 
-  def _already_installed(self):
-    return bool(which("pip3"))
+  def _AlreadyInstalled(self):
+    return bool(util.Which('pip3'))
 
-  def _installed_packages(self):
+  def _InstalledPackages(self):
     from pip.utils import get_installed_distributions
     return [package.project_name
             for package in get_installed_distributions(user_only=True)]
 
-  def onlyif(self):
-    with self.task_lock():
-      if not self._already_installed():
+  def OnlyIf(self):
+    with self.TaskLock():
+      if not self._AlreadyInstalled():
         return True
-      if self.package and self.package not in self._installed_packages():
+      if self.package and self.package not in self._InstalledPackages():
         return True
 
-  def run(self):
-    with self.task_lock():
-      if not self._already_installed():
-        yield Homebrew("python3")
-      if self.package and self.package not in self._installed_packages():
-        extra_options = "--user --ignore-installed"
+  def Run(self):
+    with self.TaskLock():
+      if not self._AlreadyInstalled():
+        yield homebrew.Homebrew('python3')
+      if self.package and self.package not in self._InstalledPackages():
+        extra_options = ['--user', '--ignore-installed']
         if self.version:
-          target = "%s==%s" % (self.package, self.version)
+          target = '%s==%s' % (self.package, self.version)
         else:
           target = self.package
-        command = "pip3 install %s %s" % (extra_options, bash_quote(target))
-        yield Script(command)
+        command = 'pip3 install %s %s' % (' '.join(extra_options),
+                                          util.BashQuote(target))
+        yield script.Script(command)

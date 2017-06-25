@@ -6,7 +6,7 @@ from macbok.common.task import Task
 _primitive_types = (bool, int, type(u""), type(b""), dict)
 
 
-def execute(task_generator):
+def Execute(task_generator):
   """Execute a task generator.
 
   This is the main entry point for macbok. Call this function with the function
@@ -15,27 +15,27 @@ def execute(task_generator):
   Args:
     task_generator: A generator that yields configuration tasks.
   """
-  _execute_task(task_generator())
+  _ExecuteTask(task_generator())
 
 
-def _execute_task(task):
+def _ExecuteTask(task):
   if isinstance(task, types.GeneratorType):
     value = None
     while True:
       try:
-        value = _execute_task(task.send(value))
+        value = _ExecuteTask(task.send(value))
       except StopIteration:
         return value
   elif isinstance(task, Task):
-    if hasattr(task, "onlyif"):
-      if not _execute_task(task.onlyif()):
+    if hasattr(task, "OnlyIf"):
+      if not _ExecuteTask(task.OnlyIf()):
         return
-    if not task.is_hidden():
+    if not task.Hidden():
       print("Running", repr(task))
-    run_result = task.run()
+    run_result = task.Run()
     if run_result is not None:
-      return _execute_task(run_result)
-  elif task is None or any(map(lambda t: isinstance(task, t), _primitive_types)):
+      return _ExecuteTask(run_result)
+  elif task is None or any(isinstance(task, t) for t in _primitive_types):
     return task
   elif hasattr(task, "__call__"):
     return task()

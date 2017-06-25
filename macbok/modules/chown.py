@@ -3,12 +3,12 @@
 import grp
 import os
 import pwd
-from macbok.common.task import Task
-from macbok.common.util import bash_quote
-from macbok.modules.script import Script
+from macbok.common import task
+from macbok.common import util
+from macbok.modules import script
 
 
-class Chown(Task):
+class Chown(task.Task):
   def __init__(self, target, user, group=None):
     """Takes ownership of a target. Requires sudo."""
     self.target = target
@@ -18,7 +18,7 @@ class Chown(Task):
   def __repr__(self):
     return "Chown(%r, %r %r)" % (self.target, self.user, self.group)
 
-  def onlyif(self):
+  def OnlyIf(self):
     stat_result = os.lstat(self.target)
     stat_user = pwd.getpwuid(stat_result.st_uid)
     if self.user != stat_user.pw_name:
@@ -28,10 +28,10 @@ class Chown(Task):
       if self.group != stat_group.gr_name:
         return True
 
-  def run(self):
+  def Run(self):
     if self.group:
-      family = "%s:%s" % (bash_quote(self.user), bash_quote(self.group))
+      family = "%s:%s" % (util.BashQuote(self.user), util.BashQuote(self.group))
     else:
-      family = bash_quote(self.user)
-    command = "sudo chown %s %s" % (family, bash_quote(self.target))
-    yield Script(command)
+      family = util.BashQuote(self.user)
+    command = "sudo chown %s %s" % (family, util.BashQuote(self.target))
+    yield script.Script(command)

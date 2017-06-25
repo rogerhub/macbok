@@ -1,14 +1,15 @@
-from macbok.common.task import Task
-from macbok.common.util import bash_quote
-from macbok.modules.script import Script
-from os import listdir
-from os.path import exists, join
+import os
+from os import path
+
+from macbok.common import task
+from macbok.common import util
+from macbok.modules import script
 
 
-class Npm(Task):
+class Npm(task.Task):
   """Installs npm packages globally."""
 
-  installation_root = "/usr/local"
+  installation_root = '/usr/local'
 
   def __init__(self, package=None, version=None):
     self.package = package
@@ -19,28 +20,29 @@ class Npm(Task):
     if self.package:
       arguments.append(repr(self.package))
     if self.version:
-      arguments.append("version=%r" % self.version)
-    return "Npm(%s)" % (", ".join(arguments))
+      arguments.append('version=%r' % self.version)
+    return 'Npm(%s)' % (', '.join(arguments))
 
-  def _installed_packages(self):
-    packages_directory = join(self.installation_root, "lib", "node_modules")
-    if not exists(packages_directory):
+  def _InstalledPackages(self):
+    packages_directory = path.join(self.installation_root, 'lib',
+                                   'node_modules')
+    if not path.exists(packages_directory):
       return []
     else:
-      return listdir(packages_directory)
+      return os.listdir(packages_directory)
 
-  def onlyif(self):
-    with self.task_lock():
-      if self.package and self.package not in self._installed_packages():
+  def OnlyIf(self):
+    with self.TaskLock():
+      if self.package and self.package not in self._InstalledPackages():
         return True
 
-  def run(self):
-    with self.task_lock():
-      if self.package and self.package not in self._installed_packages():
-        extra_options = "--global"
+  def Run(self):
+    with self.TaskLock():
+      if self.package and self.package not in self._InstalledPackages():
+        extra_options = '--global'
         if self.version:
-          target = "%s@%s" % (self.package, self.version)
+          target = '%s@%s' % (self.package, self.version)
         else:
           target = self.package
-        command = "npm install %s %s" % (extra_options, bash_quote(target))
-        yield Script(command)
+        command = 'npm install %s %s' % (extra_options, util.BashQuote(target))
+        yield script.Script(command)
