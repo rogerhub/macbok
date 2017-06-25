@@ -37,7 +37,7 @@ class Script(task.Task):
     error_file = None
     if self._internal:
       output_file = subprocess.PIPE
-      error_file = open(os.devnull, 'w')
+      error_file = open(os.devnull, 'wb')
     args = ['/bin/sh', '-c', self.command]
     process = subprocess.Popen(args, stdout=output_file, stderr=error_file)
     if self._internal:

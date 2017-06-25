@@ -15,62 +15,81 @@ def main():
 
   """
   # Do not create .DS_Store on network shares
-  yield m.Defaults("com.apple.desktopservices",
-                   "DSDontWriteNetworkStores", True)
+  yield m.Plist("DSDontWriteNetworkStores", True,
+                domain="com.apple.desktopservices")
 
   # Disable autocorrect
-  yield m.Defaults("NSGlobalDomain",
-                   "NSAutomaticSpellingCorrectionEnabled", False)
+  yield m.Plist("NSAutomaticSpellingCorrectionEnabled", True)
 
   # Disables keyboard press-and-hold for accented character entry
-  yield m.Defaults("NSGlobalDomain",
-                   "ApplePressAndHoldEnabled", False)
+  yield m.Plist("ApplePressAndHoldEnabled", False)
 
   # Expand the Save panel by default
-  yield m.Defaults("NSGlobalDomain",
-                   "NSNavPanelExpandedStateForSaveMode", True)
+  yield m.Plist("NSNavPanelExpandedStateForSaveMode", True)
 
   # Sets the delay before held keys repeat
-  # yield m.Defaults("NSGlobalDomain", "InitialKeyRepeat", 15)
+  # yield m.Plist("InitialKeyRepeat", 15)
 
   # Sets the repeat rate for held keys
-  # yield m.Defaults("NSGlobalDomain", "KeyRepeat", 2)
+  # yield m.Plist("KeyRepeat", 2)
+
+  # Swipe to navigate.
+  yield m.Plist('AppleEnableSwipeNavigateWithScrolls', True)
 
   # Minimize windows to dock icon
-  yield m.Defaults("com.apple.dock", "minimize-to-application", True)
+  yield m.Plist("minimize-to-application", True, domain="com.apple.dock")
 
   # Put the dock on the bottom
-  yield m.Defaults("com.apple.dock", "orientation", "bottom")
+  yield m.Plist("orientation", "bottom", domain="com.apple.dock")
 
   # Change icon size
-  yield m.Defaults("com.apple.dock", "tilesize", 52)
+  yield m.Plist("tilesize", 52, domain="com.apple.dock")
 
   # Auto-hide the dock
-  yield m.Defaults("com.apple.dock", "autohide", 1)
+  yield m.Plist("autohide", 1, domain="com.apple.dock")
 
   # Fast updates for Activity Monitor (every second)
-  yield m.Defaults("com.apple.ActivityMonitor", "UpdatePeriod", 1)
+  yield m.Plist("UpdatePeriod", 1, domain="com.apple.ActivityMonitor")
 
   # Dark interface
-  # yield m.Defaults("Apple Global Domain", "AppleInterfaceStyle", "Dark")
+  # yield m.Plist("AppleInterfaceStyle", "Dark")
 
   # Finder show all file extensions
-  yield m.Defaults("Apple Global Domain", "AppleShowAllExtensions", 1)
+  yield m.Plist("AppleShowAllExtensions", 1)
 
   # Only show scrollbars when scrolling
-  yield m.Defaults("Apple Global Domain",
-                   "AppleShowScrollBars", "WhenScrolling")
+  yield m.Plist("AppleShowScrollBars", "WhenScrolling")
 
   # Set ask for password delay to 0
-  yield m.Defaults("com.apple.screensaver", "askForPasswordDelay", 0)
+  yield m.Plist("askForPasswordDelay", 0, domain="com.apple.screensaver")
 
   # Turn off Apple Airplay status bar icon
-  yield m.Defaults("com.apple.airplay", "showInMenuBarIfPresent", 0)
+  yield m.Plist("showInMenuBarIfPresent", 0, domain="com.apple.airplay")
 
   # Turn off Finder opening when Transmit mounts.
   if path.exists(path.expanduser(
       "~/Library/Preferences/com.panic.Transmit.plist")):
-    yield m.Defaults("com.panic.transmit", "OpenMountedFinderWindow", False)
+    yield m.Plist("OpenMountedFinderWindow", False, domain="com.panic.transmit")
+    yield m.Plist(('ServerSpecificPrefs', 0, 'PreserveModificationDates'),
+                  True, domain="com.panic.transmit")
+
+  # Disable context menus.
+  yield m.Plist(
+      ('NSServicesStatus',
+       'com.apple.Stickies - Make Sticky - makeStickyFromTextService'),
+      {'enabled_context_menu': 0, 'enabled_services_menu': 0},
+      domain='pbs')
+  yield m.Plist(
+      ('NSServicesStatus',
+       'com.apple.services.addToiTunesAsSpokenTrack - '
+       'Add to iTunes as a Spoken Track - runWorkflowAsService'),
+      {'enabled_context_menu': 0, 'enabled_services_menu': 0},
+      domain='pbs')
+  yield m.Plist(
+      ('NSServicesStatus',
+       'com.todoist.mac.Todoist - Add to Todoist - addToTodoist'),
+      {'enabled_context_menu': 0, 'enabled_services_menu': 0},
+      domain='pbs')
 
   # On AC Power, keep the display and system on for 3 hours of inactivity.
   yield m.Pmset('displaysleep', '180', 'c')
