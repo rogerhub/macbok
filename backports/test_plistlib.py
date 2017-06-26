@@ -7,7 +7,6 @@ import datetime
 import codecs
 import binascii
 import collections
-from test import support
 from io import BytesIO
 
 ALL_FORMATS=(plistlib.FMT_XML, plistlib.FMT_BINARY)
@@ -90,53 +89,61 @@ TESTDATA={
         xQHHAsQC0gAAAAAAAAIBAAAAAAAAADkAAAAAAAAAAAAAAAAAAALs'''),
 }
 
+long = type(1000000000000000000000000000)
+
 
 class TestPlistlib(unittest.TestCase):
 
+    TESTFN = '/tmp/plistlib_test_tmp'
+
     def tearDown(self):
         try:
-            os.unlink(support.TESTFN)
+            os.unlink(self.TESTFN)
         except:
             pass
 
     def _create(self, fmt=None):
-        pl = dict(
-            aString="Doodah",
-            aList=["A", "B", 12, 32.5, [1, 2, 3]],
-            aFloat = 0.5,
-            anInt = 728,
-            aBigInt = 2 ** 63 - 44,
-            aBigInt2 = 2 ** 63 + 44,
-            aNegativeInt = -5,
-            aNegativeBigInt = -80000000000,
-            aDict=dict(
-                anotherString="<hello & 'hi' there!>",
-                aUnicodeValue='M\xe4ssig, Ma\xdf',
-                aTrueValue=True,
-                aFalseValue=False,
-                deeperDict=dict(a=17, b=32.5, c=[1, 2, "text"]),
-            ),
-            someData = b"<binary gunk>",
-            someMoreData = b"<lots of binary gunk>\0\1\2\3" * 10,
-            nestedData = [b"<lots of binary gunk>\0\1\2\3" * 10],
-            aDate = datetime.datetime(2004, 10, 26, 10, 33, 33),
-            anEmptyDict = dict(),
-            anEmptyList = list()
-        )
-        pl['\xc5benraa'] = "That was a unicode key."
+        pl = {
+            u'aString': u"Doodah",
+            u'aList': [u"A", u"B", 12, 32.5, [1, 2, 3]],
+            u'aFloat': 0.5,
+            u'anInt': 728,
+            u'aBigInt': 2 ** 63 - 44,
+            u'aBigInt2': 2 ** 63 + 44,
+            u'aNegativeInt': -5,
+            u'aNegativeBigInt': -80000000000,
+            u'aDict': {
+                u'anotherString': u"<hello & 'hi' there!>",
+                u'aUnicodeValue': u'M\xe4ssig, Ma\xdf',
+                u'aTrueValue': True,
+                u'aFalseValue': False,
+                u'deeperDict': {
+                    u'a': 17,
+                    u'b': 32.5,
+                    u'c': [1, 2, u"text"],
+                },
+            },
+            u'someData': b"<binary gunk>",
+            u'someMoreData': b"<lots of binary gunk>\0\1\2\3" * 10,
+            u'nestedData': [b"<lots of binary gunk>\0\1\2\3" * 10],
+            u'aDate': datetime.datetime(2004, 10, 26, 10, 33, 33),
+            u'anEmptyDict': dict(),
+            u'anEmptyList': list()
+        }
+        pl[u'\xc5benraa'] = u"That was a unicode key."
         return pl
 
     def test_create(self):
         pl = self._create()
-        self.assertEqual(pl["aString"], "Doodah")
-        self.assertEqual(pl["aDict"]["aFalseValue"], False)
+        self.assertEqual(pl[u"aString"], u"Doodah")
+        self.assertEqual(pl[u"aDict"][u"aFalseValue"], False)
 
     def test_io(self):
         pl = self._create()
-        with open(support.TESTFN, 'wb') as fp:
+        with open(self.TESTFN, 'wb') as fp:
             plistlib.dump(pl, fp)
 
-        with open(support.TESTFN, 'rb') as fp:
+        with open(self.TESTFN, 'rb') as fp:
             pl2 = plistlib.load(fp)
 
         self.assertEqual(dict(pl), dict(pl2))
@@ -148,26 +155,22 @@ class TestPlistlib(unittest.TestCase):
         pl = [ object() ]
 
         for fmt in ALL_FORMATS:
-            with self.subTest(fmt=fmt):
-                self.assertRaises(TypeError, plistlib.dumps, pl, fmt=fmt)
+            self.assertRaises(TypeError, plistlib.dumps, pl, fmt=fmt)
 
     def test_int(self):
         for pl in [0, 2**8-1, 2**8, 2**16-1, 2**16, 2**32-1, 2**32,
                    2**63-1, 2**64-1, 1, -2**63]:
             for fmt in ALL_FORMATS:
-                with self.subTest(pl=pl, fmt=fmt):
-                    data = plistlib.dumps(pl, fmt=fmt)
-                    pl2 = plistlib.loads(data)
-                    self.assertIsInstance(pl2, int)
-                    self.assertEqual(pl, pl2)
-                    data2 = plistlib.dumps(pl2, fmt=fmt)
-                    self.assertEqual(data, data2)
+                data = plistlib.dumps(pl, fmt=fmt)
+                pl2 = plistlib.loads(data)
+                self.assertIsInstance(pl2, (int, long))
+                self.assertEqual(pl, pl2)
+                data2 = plistlib.dumps(pl2, fmt=fmt)
+                self.assertEqual(data, data2)
 
         for fmt in ALL_FORMATS:
             for pl in (2 ** 64 + 1, 2 ** 127-1, -2**64, -2 ** 127):
-                with self.subTest(pl=pl, fmt=fmt):
-                    self.assertRaises(OverflowError, plistlib.dumps,
-                                      pl, fmt=fmt)
+                self.assertRaises(OverflowError, plistlib.dumps, pl, fmt=fmt)
 
     def test_bytes(self):
         pl = self._create()
@@ -178,180 +181,171 @@ class TestPlistlib(unittest.TestCase):
         self.assertEqual(data, data2)
 
     def test_indentation_array(self):
-        data = [[[[[[[[{'test': b'aaaaaa'}]]]]]]]]
+        data = [[[[[[[[{u'test': b'aaaaaa'}]]]]]]]]
         self.assertEqual(plistlib.loads(plistlib.dumps(data)), data)
 
     def test_indentation_dict(self):
-        data = {'1': {'2': {'3': {'4': {'5': {'6': {'7': {'8': {'9': b'aaaaaa'}}}}}}}}}
+        data = {u'1': {u'2': {u'3': {u'4': {u'5': {u'6': {u'7': {u'8': {u'9': b'aaaaaa'}}}}}}}}}
         self.assertEqual(plistlib.loads(plistlib.dumps(data)), data)
 
     def test_indentation_dict_mix(self):
-        data = {'1': {'2': [{'3': [[[[[{'test': b'aaaaaa'}]]]]]}]}}
+        data = {u'1': {u'2': [{u'3': [[[[[{u'test': b'aaaaaa'}]]]]]}]}}
         self.assertEqual(plistlib.loads(plistlib.dumps(data)), data)
 
     def test_appleformatting(self):
         for use_builtin_types in (True, False):
             for fmt in ALL_FORMATS:
-                with self.subTest(fmt=fmt, use_builtin_types=use_builtin_types):
-                    pl = plistlib.loads(TESTDATA[fmt],
-                        use_builtin_types=use_builtin_types)
-                    data = plistlib.dumps(pl, fmt=fmt)
-                    self.assertEqual(data, TESTDATA[fmt],
-                        "generated data was not identical to Apple's output")
+                pl = plistlib.loads(TESTDATA[fmt],
+                    use_builtin_types=use_builtin_types)
+                data = plistlib.dumps(pl, fmt=fmt)
+                self.assertEqual(data, TESTDATA[fmt],
+                    "generated data was not identical to Apple's output")
 
 
     def test_appleformattingfromliteral(self):
         self.maxDiff = None
         for fmt in ALL_FORMATS:
-            with self.subTest(fmt=fmt):
-                pl = self._create(fmt=fmt)
-                pl2 = plistlib.loads(TESTDATA[fmt], fmt=fmt)
-                self.assertEqual(dict(pl), dict(pl2),
-                    "generated data was not identical to Apple's output")
-                pl2 = plistlib.loads(TESTDATA[fmt])
-                self.assertEqual(dict(pl), dict(pl2),
-                    "generated data was not identical to Apple's output")
+            pl = self._create(fmt=fmt)
+            pl2 = plistlib.loads(TESTDATA[fmt], fmt=fmt)
+            self.assertEqual(dict(pl), dict(pl2),
+                "generated data was not identical to Apple's output")
+            pl2 = plistlib.loads(TESTDATA[fmt])
+            self.assertEqual(dict(pl), dict(pl2),
+                "generated data was not identical to Apple's output")
 
     def test_bytesio(self):
+        self.maxDiff=999999
         for fmt in ALL_FORMATS:
-            with self.subTest(fmt=fmt):
-                b = BytesIO()
-                pl = self._create(fmt=fmt)
-                plistlib.dump(pl, b, fmt=fmt)
-                pl2 = plistlib.load(BytesIO(b.getvalue()), fmt=fmt)
-                self.assertEqual(dict(pl), dict(pl2))
-                pl2 = plistlib.load(BytesIO(b.getvalue()))
-                self.assertEqual(dict(pl), dict(pl2))
+            b = BytesIO()
+            pl = self._create(fmt=fmt)
+            plistlib.dump(pl, b, fmt=fmt)
+            pl2 = plistlib.load(BytesIO(b.getvalue()), fmt=fmt)
+            self.assertEqual(dict(pl), dict(pl2))
+            pl2 = plistlib.load(BytesIO(b.getvalue()))
+            self.assertEqual(dict(pl), dict(pl2))
 
     def test_keysort_bytesio(self):
         pl = collections.OrderedDict()
-        pl['b'] = 1
-        pl['a'] = 2
-        pl['c'] = 3
+        pl[u'b'] = 1
+        pl[u'a'] = 2
+        pl[u'c'] = 3
 
         for fmt in ALL_FORMATS:
             for sort_keys in (False, True):
-                with self.subTest(fmt=fmt, sort_keys=sort_keys):
-                    b = BytesIO()
+                b = BytesIO()
 
-                    plistlib.dump(pl, b, fmt=fmt, sort_keys=sort_keys)
-                    pl2 = plistlib.load(BytesIO(b.getvalue()),
-                        dict_type=collections.OrderedDict)
+                plistlib.dump(pl, b, fmt=fmt, sort_keys=sort_keys)
+                pl2 = plistlib.load(BytesIO(b.getvalue()),
+                    dict_type=collections.OrderedDict)
 
-                    self.assertEqual(dict(pl), dict(pl2))
-                    if sort_keys:
-                        self.assertEqual(list(pl2.keys()), ['a', 'b', 'c'])
-                    else:
-                        self.assertEqual(list(pl2.keys()), ['b', 'a', 'c'])
+                self.assertEqual(dict(pl), dict(pl2))
+                if sort_keys:
+                    self.assertEqual(list(pl2.keys()), [u'a', u'b', u'c'])
+                else:
+                    self.assertEqual(list(pl2.keys()), [u'b', u'a', u'c'])
 
     def test_keysort(self):
         pl = collections.OrderedDict()
-        pl['b'] = 1
-        pl['a'] = 2
-        pl['c'] = 3
+        pl[u'b'] = 1
+        pl[u'a'] = 2
+        pl[u'c'] = 3
 
         for fmt in ALL_FORMATS:
             for sort_keys in (False, True):
-                with self.subTest(fmt=fmt, sort_keys=sort_keys):
-                    data = plistlib.dumps(pl, fmt=fmt, sort_keys=sort_keys)
-                    pl2 = plistlib.loads(data, dict_type=collections.OrderedDict)
+                data = plistlib.dumps(pl, fmt=fmt, sort_keys=sort_keys)
+                pl2 = plistlib.loads(data, dict_type=collections.OrderedDict)
 
-                    self.assertEqual(dict(pl), dict(pl2))
-                    if sort_keys:
-                        self.assertEqual(list(pl2.keys()), ['a', 'b', 'c'])
-                    else:
-                        self.assertEqual(list(pl2.keys()), ['b', 'a', 'c'])
+                self.assertEqual(dict(pl), dict(pl2))
+                if sort_keys:
+                    self.assertEqual(list(pl2.keys()), [u'a', u'b', u'c'])
+                else:
+                    self.assertEqual(list(pl2.keys()), [u'b', u'a', u'c'])
 
     def test_keys_no_string(self):
-        pl = { 42: 'aNumber' }
+        pl = { 42: u'aNumber' }
 
         for fmt in ALL_FORMATS:
-            with self.subTest(fmt=fmt):
-                self.assertRaises(TypeError, plistlib.dumps, pl, fmt=fmt)
+            self.assertRaises(TypeError, plistlib.dumps, pl, fmt=fmt)
 
-                b = BytesIO()
-                self.assertRaises(TypeError, plistlib.dump, pl, b, fmt=fmt)
+            b = BytesIO()
+            self.assertRaises(TypeError, plistlib.dump, pl, b, fmt=fmt)
 
     def test_skipkeys(self):
         pl = {
-            42: 'aNumber',
-            'snake': 'aWord',
+            42: u'aNumber',
+            u'snake': u'aWord',
         }
 
         for fmt in ALL_FORMATS:
-            with self.subTest(fmt=fmt):
-                data = plistlib.dumps(
-                    pl, fmt=fmt, skipkeys=True, sort_keys=False)
+            data = plistlib.dumps(
+                pl, fmt=fmt, skipkeys=True, sort_keys=False)
 
-                pl2 = plistlib.loads(data)
-                self.assertEqual(pl2, {'snake': 'aWord'})
+            pl2 = plistlib.loads(data)
+            self.assertEqual(pl2, {u'snake': u'aWord'})
 
-                fp = BytesIO()
-                plistlib.dump(
-                    pl, fp, fmt=fmt, skipkeys=True, sort_keys=False)
-                data = fp.getvalue()
-                pl2 = plistlib.loads(fp.getvalue())
-                self.assertEqual(pl2, {'snake': 'aWord'})
+            fp = BytesIO()
+            plistlib.dump(
+                pl, fp, fmt=fmt, skipkeys=True, sort_keys=False)
+            data = fp.getvalue()
+            pl2 = plistlib.loads(fp.getvalue())
+            self.assertEqual(pl2, {u'snake': u'aWord'})
 
     def test_tuple_members(self):
         pl = {
-            'first': (1, 2),
-            'second': (1, 2),
-            'third': (3, 4),
+            u'first': (1, 2),
+            u'second': (1, 2),
+            u'third': (3, 4),
         }
 
         for fmt in ALL_FORMATS:
-            with self.subTest(fmt=fmt):
-                data = plistlib.dumps(pl, fmt=fmt)
-                pl2 = plistlib.loads(data)
-                self.assertEqual(pl2, {
-                    'first': [1, 2],
-                    'second': [1, 2],
-                    'third': [3, 4],
-                })
-                self.assertIsNot(pl2['first'], pl2['second'])
+            data = plistlib.dumps(pl, fmt=fmt)
+            pl2 = plistlib.loads(data)
+            self.assertEqual(pl2, {
+                u'first': [1, 2],
+                u'second': [1, 2],
+                u'third': [3, 4],
+            })
+            self.assertIsNot(pl2[u'first'], pl2[u'second'])
 
     def test_list_members(self):
         pl = {
-            'first': [1, 2],
-            'second': [1, 2],
-            'third': [3, 4],
+            u'first': [1, 2],
+            u'second': [1, 2],
+            u'third': [3, 4],
         }
 
         for fmt in ALL_FORMATS:
-            with self.subTest(fmt=fmt):
-                data = plistlib.dumps(pl, fmt=fmt)
-                pl2 = plistlib.loads(data)
-                self.assertEqual(pl2, {
-                    'first': [1, 2],
-                    'second': [1, 2],
-                    'third': [3, 4],
-                })
-                self.assertIsNot(pl2['first'], pl2['second'])
+            data = plistlib.dumps(pl, fmt=fmt)
+            pl2 = plistlib.loads(data)
+            self.assertEqual(pl2, {
+                u'first': [1, 2],
+                u'second': [1, 2],
+                u'third': [3, 4],
+            })
+            self.assertIsNot(pl2[u'first'], pl2[u'second'])
 
     def test_dict_members(self):
         pl = {
-            'first': {'a': 1},
-            'second': {'a': 1},
-            'third': {'b': 2 },
+            u'first': {u'a': 1},
+            u'second': {u'a': 1},
+            u'third': {u'b': 2 },
         }
 
         for fmt in ALL_FORMATS:
-            with self.subTest(fmt=fmt):
-                data = plistlib.dumps(pl, fmt=fmt)
-                pl2 = plistlib.loads(data)
-                self.assertEqual(pl2, {
-                    'first': {'a': 1},
-                    'second': {'a': 1},
-                    'third': {'b': 2 },
-                })
-                self.assertIsNot(pl2['first'], pl2['second'])
+            data = plistlib.dumps(pl, fmt=fmt)
+            pl2 = plistlib.loads(data)
+            self.assertEqual(pl2, {
+                u'first': {u'a': 1},
+                u'second': {u'a': 1},
+                u'third': {u'b': 2 },
+            })
+            self.assertIsNot(pl2[u'first'], pl2[u'second'])
 
     def test_controlcharacters(self):
         for i in range(128):
             c = chr(i)
-            testString = "string containing %s" % c
-            if i >= 32 or c in "\r\n\t":
+            testString = u"string containing %s" % c
+            if i >= 32 or c in u"\r\n\t":
                 # \r, \n and \t are the only legal control chars in XML
                 plistlib.dumps(testString, fmt=plistlib.FMT_XML)
             else:
@@ -360,39 +354,37 @@ class TestPlistlib(unittest.TestCase):
                                   testString)
 
     def test_non_bmp_characters(self):
-        pl = {'python': '\U0001f40d'}
+        pl = {u'python': u'\U0001f40d'}
         for fmt in ALL_FORMATS:
-            with self.subTest(fmt=fmt):
-                data = plistlib.dumps(pl, fmt=fmt)
-                self.assertEqual(plistlib.loads(data), pl)
+            data = plistlib.dumps(pl, fmt=fmt)
+            self.assertEqual(plistlib.loads(data), pl)
 
     def test_nondictroot(self):
         for fmt in ALL_FORMATS:
-            with self.subTest(fmt=fmt):
-                test1 = "abc"
-                test2 = [1, 2, 3, "abc"]
-                result1 = plistlib.loads(plistlib.dumps(test1, fmt=fmt))
-                result2 = plistlib.loads(plistlib.dumps(test2, fmt=fmt))
-                self.assertEqual(test1, result1)
-                self.assertEqual(test2, result2)
+            test1 = u"abc"
+            test2 = [1, 2, 3, u"abc"]
+            result1 = plistlib.loads(plistlib.dumps(test1, fmt=fmt))
+            result2 = plistlib.loads(plistlib.dumps(test2, fmt=fmt))
+            self.assertEqual(test1, result1)
+            self.assertEqual(test2, result2)
 
     def test_invalidarray(self):
-        for i in ["<key>key inside an array</key>",
-                  "<key>key inside an array2</key><real>3</real>",
-                  "<true/><key>key inside an array3</key>"]:
+        for i in [u"<key>key inside an array</key>",
+                  u"<key>key inside an array2</key><real>3</real>",
+                  u"<true/><key>key inside an array3</key>"]:
             self.assertRaises(ValueError, plistlib.loads,
-                              ("<plist><array>%s</array></plist>"%i).encode())
+                              (u"<plist><array>%s</array></plist>"%i).encode())
 
     def test_invaliddict(self):
-        for i in ["<key><true/>k</key><string>compound key</string>",
-                  "<key>single key</key>",
-                  "<string>missing key</string>",
-                  "<key>k1</key><string>v1</string><real>5.3</real>"
-                  "<key>k1</key><key>k2</key><string>double key</string>"]:
+        for i in [u"<key><true/>k</key><string>compound key</string>",
+                  u"<key>single key</key>",
+                  u"<string>missing key</string>",
+                  u"<key>k1</key><string>v1</string><real>5.3</real>"
+                  u"<key>k1</key><key>k2</key><string>double key</string>"]:
             self.assertRaises(ValueError, plistlib.loads,
-                              ("<plist><dict>%s</dict></plist>"%i).encode())
+                              (u"<plist><dict>%s</dict></plist>"%i).encode())
             self.assertRaises(ValueError, plistlib.loads,
-                              ("<plist><array><dict>%s</dict></array></plist>"%i).encode())
+                              (u"<plist><array><dict>%s</dict></array></plist>"%i).encode())
 
     def test_invalidinteger(self):
         self.assertRaises(ValueError, plistlib.loads,
@@ -406,20 +398,19 @@ class TestPlistlib(unittest.TestCase):
         base = TESTDATA[plistlib.FMT_XML]
 
         for xml_encoding, encoding, bom in [
-                    (b'utf-8', 'utf-8', codecs.BOM_UTF8),
-                    (b'utf-16', 'utf-16-le', codecs.BOM_UTF16_LE),
-                    (b'utf-16', 'utf-16-be', codecs.BOM_UTF16_BE),
+                    (b'utf-8', u'utf-8', codecs.BOM_UTF8),
+                    (b'utf-16', u'utf-16-le', codecs.BOM_UTF16_LE),
+                    (b'utf-16', u'utf-16-be', codecs.BOM_UTF16_BE),
                     # Expat does not support UTF-32
                     #(b'utf-32', 'utf-32-le', codecs.BOM_UTF32_LE),
                     #(b'utf-32', 'utf-32-be', codecs.BOM_UTF32_BE),
                 ]:
 
             pl = self._create(fmt=plistlib.FMT_XML)
-            with self.subTest(encoding=encoding):
-                data = base.replace(b'UTF-8', xml_encoding)
-                data = bom + data.decode('utf-8').encode(encoding)
-                pl2 = plistlib.loads(data)
-                self.assertEqual(dict(pl), dict(pl2))
+            data = base.replace(b'UTF-8', xml_encoding)
+            data = bom + data.decode('utf-8').encode(encoding)
+            pl2 = plistlib.loads(data)
+            self.assertEqual(dict(pl), dict(pl2))
 
     def test_nonstandard_refs_size(self):
         # Issue #21538: Refs and offsets are 24-bit integers
@@ -431,116 +422,12 @@ class TestPlistlib(unittest.TestCase):
                 b'\x00\x00\x00\x00\x00\x00\x00\x03'
                 b'\x00\x00\x00\x00\x00\x00\x00\x00'
                 b'\x00\x00\x00\x00\x00\x00\x00\x13')
-        self.assertEqual(plistlib.loads(data), {'a': 'b'})
+        self.assertEqual(plistlib.loads(data), {u'a': u'b'})
 
     def test_large_timestamp(self):
         # Issue #26709: 32-bit timestamp out of range
         for ts in -2**31-1, 2**31:
-            with self.subTest(ts=ts):
-                d = (datetime.datetime.utcfromtimestamp(0) +
-                     datetime.timedelta(seconds=ts))
-                data = plistlib.dumps(d, fmt=plistlib.FMT_BINARY)
-                self.assertEqual(plistlib.loads(data), d)
-
-
-class TestPlistlibDeprecated(unittest.TestCase):
-    def test_io_deprecated(self):
-        pl_in = {
-            'key': 42,
-            'sub': {
-                'key': 9,
-                'alt': 'value',
-                'data': b'buffer',
-            }
-        }
-        pl_out = {
-            'key': 42,
-            'sub': {
-                'key': 9,
-                'alt': 'value',
-                'data': plistlib.Data(b'buffer'),
-            }
-        }
-
-        self.addCleanup(support.unlink, support.TESTFN)
-        with self.assertWarns(DeprecationWarning):
-            plistlib.writePlist(pl_in, support.TESTFN)
-
-        with self.assertWarns(DeprecationWarning):
-            pl2 = plistlib.readPlist(support.TESTFN)
-
-        self.assertEqual(pl_out, pl2)
-
-        os.unlink(support.TESTFN)
-
-        with open(support.TESTFN, 'wb') as fp:
-            with self.assertWarns(DeprecationWarning):
-                plistlib.writePlist(pl_in, fp)
-
-        with open(support.TESTFN, 'rb') as fp:
-            with self.assertWarns(DeprecationWarning):
-                pl2 = plistlib.readPlist(fp)
-
-        self.assertEqual(pl_out, pl2)
-
-    def test_bytes_deprecated(self):
-        pl = {
-            'key': 42,
-            'sub': {
-                'key': 9,
-                'alt': 'value',
-                'data': b'buffer',
-            }
-        }
-        with self.assertWarns(DeprecationWarning):
-            data = plistlib.writePlistToBytes(pl)
-
-        with self.assertWarns(DeprecationWarning):
-            pl2 = plistlib.readPlistFromBytes(data)
-
-        self.assertIsInstance(pl2, dict)
-        self.assertEqual(pl2, dict(
-            key=42,
-            sub=dict(
-                key=9,
-                alt='value',
-                data=plistlib.Data(b'buffer'),
-            )
-        ))
-
-        with self.assertWarns(DeprecationWarning):
-            data2 = plistlib.writePlistToBytes(pl2)
-        self.assertEqual(data, data2)
-
-    def test_dataobject_deprecated(self):
-        in_data = { 'key': plistlib.Data(b'hello') }
-        out_data = { 'key': b'hello' }
-
-        buf = plistlib.dumps(in_data)
-
-        cur = plistlib.loads(buf)
-        self.assertEqual(cur, out_data)
-        self.assertEqual(cur, in_data)
-
-        cur = plistlib.loads(buf, use_builtin_types=False)
-        self.assertEqual(cur, out_data)
-        self.assertEqual(cur, in_data)
-
-        with self.assertWarns(DeprecationWarning):
-            cur = plistlib.readPlistFromBytes(buf)
-        self.assertEqual(cur, out_data)
-        self.assertEqual(cur, in_data)
-
-
-class MiscTestCase(unittest.TestCase):
-    def test__all__(self):
-        blacklist = {"PlistFormat", "PLISTHEADER"}
-        support.check__all__(self, plistlib, blacklist=blacklist)
-
-
-def test_main():
-    support.run_unittest(TestPlistlib, TestPlistlibDeprecated, MiscTestCase)
-
-
-if __name__ == '__main__':
-    test_main()
+            d = (datetime.datetime.utcfromtimestamp(0) +
+                 datetime.timedelta(seconds=ts))
+            data = plistlib.dumps(d, fmt=plistlib.FMT_BINARY)
+            self.assertEqual(plistlib.loads(data), d)

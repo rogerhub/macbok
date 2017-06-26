@@ -55,7 +55,6 @@ import binascii
 import codecs
 import contextlib
 import datetime
-import enum
 from io import BytesIO
 import itertools
 import os
@@ -65,8 +64,11 @@ from warnings import warn
 from xml.parsers.expat import ParserCreate
 
 
-PlistFormat = enum.Enum('PlistFormat', 'FMT_XML FMT_BINARY', module=__name__)
-globals().update(PlistFormat.__members__)
+FMT_XML = 1
+FMT_BINARY = 2
+
+unicode = type(u'')
+long = type(1000000000000000000000000000)
 
 
 #
@@ -116,7 +118,7 @@ class Dict(_InternalDict):
 
 @contextlib.contextmanager
 def _maybe_open(pathOrFile, mode):
-    if isinstance(pathOrFile, str):
+    if isinstance(pathOrFile, unicode):
         with open(pathOrFile, mode) as fp:
             yield fp
 
@@ -228,7 +230,7 @@ class Data:
         elif isinstance(other, bytes):
             return self.data == other
         else:
-            return NotImplemented
+            return NotImplementedError()
 
     def __repr__(self):
         return "%s(%s)" % (self.__class__.__name__, repr(self.data))
@@ -267,7 +269,7 @@ def _encode_base64(s, maxlinelength=76):
     return b''.join(pieces)
 
 def _decode_base64(s):
-    if isinstance(s, str):
+    if isinstance(s, unicode):
         return binascii.a2b_base64(s.encode("utf-8"))
 
     else:
@@ -276,7 +278,7 @@ def _decode_base64(s):
 # Contents should conform to a subset of ISO 8601
 # (in particular, YYYY '-' MM '-' DD 'T' HH ':' MM ':' SS 'Z'.  Smaller units
 # may be omitted with #  a loss of precision)
-_dateParser = re.compile(r"(?P<year>\d\d\d\d)(?:-(?P<month>\d\d)(?:-(?P<day>\d\d)(?:T(?P<hour>\d\d)(?::(?P<minute>\d\d)(?::(?P<second>\d\d))?)?)?)?)?Z", re.ASCII)
+_dateParser = re.compile(r"(?P<year>\d\d\d\d)(?:-(?P<month>\d\d)(?:-(?P<day>\d\d)(?:T(?P<hour>\d\d)(?::(?P<minute>\d\d)(?::(?P<second>\d\d))?)?)?)?)?Z")
 
 
 def _date_from_string(s):
@@ -444,7 +446,7 @@ class _DumbXMLWriter:
             # plist has fixed encoding of utf-8
 
             # XXX: is this test needed?
-            if isinstance(line, str):
+            if isinstance(line, unicode):
                 line = line.encode('utf-8')
             self.file.write(self._indent_level * self.indent)
             self.file.write(line)
@@ -468,7 +470,7 @@ class _PlistWriter(_DumbXMLWriter):
         self.writeln("</plist>")
 
     def write_value(self, value):
-        if isinstance(value, str):
+        if isinstance(value, unicode):
             self.simple_element("string", value)
 
         elif value is True:
@@ -477,7 +479,7 @@ class _PlistWriter(_DumbXMLWriter):
         elif value is False:
             self.simple_element("false")
 
-        elif isinstance(value, int):
+        elif isinstance(value, int) or isinstance(value, long):
             if -1 << 63 <= value < 1 << 64:
                 self.simple_element("integer", "%d" % value)
             else:
@@ -529,7 +531,7 @@ class _PlistWriter(_DumbXMLWriter):
                 items = d.items()
 
             for key, value in items:
-                if not isinstance(key, str):
+                if not isinstance(key, unicode):
                     if self._skipkeys:
                         continue
                     raise TypeError("keys must be strings")
@@ -628,7 +630,7 @@ class _BinaryPlistParser:
     def _get_size(self, tokenL):
         """ return the size of the next object."""
         if tokenL == 0xF:
-            m = self._fp.read(1)[0] & 0x3
+            m = ord(self._fp.read(1)) & 0x3
             s = 1 << m
             f = '>' + _BINARY_FORMAT[s]
             return struct.unpack(f, self._fp.read(s))[0]
@@ -639,9 +641,14 @@ class _BinaryPlistParser:
         data = self._fp.read(size * n)
         if size in _BINARY_FORMAT:
             return struct.unpack('>' + _BINARY_FORMAT[size] * n, data)
-        else:
-            return tuple(int.from_bytes(data[i: i + size], 'big')
+        elif size == 3:
+            return tuple(struct.unpack('>L', b'\x00' + data[i: i + size])[0]
                          for i in range(0, size * n, size))
+        else:
+            raise NotImplemented
+            # TODO: This doesn't work in Python 2, but we don't need it anyway?
+            # return tuple(int.from_bytes(data[i: i + size], 'big')
+            #              for i in range(0, size * n, size))
 
     def _read_refs(self, n):
         return self._read_ints(n, self._ref_size)
@@ -653,7 +660,7 @@ class _BinaryPlistParser:
         May recursively read sub-objects (content of an array/dict/set)
         """
         self._fp.seek(offset)
-        token = self._fp.read(1)[0]
+        token = ord(self._fp.read(1))
         tokenH, tokenL = token & 0xF0, token & 0x0F
 
         if token == 0x00:
@@ -671,9 +678,20 @@ class _BinaryPlistParser:
         elif token == 0x0f:
             return b''
 
-        elif tokenH == 0x10:  # int
-            return int.from_bytes(self._fp.read(1 << tokenL),
-                                  'big', signed=tokenL >= 3)
+        elif token == 0x10:
+            return struct.unpack('>B', self._fp.read(1))[0]
+
+        elif token == 0x11:
+            return struct.unpack('>H', self._fp.read(2))[0]
+
+        elif token == 0x12:
+            return struct.unpack('>L', self._fp.read(4))[0]
+
+        elif token == 0x13:
+            return struct.unpack('>q', self._fp.read(8))[0]
+
+        elif token == 0x14:
+            return struct.unpack('>Q', self._fp.read(16)[8:])[0]
 
         elif token == 0x22: # real
             return struct.unpack('>f', self._fp.read(4))[0]
@@ -799,7 +817,7 @@ class _BinaryPlistWriter (object):
         # containers to ensure that two subcontainers with the same contents
         # will be serialized as distinct values.
         if isinstance(value, (
-                str, int, float, datetime.datetime, bytes, bytearray)):
+                unicode, int, long, float, datetime.datetime, bytes, bytearray)):
             if (type(value), value) in self._objtable:
                 return
 
@@ -827,7 +845,7 @@ class _BinaryPlistWriter (object):
                 items = sorted(items)
 
             for k, v in items:
-                if not isinstance(k, str):
+                if not isinstance(k, unicode):
                     if self._skipkeys:
                         continue
                     raise TypeError("keys must be strings")
@@ -878,12 +896,12 @@ class _BinaryPlistWriter (object):
         elif value is True:
             self._fp.write(b'\x09')
 
-        elif isinstance(value, int):
+        elif isinstance(value, (int, long)):
             if value < 0:
                 try:
                     self._fp.write(struct.pack('>Bq', 0x13, value))
                 except struct.error:
-                    raise OverflowError(value) from None
+                    raise OverflowError(value)
             elif value < 1 << 8:
                 self._fp.write(struct.pack('>BB', 0x10, value))
             elif value < 1 << 16:
@@ -893,7 +911,7 @@ class _BinaryPlistWriter (object):
             elif value < 1 << 63:
                 self._fp.write(struct.pack('>BQ', 0x13, value))
             elif value < 1 << 64:
-                self._fp.write(b'\x14' + value.to_bytes(16, 'big', signed=True))
+                self._fp.write(struct.pack('>BQQ', 0x14, 0, value))
             else:
                 raise OverflowError(value)
 
@@ -912,7 +930,7 @@ class _BinaryPlistWriter (object):
             self._write_size(0x40, len(value))
             self._fp.write(value)
 
-        elif isinstance(value, str):
+        elif isinstance(value, unicode):
             try:
                 t = value.encode('ascii')
                 self._write_size(0x50, len(value))
@@ -937,7 +955,7 @@ class _BinaryPlistWriter (object):
                 rootItems = value.items()
 
             for k, v in rootItems:
-                if not isinstance(k, str):
+                if not isinstance(k, unicode):
                     if self._skipkeys:
                         continue
                     raise TypeError("keys must be strings")
@@ -975,7 +993,7 @@ _FORMATS={
 }
 
 
-def load(fp, *, fmt=None, use_builtin_types=True, dict_type=dict):
+def load(fp, fmt=None, use_builtin_types=True, dict_type=dict):
     """Read a .plist file. 'fp' should be (readable) file object.
     Return the unpacked root object (which usually is a dictionary).
     """
@@ -997,7 +1015,7 @@ def load(fp, *, fmt=None, use_builtin_types=True, dict_type=dict):
     return p.parse(fp)
 
 
-def loads(value, *, fmt=None, use_builtin_types=True, dict_type=dict):
+def loads(value, fmt=None, use_builtin_types=True, dict_type=dict):
     """Read a .plist file from a bytes object.
     Return the unpacked root object (which usually is a dictionary).
     """
@@ -1006,7 +1024,7 @@ def loads(value, *, fmt=None, use_builtin_types=True, dict_type=dict):
         fp, fmt=fmt, use_builtin_types=use_builtin_types, dict_type=dict_type)
 
 
-def dump(value, fp, *, fmt=FMT_XML, sort_keys=True, skipkeys=False):
+def dump(value, fp, fmt=FMT_XML, sort_keys=True, skipkeys=False):
     """Write 'value' to a .plist file. 'fp' should be a (writable)
     file object.
     """
@@ -1017,7 +1035,7 @@ def dump(value, fp, *, fmt=FMT_XML, sort_keys=True, skipkeys=False):
     writer.write(value)
 
 
-def dumps(value, *, fmt=FMT_XML, skipkeys=False, sort_keys=True):
+def dumps(value, fmt=FMT_XML, skipkeys=False, sort_keys=True):
     """Return a bytes object with the contents for a .plist file.
     """
     fp = BytesIO()
