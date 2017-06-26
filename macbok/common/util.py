@@ -1,11 +1,9 @@
-import functools
 import os
 import pwd
 
 from os import path
 
 
-@functools.lru_cache()
 def Username():
   user = pwd.getpwuid(os.getuid())
   return user.pw_name
