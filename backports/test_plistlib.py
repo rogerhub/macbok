@@ -1,5 +1,7 @@
 # Copyright (C) 2003-2013 Python Software Foundation
 
+from __future__ import unicode_literals
+
 import unittest
 import plistlib
 import os
@@ -104,33 +106,33 @@ class TestPlistlib(unittest.TestCase):
 
     def _create(self, fmt=None):
         pl = {
-            u'aString': u"Doodah",
-            u'aList': [u"A", u"B", 12, 32.5, [1, 2, 3]],
-            u'aFloat': 0.5,
-            u'anInt': 728,
-            u'aBigInt': 2 ** 63 - 44,
-            u'aBigInt2': 2 ** 63 + 44,
-            u'aNegativeInt': -5,
-            u'aNegativeBigInt': -80000000000,
-            u'aDict': {
-                u'anotherString': u"<hello & 'hi' there!>",
-                u'aUnicodeValue': u'M\xe4ssig, Ma\xdf',
-                u'aTrueValue': True,
-                u'aFalseValue': False,
-                u'deeperDict': {
-                    u'a': 17,
-                    u'b': 32.5,
-                    u'c': [1, 2, u"text"],
+            'aString': u"Doodah",
+            'aList': [u"A", u"B", 12, 32.5, [1, 2, 3]],
+            'aFloat': 0.5,
+            'anInt': 728,
+            'aBigInt': 2 ** 63 - 44,
+            'aBigInt2': 2 ** 63 + 44,
+            'aNegativeInt': -5,
+            'aNegativeBigInt': -80000000000,
+            'aDict': {
+                'anotherString': "<hello & 'hi' there!>",
+                'aUnicodeValue': 'M\xe4ssig, Ma\xdf',
+                'aTrueValue': True,
+                'aFalseValue': False,
+                'deeperDict': {
+                    'a': 17,
+                    'b': 32.5,
+                    'c': [1, 2, u"text"],
                 },
             },
-            u'someData': b"<binary gunk>",
-            u'someMoreData': b"<lots of binary gunk>\0\1\2\3" * 10,
-            u'nestedData': [b"<lots of binary gunk>\0\1\2\3" * 10],
-            u'aDate': datetime.datetime(2004, 10, 26, 10, 33, 33),
-            u'anEmptyDict': dict(),
-            u'anEmptyList': list()
+            'someData': b"<binary gunk>",
+            'someMoreData': b"<lots of binary gunk>\0\1\2\3" * 10,
+            'nestedData': [b"<lots of binary gunk>\0\1\2\3" * 10],
+            'aDate': datetime.datetime(2004, 10, 26, 10, 33, 33),
+            'anEmptyDict': dict(),
+            'anEmptyList': list()
         }
-        pl[u'\xc5benraa'] = u"That was a unicode key."
+        pl['\xc5benraa'] = u"That was a unicode key."
         return pl
 
     def test_create(self):
@@ -181,15 +183,15 @@ class TestPlistlib(unittest.TestCase):
         self.assertEqual(data, data2)
 
     def test_indentation_array(self):
-        data = [[[[[[[[{u'test': b'aaaaaa'}]]]]]]]]
+        data = [[[[[[[[{'test': b'aaaaaa'}]]]]]]]]
         self.assertEqual(plistlib.loads(plistlib.dumps(data)), data)
 
     def test_indentation_dict(self):
-        data = {u'1': {u'2': {u'3': {u'4': {u'5': {u'6': {u'7': {u'8': {u'9': b'aaaaaa'}}}}}}}}}
+        data = {'1': {'2': {'3': {'4': {'5': {'6': {'7': {'8': {'9': b'aaaaaa'}}}}}}}}}
         self.assertEqual(plistlib.loads(plistlib.dumps(data)), data)
 
     def test_indentation_dict_mix(self):
-        data = {u'1': {u'2': [{u'3': [[[[[{u'test': b'aaaaaa'}]]]]]}]}}
+        data = {'1': {'2': [{'3': [[[[[{'test': b'aaaaaa'}]]]]]}]}}
         self.assertEqual(plistlib.loads(plistlib.dumps(data)), data)
 
     def test_appleformatting(self):
@@ -226,9 +228,9 @@ class TestPlistlib(unittest.TestCase):
 
     def test_keysort_bytesio(self):
         pl = collections.OrderedDict()
-        pl[u'b'] = 1
-        pl[u'a'] = 2
-        pl[u'c'] = 3
+        pl['b'] = 1
+        pl['a'] = 2
+        pl['c'] = 3
 
         for fmt in ALL_FORMATS:
             for sort_keys in (False, True):
@@ -240,15 +242,15 @@ class TestPlistlib(unittest.TestCase):
 
                 self.assertEqual(dict(pl), dict(pl2))
                 if sort_keys:
-                    self.assertEqual(list(pl2.keys()), [u'a', u'b', u'c'])
+                    self.assertEqual(list(pl2.keys()), ['a', 'b', 'c'])
                 else:
-                    self.assertEqual(list(pl2.keys()), [u'b', u'a', u'c'])
+                    self.assertEqual(list(pl2.keys()), ['b', 'a', 'c'])
 
     def test_keysort(self):
         pl = collections.OrderedDict()
-        pl[u'b'] = 1
-        pl[u'a'] = 2
-        pl[u'c'] = 3
+        pl['b'] = 1
+        pl['a'] = 2
+        pl['c'] = 3
 
         for fmt in ALL_FORMATS:
             for sort_keys in (False, True):
@@ -257,12 +259,12 @@ class TestPlistlib(unittest.TestCase):
 
                 self.assertEqual(dict(pl), dict(pl2))
                 if sort_keys:
-                    self.assertEqual(list(pl2.keys()), [u'a', u'b', u'c'])
+                    self.assertEqual(list(pl2.keys()), ['a', 'b', 'c'])
                 else:
-                    self.assertEqual(list(pl2.keys()), [u'b', u'a', u'c'])
+                    self.assertEqual(list(pl2.keys()), ['b', 'a', 'c'])
 
     def test_keys_no_string(self):
-        pl = { 42: u'aNumber' }
+        pl = { 42: 'aNumber' }
 
         for fmt in ALL_FORMATS:
             self.assertRaises(TypeError, plistlib.dumps, pl, fmt=fmt)
@@ -272,8 +274,8 @@ class TestPlistlib(unittest.TestCase):
 
     def test_skipkeys(self):
         pl = {
-            42: u'aNumber',
-            u'snake': u'aWord',
+            42: 'aNumber',
+            'snake': 'aWord',
         }
 
         for fmt in ALL_FORMATS:
@@ -281,65 +283,65 @@ class TestPlistlib(unittest.TestCase):
                 pl, fmt=fmt, skipkeys=True, sort_keys=False)
 
             pl2 = plistlib.loads(data)
-            self.assertEqual(pl2, {u'snake': u'aWord'})
+            self.assertEqual(pl2, {'snake': 'aWord'})
 
             fp = BytesIO()
             plistlib.dump(
                 pl, fp, fmt=fmt, skipkeys=True, sort_keys=False)
             data = fp.getvalue()
             pl2 = plistlib.loads(fp.getvalue())
-            self.assertEqual(pl2, {u'snake': u'aWord'})
+            self.assertEqual(pl2, {'snake': 'aWord'})
 
     def test_tuple_members(self):
         pl = {
-            u'first': (1, 2),
-            u'second': (1, 2),
-            u'third': (3, 4),
+            'first': (1, 2),
+            'second': (1, 2),
+            'third': (3, 4),
         }
 
         for fmt in ALL_FORMATS:
             data = plistlib.dumps(pl, fmt=fmt)
             pl2 = plistlib.loads(data)
             self.assertEqual(pl2, {
-                u'first': [1, 2],
-                u'second': [1, 2],
-                u'third': [3, 4],
+                'first': [1, 2],
+                'second': [1, 2],
+                'third': [3, 4],
             })
-            self.assertIsNot(pl2[u'first'], pl2[u'second'])
+            self.assertIsNot(pl2['first'], pl2['second'])
 
     def test_list_members(self):
         pl = {
-            u'first': [1, 2],
-            u'second': [1, 2],
-            u'third': [3, 4],
+            'first': [1, 2],
+            'second': [1, 2],
+            'third': [3, 4],
         }
 
         for fmt in ALL_FORMATS:
             data = plistlib.dumps(pl, fmt=fmt)
             pl2 = plistlib.loads(data)
             self.assertEqual(pl2, {
-                u'first': [1, 2],
-                u'second': [1, 2],
-                u'third': [3, 4],
+                'first': [1, 2],
+                'second': [1, 2],
+                'third': [3, 4],
             })
-            self.assertIsNot(pl2[u'first'], pl2[u'second'])
+            self.assertIsNot(pl2['first'], pl2['second'])
 
     def test_dict_members(self):
         pl = {
-            u'first': {u'a': 1},
-            u'second': {u'a': 1},
-            u'third': {u'b': 2 },
+            'first': {'a': 1},
+            'second': {'a': 1},
+            'third': {'b': 2 },
         }
 
         for fmt in ALL_FORMATS:
             data = plistlib.dumps(pl, fmt=fmt)
             pl2 = plistlib.loads(data)
             self.assertEqual(pl2, {
-                u'first': {u'a': 1},
-                u'second': {u'a': 1},
-                u'third': {u'b': 2 },
+                'first': {'a': 1},
+                'second': {'a': 1},
+                'third': {'b': 2 },
             })
-            self.assertIsNot(pl2[u'first'], pl2[u'second'])
+            self.assertIsNot(pl2['first'], pl2['second'])
 
     def test_controlcharacters(self):
         for i in range(128):
@@ -354,7 +356,7 @@ class TestPlistlib(unittest.TestCase):
                                   testString)
 
     def test_non_bmp_characters(self):
-        pl = {u'python': u'\U0001f40d'}
+        pl = {'python': '\U0001f40d'}
         for fmt in ALL_FORMATS:
             data = plistlib.dumps(pl, fmt=fmt)
             self.assertEqual(plistlib.loads(data), pl)
@@ -398,9 +400,9 @@ class TestPlistlib(unittest.TestCase):
         base = TESTDATA[plistlib.FMT_XML]
 
         for xml_encoding, encoding, bom in [
-                    (b'utf-8', u'utf-8', codecs.BOM_UTF8),
-                    (b'utf-16', u'utf-16-le', codecs.BOM_UTF16_LE),
-                    (b'utf-16', u'utf-16-be', codecs.BOM_UTF16_BE),
+                    (b'utf-8', 'utf-8', codecs.BOM_UTF8),
+                    (b'utf-16', 'utf-16-le', codecs.BOM_UTF16_LE),
+                    (b'utf-16', 'utf-16-be', codecs.BOM_UTF16_BE),
                     # Expat does not support UTF-32
                     #(b'utf-32', 'utf-32-le', codecs.BOM_UTF32_LE),
                     #(b'utf-32', 'utf-32-be', codecs.BOM_UTF32_BE),
@@ -422,7 +424,7 @@ class TestPlistlib(unittest.TestCase):
                 b'\x00\x00\x00\x00\x00\x00\x00\x03'
                 b'\x00\x00\x00\x00\x00\x00\x00\x00'
                 b'\x00\x00\x00\x00\x00\x00\x00\x13')
-        self.assertEqual(plistlib.loads(data), {u'a': u'b'})
+        self.assertEqual(plistlib.loads(data), {'a': 'b'})
 
     def test_large_timestamp(self):
         # Issue #26709: 32-bit timestamp out of range

@@ -45,6 +45,8 @@ Parse Plist example:
         pl = load(fp)
     print(pl["aKey"])
 """
+from __future__ import unicode_literals
+
 __all__ = [
     "readPlist", "writePlist", "readPlistFromBytes", "writePlistToBytes",
     "Plist", "Data", "Dict", "InvalidFileException", "FMT_XML", "FMT_BINARY",
