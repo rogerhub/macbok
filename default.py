@@ -149,6 +149,7 @@ def main():
   yield m.Homebrew('python3', force_bottle=True)
   # yield m.Homebrew('hping')
   # yield m.Homebrew('ffmpeg', force_bottle=True)
+  yield m.Homebrew('libav', force_bottle=True)
   yield m.Homebrew('git', force_bottle=True)
   # yield m.Homebrew('webp', force_bottle=True)
   yield m.Homebrew('nmap', force_bottle=True)

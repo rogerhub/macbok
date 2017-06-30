@@ -79,18 +79,19 @@ class Homebrew(task.Task):
   def Run(self):
     with self.TaskLock():
       if not self._AlreadyInstalled():
-        yield Chown(self.installation_root, util.Username())
-        yield Gitclone('https://github.com/Homebrew/brew.git',
-                       self.installation_root)
+        yield chown.Chown(self.installation_root, util.Username())
+        yield gitclone.Gitclone('https://github.com/Homebrew/brew.git',
+                                self.installation_root)
       if self.package and self.package not in self._InstalledPackages():
         extra_options = []
         if self.force_bottle:
           extra_options.append('--force-bottle')
-        yield Script('brew install %s %s' % (' '.join(extra_options),
-                                             util.BashQuote(self.package)))
+        yield script.Script('brew install %s %s' %
+                            (' '.join(extra_options),
+                             util.BashQuote(self.package)))
       if self.cask_package:
         if self.cask_package not in self._CaskInstalledPackages():
-          yield Script('brew cask install %s' %
-                       util.BashQuote(self.cask_package))
+          yield script.Script('brew cask install %s' %
+                              util.BashQuote(self.cask_package))
       if self.tap and self.tap not in self._Taps():
-        yield Script('brew tap %s' % util.BashQuote(self.tap))
+        yield script.Script('brew tap %s' % util.BashQuote(self.tap))
