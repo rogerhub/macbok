@@ -134,7 +134,6 @@ def main():
   yield m.Homebrew(tap='homebrew/x11')
   yield m.Homebrew(tap='homebrew/science')
   yield m.Homebrew(tap='rogerhub/sman')
-  yield m.Homebrew(tap='rogerhub/transmit-disk')
   yield m.Homebrew('pstree', force_bottle=True)
   yield m.Homebrew('duplicity', force_bottle=True)
   yield m.Homebrew('mcrypt', force_bottle=True)
@@ -155,10 +154,11 @@ def main():
   yield m.Homebrew('nmap', force_bottle=True)
   # yield m.Homebrew('nasm', force_bottle=True)
   yield m.Homebrew('source-highlight', force_bottle=True)
-  # yield m.Homebrew('lftp', force_bottle=True)
+  yield m.Homebrew('lftp', force_bottle=True)
   yield m.Homebrew('arping', force_bottle=True)
   yield m.Homebrew('socat', force_bottle=True)
   yield m.Homebrew('colordiff', force_bottle=True)
+  yield m.Homebrew('mpv', force_bottle=True)
 
   # Fuse-related packages
   yield m.Homebrew(cask_package='osxfuse')
