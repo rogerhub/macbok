@@ -67,6 +67,37 @@ def main():
   # Turn off Apple Airplay status bar icon
   yield m.Plist('showInMenuBarIfPresent', 0, domain='com.apple.airplay')
 
+  # Tap to click
+  yield m.Plist('Clicking', 1,
+                domain='com.apple.driver.AppleBluetoothMultitouch.trackpad')
+  yield m.Plist('Clicking', 1,
+                domain='com.apple.AppleMultitouchTrackpad')
+
+  # Set click threshold to 'light'.
+  yield m.Plist('FirstClickThreshold', 0,
+                domain='com.apple.AppleMultitouchTrackpad')
+  yield m.Plist('SecondClickThreshold', 0,
+                domain='com.apple.AppleMultitouchTrackpad')
+
+  # Set tracking speed.
+  yield m.Plist('com.apple.trackpad.scaling', 1)
+
+  # Three-finger drag.
+  yield m.Plist('TrackpadThreeFingerDrag', 1,
+                domain='com.apple.driver.AppleBluetoothMultitouch.trackpad')
+  yield m.Plist('TrackpadThreeFingerDrag', 1,
+                domain='com.apple.AppleMultitouchTrackpad')
+
+  yield m.Plist('TrackpadThreeFingerHorizSwipeGesture', 0,
+                domain='com.apple.driver.AppleBluetoothMultitouch.trackpad')
+  yield m.Plist('TrackpadThreeFingerHorizSwipeGesture', 0,
+                domain='com.apple.AppleMultitouchTrackpad')
+
+  yield m.Plist('TrackpadThreeFingerVertSwipeGesture', 0,
+                domain='com.apple.driver.AppleBluetoothMultitouch.trackpad')
+  yield m.Plist('TrackpadThreeFingerVertSwipeGesture', 0,
+                domain='com.apple.AppleMultitouchTrackpad')
+
   # Turn off Finder opening when Transmit mounts.
   if path.exists(path.expanduser(
       '~/Library/Preferences/com.panic.Transmit.plist')):
