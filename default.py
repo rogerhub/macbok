@@ -68,9 +68,9 @@ def main():
   yield m.Plist('showInMenuBarIfPresent', 0, domain='com.apple.airplay')
 
   # Tap to click
-  yield m.Plist('Clicking', 1,
+  yield m.Plist('Clicking', 0,
                 domain='com.apple.driver.AppleBluetoothMultitouch.trackpad')
-  yield m.Plist('Clicking', 1,
+  yield m.Plist('Clicking', 0,
                 domain='com.apple.AppleMultitouchTrackpad')
 
   # Set click threshold to 'light'.
@@ -83,19 +83,19 @@ def main():
   yield m.Plist('com.apple.trackpad.scaling', 1)
 
   # Three-finger drag.
-  yield m.Plist('TrackpadThreeFingerDrag', 1,
+  yield m.Plist('TrackpadThreeFingerDrag', 0,
                 domain='com.apple.driver.AppleBluetoothMultitouch.trackpad')
-  yield m.Plist('TrackpadThreeFingerDrag', 1,
+  yield m.Plist('TrackpadThreeFingerDrag', 0,
                 domain='com.apple.AppleMultitouchTrackpad')
 
-  yield m.Plist('TrackpadThreeFingerHorizSwipeGesture', 0,
+  yield m.Plist('TrackpadThreeFingerHorizSwipeGesture', 2,
                 domain='com.apple.driver.AppleBluetoothMultitouch.trackpad')
-  yield m.Plist('TrackpadThreeFingerHorizSwipeGesture', 0,
+  yield m.Plist('TrackpadThreeFingerHorizSwipeGesture', 2,
                 domain='com.apple.AppleMultitouchTrackpad')
 
-  yield m.Plist('TrackpadThreeFingerVertSwipeGesture', 0,
+  yield m.Plist('TrackpadThreeFingerVertSwipeGesture', 2,
                 domain='com.apple.driver.AppleBluetoothMultitouch.trackpad')
-  yield m.Plist('TrackpadThreeFingerVertSwipeGesture', 0,
+  yield m.Plist('TrackpadThreeFingerVertSwipeGesture', 2,
                 domain='com.apple.AppleMultitouchTrackpad')
 
   # Turn off Finder opening when Transmit mounts.
@@ -190,6 +190,7 @@ def main():
   yield m.Homebrew('socat', force_bottle=True)
   yield m.Homebrew('colordiff', force_bottle=True)
   yield m.Homebrew('mpv', force_bottle=True)
+  yield m.Homebrew('rclone', force_bottle=True)
 
   # Fuse-related packages
   yield m.Homebrew(cask_package='osxfuse')
