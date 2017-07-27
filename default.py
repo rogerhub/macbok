@@ -191,6 +191,13 @@ def main():
   yield m.Homebrew('colordiff', force_bottle=True)
   yield m.Homebrew('mpv', force_bottle=True)
   yield m.Homebrew('rclone', force_bottle=True)
+  yield m.Homebrew('ykpers', force_bottle=True)
+  yield m.Homebrew('gnupg', force_bottle=True)
+  yield m.Homebrew('pinentry-mac', force_bottle=True)
+  yield m.Homebrew('swig', force_bottle=True)
+  yield m.Homebrew('libu2f-host', force_bottle=True)
+  yield m.Homebrew('libusb', force_bottle=True)
+  yield m.Homebrew('whois', force_bottle=True)
 
   # Fuse-related packages
   yield m.Homebrew(cask_package='osxfuse')
@@ -212,6 +219,11 @@ def main():
   # yield m.Homebrew(cask_package='unetbootin')
   yield m.Homebrew(cask_package='transmit')
   yield m.Homebrew(cask_package='transmit-disk')
+  # yield m.Homebrew(cask_package='yubikey-piv-manager')
+  # yield m.Homebrew(cask_package='yubikey-neo-manager')
+
+  # TODO: Only install for python3
+  # yield m.Pypi('yubikey-manager')
 
   # Mactex is hosted on some remote European web server. It takes forever to
   # download (1-2 hours) regardless of your internet connection, so do it last.
