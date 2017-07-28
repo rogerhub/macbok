@@ -210,7 +210,6 @@ def main():
   yield m.Homebrew(cask_package='vlc')
   yield m.Homebrew(cask_package='calibre')
   yield m.Homebrew(cask_package='vmware-fusion')
-  yield m.Homebrew(cask_package='logitech-options')
   yield m.Homebrew(cask_package='atom')
   # yield m.Homebrew(cask_package='wireshark')
   yield m.Homebrew(cask_package='1password')
