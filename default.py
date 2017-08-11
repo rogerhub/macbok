@@ -61,6 +61,9 @@ def main():
   # Only show scrollbars when scrolling
   yield m.Plist('AppleShowScrollBars', 'WhenScrolling')
 
+  # Enable volume feedback
+  yield m.Plist('com.apple.sound.beep.feedback', 1)
+
   # Set ask for password delay to 0
   yield m.Plist('askForPasswordDelay', 0, domain='com.apple.screensaver')
 
