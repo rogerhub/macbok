@@ -37,17 +37,20 @@ def main():
   # Swipe to navigate.
   yield m.Plist('AppleEnableSwipeNavigateWithScrolls', True)
 
-  # Minimize windows to dock icon
-  yield m.Plist('minimize-to-application', True, domain='com.apple.dock')
+  # Minimize windows to dock
+  yield m.Plist('minimize-to-application', False, domain='com.apple.dock')
 
   # Put the dock on the bottom
   yield m.Plist('orientation', 'bottom', domain='com.apple.dock')
 
   # Change icon size
-  yield m.Plist('tilesize', 52, domain='com.apple.dock')
+  yield m.Plist('tilesize', 32, domain='com.apple.dock')
 
-  # Auto-hide the dock
-  yield m.Plist('autohide', 1, domain='com.apple.dock')
+  # Don't auto-hide the dock
+  yield m.Plist('autohide', 0, domain='com.apple.dock')
+
+  # Enable magnification
+  yield m.Plist('magnification', 1, domain='com.apple.dock')
 
   # Fast updates for Activity Monitor (every second)
   yield m.Plist('UpdatePeriod', 1, domain='com.apple.ActivityMonitor')
