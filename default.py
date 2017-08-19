@@ -204,6 +204,7 @@ def main():
   yield m.Homebrew('libu2f-host', force_bottle=True)
   yield m.Homebrew('libusb', force_bottle=True)
   yield m.Homebrew('whois', force_bottle=True)
+  yield m.Homebrew('gnu-tar', force_bottle=True)
 
   # Fuse-related packages
   yield m.Homebrew(cask_package='osxfuse')
