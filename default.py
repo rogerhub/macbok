@@ -37,7 +37,7 @@ def main():
   # Swipe to navigate.
   yield m.Plist('AppleEnableSwipeNavigateWithScrolls', True)
 
-  # Minimize windows to dock
+  # Don't minimize windows to dock
   yield m.Plist('minimize-to-application', False, domain='com.apple.dock')
 
   # Put the dock on the bottom
@@ -104,12 +104,42 @@ def main():
   yield m.Plist('TrackpadThreeFingerVertSwipeGesture', 2,
                 domain='com.apple.AppleMultitouchTrackpad')
 
-  # Turn off Finder opening when Transmit mounts.
+  yield m.Plist('showedLearnMore', 1, domain='com.apple.Spotlight')
+
+  # # Turn off Finder opening when Transmit mounts.
+  # if path.exists(path.expanduser(
+  #     '~/Library/Preferences/com.panic.Transmit.plist')):
+  #   yield m.Plist('OpenMountedFinderWindow', False, domain='com.panic.transmit')
+  #   yield m.Plist(('ServerSpecificPrefs', 0, 'PreserveModificationDates'),
+  #                 True, domain='com.panic.transmit')
+
+  # Set up gnucash settings.
   if path.exists(path.expanduser(
-      '~/Library/Preferences/com.panic.Transmit.plist')):
-    yield m.Plist('OpenMountedFinderWindow', False, domain='com.panic.transmit')
-    yield m.Plist(('ServerSpecificPrefs', 0, 'PreserveModificationDates'),
-                  True, domain='com.panic.transmit')
+      '~/Library/Preferences/org.gnucash.Gnucash.plist')):
+    # Sliding window for date completion.
+    # TODO: This is already the default in gnucash trunk.
+    yield m.Plist('/org/gnucash/general/date-backmonths', 10,
+                  domain='org.gnucash.Gnucash')
+    yield m.Plist('/org/gnucash/general/date-completion-sliding', 1,
+                  domain='org.gnucash.Gnucash')
+    yield m.Plist('/org/gnucash/general/date-completion-thisyear', 0,
+                  domain='org.gnucash.Gnucash')
+
+    # Disable auto-save.
+    yield m.Plist('/org/gnucash/general/autosave-interval-minutes', 0,
+                  domain='org.gnucash.Gnucash')
+    yield m.Plist('/org/gnucash/general/autosave-show-explanation', 0,
+                  domain='org.gnucash.Gnucash')
+
+    # Disable log files.
+    yield m.Plist('/org/gnucash/general/retain-type-never', 1,
+                  domain='org.gnucash.Gnucash')
+    yield m.Plist('/org/gnucash/general/retain-type-days', 0,
+                  domain='org.gnucash.Gnucash')
+
+  # Open new finder windows in home directory.
+  yield m.Plist('NewWindowTargetPath', 'file://%s' % path.expanduser('~/'),
+                domain='com.apple.finder')
 
   # Disable context menus.
   yield m.Plist(
@@ -223,8 +253,8 @@ def main():
   yield m.Homebrew(cask_package='handbrake')
   yield m.Homebrew(cask_package='sman')
   # yield m.Homebrew(cask_package='unetbootin')
-  yield m.Homebrew(cask_package='transmit')
-  yield m.Homebrew(cask_package='transmit-disk')
+  # yield m.Homebrew(cask_package='transmit')
+  # yield m.Homebrew(cask_package='transmit-disk')
   # yield m.Homebrew(cask_package='yubikey-piv-manager')
   # yield m.Homebrew(cask_package='yubikey-neo-manager')
 
