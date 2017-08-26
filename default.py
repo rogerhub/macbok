@@ -15,9 +15,9 @@ def main():
   A fully-functional example of a typical user's OS X configuration.
 
   """
-  # Do not create .DS_Store on network shares
-  yield m.Plist('DSDontWriteNetworkStores', True,
-                domain='com.apple.desktopservices')
+  # # Do not create .DS_Store on network shares
+  # yield m.Plist('DSDontWriteNetworkStores', True,
+  #               domain='com.apple.desktopservices')
 
   # Disable autocorrect
   yield m.Plist('NSAutomaticSpellingCorrectionEnabled', True)
@@ -141,23 +141,23 @@ def main():
   yield m.Plist('NewWindowTargetPath', 'file://%s' % path.expanduser('~/'),
                 domain='com.apple.finder')
 
-  # Disable context menus.
-  yield m.Plist(
-      ('NSServicesStatus',
-       'com.apple.Stickies - Make Sticky - makeStickyFromTextService'),
-      {'enabled_context_menu': 0, 'enabled_services_menu': 0},
-      domain='pbs')
-  yield m.Plist(
-      ('NSServicesStatus',
-       'com.apple.services.addToiTunesAsSpokenTrack - '
-       'Add to iTunes as a Spoken Track - runWorkflowAsService'),
-      {'enabled_context_menu': 0, 'enabled_services_menu': 0},
-      domain='pbs')
-  yield m.Plist(
-      ('NSServicesStatus',
-       'com.todoist.mac.Todoist - Add to Todoist - addToTodoist'),
-      {'enabled_context_menu': 0, 'enabled_services_menu': 0},
-      domain='pbs')
+  # # Disable context menus.
+  # yield m.Plist(
+  #     ('NSServicesStatus',
+  #      'com.apple.Stickies - Make Sticky - makeStickyFromTextService'),
+  #     {'enabled_context_menu': 0, 'enabled_services_menu': 0},
+  #     domain='pbs')
+  # yield m.Plist(
+  #     ('NSServicesStatus',
+  #      'com.apple.services.addToiTunesAsSpokenTrack - '
+  #      'Add to iTunes as a Spoken Track - runWorkflowAsService'),
+  #     {'enabled_context_menu': 0, 'enabled_services_menu': 0},
+  #     domain='pbs')
+  # yield m.Plist(
+  #     ('NSServicesStatus',
+  #      'com.todoist.mac.Todoist - Add to Todoist - addToTodoist'),
+  #     {'enabled_context_menu': 0, 'enabled_services_menu': 0},
+  #     domain='pbs')
 
   # On AC Power, keep the display and system on for 3 hours of inactivity.
   yield m.Pmset('displaysleep', '180', 'c')
@@ -197,14 +197,14 @@ def main():
   yield m.Homebrew(tap='caskroom/cask')
   yield m.Homebrew(tap='caskroom/drivers')
   yield m.Homebrew(tap='caskroom/versions')
-  yield m.Homebrew(tap='homebrew/fuse')
+  # yield m.Homebrew(tap='homebrew/fuse')
   yield m.Homebrew(tap='homebrew/x11')
   yield m.Homebrew(tap='homebrew/science')
   yield m.Homebrew(tap='rogerhub/sman')
   yield m.Homebrew('pstree', force_bottle=True)
-  yield m.Homebrew('duplicity', force_bottle=True)
+  # yield m.Homebrew('duplicity', force_bottle=True)
   yield m.Homebrew('mcrypt', force_bottle=True)
-  # yield m.Homebrew('iperf')
+  yield m.Homebrew('iperf')
   yield m.Homebrew('mtr', force_bottle=True)
   yield m.Homebrew('unrar', force_bottle=True)
   yield m.Homebrew('wakeonlan')
@@ -226,26 +226,26 @@ def main():
   yield m.Homebrew('socat', force_bottle=True)
   yield m.Homebrew('colordiff', force_bottle=True)
   yield m.Homebrew('mpv', force_bottle=True)
-  yield m.Homebrew('rclone', force_bottle=True)
+  # yield m.Homebrew('rclone', force_bottle=True)
   yield m.Homebrew('ykpers', force_bottle=True)
   yield m.Homebrew('gnupg', force_bottle=True)
   yield m.Homebrew('pinentry-mac', force_bottle=True)
-  yield m.Homebrew('swig', force_bottle=True)
+  # yield m.Homebrew('swig', force_bottle=True)
   yield m.Homebrew('libu2f-host', force_bottle=True)
   yield m.Homebrew('libusb', force_bottle=True)
   yield m.Homebrew('whois', force_bottle=True)
   yield m.Homebrew('gnu-tar', force_bottle=True)
 
   # Fuse-related packages
-  yield m.Homebrew(cask_package='osxfuse')
-  yield m.Homebrew('sshfs')
-  yield m.Homebrew('fuse-zip', force_bottle=True)
+  # yield m.Homebrew(cask_package='osxfuse')
+  # yield m.Homebrew('sshfs')
+  # yield m.Homebrew('fuse-zip', force_bottle=True)
 
   # Cask packages
   yield m.Homebrew(cask_package='google-chrome')
   yield m.Homebrew(cask_package='gnucash')
-  yield m.Homebrew(cask_package='vlc')
-  yield m.Homebrew(cask_package='calibre')
+  # yield m.Homebrew(cask_package='vlc')
+  # yield m.Homebrew(cask_package='calibre')
   yield m.Homebrew(cask_package='vmware-fusion')
   yield m.Homebrew(cask_package='atom')
   # yield m.Homebrew(cask_package='wireshark')

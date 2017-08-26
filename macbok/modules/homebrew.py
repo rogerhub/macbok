@@ -45,8 +45,10 @@ class Homebrew(task.Task):
       return os.listdir(cellar_directory)
 
   def _Taps(self):
-    tap_paths = glob.glob(path.join(self.installation_root, 'Homebrew',
-                                    'Library', 'Taps', '*', 'homebrew-*'))
+    tap_paths = (glob.glob(path.join(self.installation_root, 'Homebrew',
+                                     'Library', 'Taps', '*', 'homebrew-*')) +
+                 glob.glob(path.join(self.installation_root, 'Library', 'Taps',
+                                      '*', 'homebrew-*')))
     tap_path_matcher = re.compile(r'.*Taps/(?P<org>.*)/homebrew-(?P<tap>.*)$')
     taps = []
     for tap_path in tap_paths:

@@ -18,7 +18,7 @@ def _Resolve(plist, key):
 
 class Plist(task.Task):
   def __init__(self, key, value, domain='.GlobalPreferences'):
-    if isinstance(key, str):
+    if isinstance(key, type('')):
       key = (key,)
     elif not isinstance(key, tuple):
       raise ValueError('Unrecognized key type: %r' % key)
@@ -48,7 +48,11 @@ class Plist(task.Task):
 
   def OnlyIf(self):
     with self.TaskLock():
-      plist = self._ReadPlist()
+      try:
+        plist = self._ReadPlist()
+      except IOError as e:
+        print('Error reading plist: %s' % e)
+        return False
       p = _Resolve(plist, self.key[:-1])
       return p.get(self.key[-1]) != self.value
 

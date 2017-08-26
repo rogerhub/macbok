@@ -47,7 +47,7 @@ class Pmset(task.Task):
       raise ValueError('Unrecognized pmset mode %r' % self.mode)
 
   def Run(self):
-    with self.task_lock():
+    with self.TaskLock():
       yield script.Script('sudo pmset -%s %s %s' %
                           (self.mode, util.BashQuote(self.setting),
                            util.BashQuote(self.value)))

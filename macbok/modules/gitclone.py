@@ -27,6 +27,6 @@ class Gitclone(task.Task):
     extra_options = []
     if self.recursive:
       extra_options.append('--recursive')
-    yield Script('git clone %s -- %s %s' % (' '.join(extra_options),
-                                            util.BashQuote(self.source),
-                                            util.BashQuote(self.target)))
+    yield script.Script('git clone %s -- %s %s' % (' '.join(extra_options),
+                                                   util.BashQuote(self.source),
+                                                   util.BashQuote(self.target)))
