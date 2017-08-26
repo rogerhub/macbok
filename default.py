@@ -166,28 +166,28 @@ def main():
   yield m.Link('Library/Application Support/MobileSync',
                path.expanduser('~/MobileSync'))
 
-  if path.exists(path.expanduser('~/C8')):
+  if path.exists(path.expanduser('~/K')):
     # Avoid creating a dead links
     if not path.exists(path.expanduser('~/.atom')):
       os.mkdir(path.expanduser('~/.atom'))
     for atom_path in ['config.cson', 'init.coffee', 'keymap.cson',
                       'snippets.cson', 'styles.less']:
-      yield m.Link('../C8/atom/' + atom_path,
+      yield m.Link('../K/atom/' + atom_path,
                    path.expanduser('~/.atom/' + atom_path))
-    yield m.Link('C8/.bcrc', path.expanduser('~/.bcrc'))
-    yield m.Link('C8/.gitconfig', path.expanduser('~/.gitconfig'))
-    yield m.Link('C8/.gitignore', path.expanduser('~/.gitignore'))
-    yield m.Link('C8/.bash_aliases', path.expanduser('~/.bash_aliases'))
-    yield m.Link('C8/.bash_profile', path.expanduser('~/.bash_profile'))
+    yield m.Link('K/bcrc', path.expanduser('~/.bcrc'))
+    yield m.Link('K/gitconfig', path.expanduser('~/.gitconfig'))
+    yield m.Link('K/gitignore', path.expanduser('~/.gitignore'))
+    yield m.Link('K/bash_aliases-mac', path.expanduser('~/.bash_aliases'))
     if not path.exists(path.expanduser('~/.ssh')):
       os.mkdir(path.expanduser('~/.ssh'))
-    yield m.Link('../C8/.ssh/known_hosts',
+    yield m.Link('../K/ssh/known_hosts',
                       path.expanduser('~/.ssh/known_hosts'))
-    yield m.Link('../C8/.ssh/config',path.expanduser('~/.ssh/config'))
+    yield m.Link('../K/ssh/config',path.expanduser('~/.ssh/config'))
     if not path.exists(path.expanduser('~/.ssh/ctl')):
       os.mkdir(path.expanduser('~/.ssh/ctl'))
 
   yield m.Touch(path.expanduser('~/.bash_sessions_disable'))
+  yield m.Touch(path.expanduser('~/.hushlogin'))
 
   # Chrome doesn't respect /etc/hosts if not owned by root (?)
   # yield m.Chown('/etc/hosts', m.Username(), group='staff')
