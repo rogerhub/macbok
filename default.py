@@ -44,13 +44,13 @@ def main():
   yield m.Plist('orientation', 'bottom', domain='com.apple.dock')
 
   # Change icon size
-  yield m.Plist('tilesize', 32, domain='com.apple.dock')
+  yield m.Plist('tilesize', None, domain='com.apple.dock')
 
   # Don't auto-hide the dock
   yield m.Plist('autohide', 0, domain='com.apple.dock')
 
-  # Enable magnification
-  yield m.Plist('magnification', 1, domain='com.apple.dock')
+  # Disable magnification
+  yield m.Plist('magnification', 0, domain='com.apple.dock')
 
   # Fast updates for Activity Monitor (every second)
   yield m.Plist('UpdatePeriod', 1, domain='com.apple.ActivityMonitor')
@@ -105,6 +105,10 @@ def main():
                 domain='com.apple.AppleMultitouchTrackpad')
 
   yield m.Plist('showedLearnMore', 1, domain='com.apple.Spotlight')
+
+  # Disable guest account.
+  yield m.Plist('GuestEnabled', False, domain='com.apple.loginwindow',
+                sudo=True)
 
   # # Turn off Finder opening when Transmit mounts.
   # if path.exists(path.expanduser(

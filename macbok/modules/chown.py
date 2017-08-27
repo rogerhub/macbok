@@ -16,7 +16,7 @@ class Chown(task.Task):
     self.group = group
 
   def __repr__(self):
-    return "Chown(%r, %r %r)" % (self.target, self.user, self.group)
+    return "Chown(%r, %r, %r)" % (self.target, self.user, self.group)
 
   def OnlyIf(self):
     stat_result = os.lstat(self.target)

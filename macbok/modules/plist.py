@@ -1,9 +1,12 @@
 from __future__ import unicode_literals
 
 from os import path
+import subprocess
 
 from backports import plistlib
 from macbok.common import task
+from macbok.common import util
+from macbok.modules import chown
 
 
 def _Resolve(plist, key):
@@ -17,7 +20,7 @@ def _Resolve(plist, key):
 
 
 class Plist(task.Task):
-  def __init__(self, key, value, domain='.GlobalPreferences'):
+  def __init__(self, key, value, domain='.GlobalPreferences', sudo=False):
     if isinstance(key, type('')):
       key = (key,)
     elif not isinstance(key, tuple):
@@ -27,6 +30,7 @@ class Plist(task.Task):
     self.key = key
     self.value = value
     self.domain = domain
+    self.sudo = sudo
 
   def __repr__(self):
     arguments = []
@@ -40,7 +44,10 @@ class Plist(task.Task):
     return 'Plist(%s)' % ', '.join(arguments)
 
   def _PlistPath(self):
-    return path.expanduser('~/Library/Preferences/%s.plist' % self.domain)
+    if self.sudo:
+      return '/Library/Preferences/%s.plist' % self.domain
+    else:
+      return path.expanduser('~/Library/Preferences/%s.plist' % self.domain)
 
   def _ReadPlist(self):
     with open(self._PlistPath(), 'rb') as plist_file:
@@ -60,6 +67,14 @@ class Plist(task.Task):
     with self.TaskLock():
       plist = self._ReadPlist()
       p = _Resolve(plist, self.key[:-1])
-      p[self.key[-1]] = self.value
+      if self.value is None:
+        del p[self.key[-1]]
+      else:
+        p[self.key[-1]] = self.value
+      if self.sudo:
+        # TODO: This is hacky, but it works.
+        yield chown.Chown(self._PlistPath(), user=util.Username())
       with open(self._PlistPath(), 'wb') as plist_file:
         plistlib.dump(plist, plist_file, fmt=plistlib.FMT_BINARY)
+      if self.sudo:
+        yield chown.Chown(self._PlistPath(), user='root')
