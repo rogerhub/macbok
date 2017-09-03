@@ -122,23 +122,21 @@ def main():
       '~/Library/Preferences/org.gnucash.Gnucash.plist')):
     # Sliding window for date completion.
     # TODO: This is already the default in gnucash trunk.
-    yield m.Plist('/org/gnucash/general/date-backmonths', 10,
+    yield m.Plist('/org/gnucash/general/date-backmonths', 10.0,
                   domain='org.gnucash.Gnucash')
-    yield m.Plist('/org/gnucash/general/date-completion-sliding', 1,
+    yield m.Plist('/org/gnucash/general/date-completion-sliding', True,
                   domain='org.gnucash.Gnucash')
-    yield m.Plist('/org/gnucash/general/date-completion-thisyear', 0,
+    yield m.Plist('/org/gnucash/general/date-completion-thisyear', False,
                   domain='org.gnucash.Gnucash')
 
     # Disable auto-save.
-    yield m.Plist('/org/gnucash/general/autosave-interval-minutes', 0,
-                  domain='org.gnucash.Gnucash')
-    yield m.Plist('/org/gnucash/general/autosave-show-explanation', 0,
+    yield m.Plist('/org/gnucash/general/autosave-interval-minutes', 0.0,
                   domain='org.gnucash.Gnucash')
 
     # Disable log files.
-    yield m.Plist('/org/gnucash/general/retain-type-never', 1,
+    yield m.Plist('/org/gnucash/general/retain-type-never', True,
                   domain='org.gnucash.Gnucash')
-    yield m.Plist('/org/gnucash/general/retain-type-days', 0,
+    yield m.Plist('/org/gnucash/general/retain-type-days', False,
                   domain='org.gnucash.Gnucash')
 
   # Open new finder windows in home directory.
