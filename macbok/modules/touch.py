@@ -3,7 +3,9 @@ from os import path
 
 from macbok.common import task
 
+
 class Touch(task.Task):
+
   def __init__(self, target):
     """Creates an empty file.
 

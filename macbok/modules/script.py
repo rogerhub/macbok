@@ -5,6 +5,7 @@ from macbok.common import task
 
 
 class Script(task.Task):
+
   def __init__(self, command, _internal=False, _bytes=False):
     """Runs a shell command.
 

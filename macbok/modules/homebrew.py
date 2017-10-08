@@ -1,3 +1,6 @@
+from __future__ import print_function
+from __future__ import unicode_literals
+
 import re
 import glob
 import os
@@ -6,7 +9,9 @@ from os import path
 from macbok.common import task
 from macbok.common import util
 from macbok.modules import chown
+from macbok.modules import link
 from macbok.modules import gitclone
+from macbok.modules import mkdir
 from macbok.modules import script
 
 
@@ -14,6 +19,10 @@ class Homebrew(task.Task):
   """Installs a homebrew package, homebrew cask package, or homebrew tap."""
 
   installation_root = '/usr/local'
+  repository_root = '/usr/local/Homebrew'
+  subdirs = [
+      'Caskroom', 'Cellar', 'Frameworks', 'Homebrew', 'bin', 'etc',
+      'include', 'lib', 'libexec', 'opt', 'sbin', 'share', 'var']
 
   def __init__(self, package=None, cask_package=None, tap=None,
                force_bottle=False):
@@ -45,7 +54,7 @@ class Homebrew(task.Task):
       return os.listdir(cellar_directory)
 
   def _Taps(self):
-    tap_paths = (glob.glob(path.join(self.installation_root, 'Homebrew',
+    tap_paths = (glob.glob(path.join(self.repository_root,
                                      'Library', 'Taps', '*', 'homebrew-*')) +
                  glob.glob(path.join(self.installation_root, 'Library', 'Taps',
                                       '*', 'homebrew-*')))
@@ -80,10 +89,16 @@ class Homebrew(task.Task):
 
   def Run(self):
     with self.TaskLock():
-      if not self._AlreadyInstalled():
-        yield chown.Chown(self.installation_root, util.Username())
-        yield gitclone.Gitclone('https://github.com/Homebrew/brew.git',
-                                self.installation_root)
+      for d in self.subdirs:
+        d = os.path.join(self.installation_root, d)
+        yield mkdir.MkDir(d, sudo=True)
+        yield chown.Chown(d, util.Username())
+      yield gitclone.Gitclone('https://github.com/Homebrew/brew.git',
+                              self.repository_root)
+      yield link.Link(
+          os.path.join(self.repository_root, 'bin', 'brew'),
+          os.path.join(self.installation_root, 'bin', 'brew'))
+
       if self.package and self.package not in self._InstalledPackages():
         extra_options = []
         if self.force_bottle:
