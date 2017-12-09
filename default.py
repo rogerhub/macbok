@@ -32,7 +32,7 @@ def main():
   yield m.Plist('tilesize', None, domain='com.apple.dock')
 
   # Don't auto-hide the dock
-  yield m.Plist('autohide', 0, domain='com.apple.dock')
+  yield m.Plist('autohide', 1, domain='com.apple.dock')
 
   # Disable magnification
   yield m.Plist('magnification', 0, domain='com.apple.dock')
@@ -54,8 +54,12 @@ def main():
   # Enable volume feedback
   yield m.Plist('com.apple.sound.beep.feedback', 1)
 
+  # Mute some system souds
+  yield m.Plist('com.apple.sound.uiaudio.enabled', 0)
+
   # Set ask for password delay to 0
-  yield m.Plist('askForPasswordDelay', 0, domain='com.apple.screensaver')
+  # TODO: This doesn't work. Fix it.
+  # yield m.Plist('askForPasswordDelay', 0, domain='com.apple.screensaver')
 
   # Tap to click
   yield m.Plist('Clicking', 0,
@@ -72,9 +76,10 @@ def main():
   # Set tracking speed.
   yield m.Plist('com.apple.trackpad.scaling', 1)
 
-  # Disable guest account.
-  yield m.Plist('GuestEnabled', False, domain='com.apple.loginwindow',
-                sudo=True)
+  # # Disable guest account.
+  # TODO: This doesn't work. Fix it.
+  # yield m.Plist('GuestEnabled', False, domain='com.apple.loginwindow',
+  #               sudo=True)
 
   # Set up gnucash settings.
   if path.exists(path.expanduser(
@@ -148,6 +153,10 @@ def main():
     if not path.exists(path.expanduser('~/.ssh/ctl')):
       os.mkdir(path.expanduser('~/.ssh/ctl'))
 
+    # Set the alert sound to be this empty audio file.
+    yield m.Plist('com.apple.sound.beep.sound',
+                  path.expanduser('~/K/empty.m4a'))
+
   yield m.Touch(path.expanduser('~/.bash_sessions_disable'))
   yield m.Touch(path.expanduser('~/.hushlogin'))
 
@@ -184,6 +193,8 @@ def main():
   yield m.Homebrew('libusb', force_bottle=True)
   yield m.Homebrew('whois', force_bottle=True)
   yield m.Homebrew('gnu-tar', force_bottle=True)
+  yield m.Homebrew('the_silver_searcher', force_bottle=True)
+  yield m.Homebrew('go', force_bottle=True)  # Only for gofmt.
 
   # Cask packages
   yield m.Homebrew(cask_package='google-chrome')
