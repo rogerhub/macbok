@@ -136,8 +136,8 @@ def main():
     # Avoid creating a dead links
     if not path.exists(path.expanduser('~/.atom')):
       os.mkdir(path.expanduser('~/.atom'))
-    for atom_path in ['config.cson', 'init.coffee', 'keymap.cson',
-                      'snippets.cson', 'styles.less']:
+    for atom_path in ['config.cson', 'init.js', 'keymap.cson', 'snippets.cson',
+                      'styles.less']:
       yield m.Link('../K/atom/' + atom_path,
                    path.expanduser('~/.atom/' + atom_path))
     yield m.Link('K/bcrc', path.expanduser('~/.bcrc'))
@@ -195,6 +195,7 @@ def main():
   yield m.Homebrew('gnu-tar', force_bottle=True)
   yield m.Homebrew('the_silver_searcher', force_bottle=True)
   yield m.Homebrew('go', force_bottle=True)  # Only for gofmt.
+  yield m.Homebrew('ctags', force_bottle=True)
 
   # Cask packages
   yield m.Homebrew(cask_package='google-chrome')
