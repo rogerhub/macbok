@@ -196,6 +196,7 @@ def main():
   yield m.Homebrew('the_silver_searcher', force_bottle=True)
   yield m.Homebrew('go', force_bottle=True)  # Only for gofmt.
   yield m.Homebrew('ctags', force_bottle=True)
+  yield m.Homebrew('smartmontools', force_bottle=True)
 
   # Cask packages
   yield m.Homebrew(cask_package='google-chrome')
