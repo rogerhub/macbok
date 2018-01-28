@@ -51,9 +51,6 @@ def main():
   # Only show scrollbars when scrolling
   yield m.Plist('AppleShowScrollBars', 'WhenScrolling')
 
-  # Enable volume feedback
-  yield m.Plist('com.apple.sound.beep.feedback', 1)
-
   # Mute some system souds
   yield m.Plist('com.apple.sound.uiaudio.enabled', 0)
 
@@ -145,6 +142,7 @@ def main():
     yield m.Link('K/editrc', path.expanduser('~/.editrc'))
     yield m.Link('K/gitconfig', path.expanduser('~/.gitconfig'))
     yield m.Link('K/gitignore', path.expanduser('~/.gitignore'))
+    yield m.Link('K/tmux.conf', path.expanduser('~/.tmux.conf'))
     yield m.Link('K/bash_aliases-mac', path.expanduser('~/.bash_aliases'))
     if not path.exists(path.expanduser('~/.ssh')):
       os.mkdir(path.expanduser('~/.ssh'))
@@ -163,12 +161,9 @@ def main():
   # Basic packages
   yield m.Homebrew(tap='homebrew/core')
   yield m.Homebrew(tap='caskroom/cask')
-  yield m.Homebrew(tap='caskroom/drivers')
-  yield m.Homebrew(tap='caskroom/versions')
-  yield m.Homebrew(tap='homebrew/x11')
-  yield m.Homebrew(tap='homebrew/science')
+  # yield m.Homebrew(tap='caskroom/drivers')
   yield m.Homebrew(tap='rogerhub/sman')
-  yield m.Homebrew('pstree', force_bottle=True)
+  # yield m.Homebrew('pstree', force_bottle=True)
   yield m.Homebrew('mcrypt', force_bottle=True)
   yield m.Homebrew('iperf')
   yield m.Homebrew('mtr', force_bottle=True)
@@ -186,17 +181,18 @@ def main():
   yield m.Homebrew('socat', force_bottle=True)
   yield m.Homebrew('colordiff', force_bottle=True)
   yield m.Homebrew('mpv', force_bottle=True)
-  yield m.Homebrew('ykpers', force_bottle=True)
+  # yield m.Homebrew('ykpers', force_bottle=True)
   yield m.Homebrew('gnupg', force_bottle=True)
   yield m.Homebrew('pinentry-mac', force_bottle=True)
-  yield m.Homebrew('libu2f-host', force_bottle=True)
-  yield m.Homebrew('libusb', force_bottle=True)
+  # yield m.Homebrew('libu2f-host', force_bottle=True)
+  # yield m.Homebrew('libusb', force_bottle=True)
   yield m.Homebrew('whois', force_bottle=True)
   yield m.Homebrew('gnu-tar', force_bottle=True)
   yield m.Homebrew('the_silver_searcher', force_bottle=True)
   yield m.Homebrew('go', force_bottle=True)  # Only for gofmt.
   yield m.Homebrew('ctags', force_bottle=True)
   yield m.Homebrew('smartmontools', force_bottle=True)
+  yield m.Homebrew('tmux', force_bottle=True)
 
   # Cask packages
   yield m.Homebrew(cask_package='google-chrome')
