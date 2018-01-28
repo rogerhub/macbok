@@ -142,6 +142,9 @@ def main():
     yield m.Link('K/editrc', path.expanduser('~/.editrc'))
     yield m.Link('K/gitconfig', path.expanduser('~/.gitconfig'))
     yield m.Link('K/gitignore', path.expanduser('~/.gitignore'))
+    if not path.exists(path.expanduser('~/.gnupg')):
+      os.mkdir(path.expanduser('~/.gnupg'))
+    yield m.Link('../K/gpg-agent.conf', path.expanduser('~/.gnupg/gpg-agent.conf'))
     yield m.Link('K/tmux.conf', path.expanduser('~/.tmux.conf'))
     yield m.Link('K/bash_aliases-mac', path.expanduser('~/.bash_aliases'))
     if not path.exists(path.expanduser('~/.ssh')):
@@ -199,7 +202,7 @@ def main():
   yield m.Homebrew(cask_package='gnucash')
   yield m.Homebrew(cask_package='vmware-fusion')
   yield m.Homebrew(cask_package='atom')
-  yield m.Homebrew(cask_package='1password')
+  # yield m.Homebrew(cask_package='1password') # It's on the Mac App Store.
   yield m.Homebrew(cask_package='sman')
 
 
