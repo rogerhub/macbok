@@ -70,8 +70,6 @@ class Plist(task.Task):
       if self.value is None:
         del p[self.key[-1]]
       else:
-        if self.key[-1] not in p:
-          raise ValueError('Key %s not in %s', self.key[-1], p.keys())
         p[self.key[-1]] = self.value
       if self.sudo:
         # TODO: This is hacky, but it works.

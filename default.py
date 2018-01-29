@@ -14,7 +14,8 @@ def main():
   """Configures Roger's MacBook Pro."""
 
   # Disable autocorrect
-  yield m.Plist('NSAutomaticSpellingCorrectionEnabled', True)
+  yield m.Plist('NSAutomaticSpellingCorrectionEnabled', False)
+  yield m.Plist('NSAutomaticCapitalizationEnabled', False)
 
   # Disables keyboard press-and-hold for accented character entry
   yield m.Plist('ApplePressAndHoldEnabled', False)
@@ -22,28 +23,10 @@ def main():
   # Expand the Save panel by default
   yield m.Plist('NSNavPanelExpandedStateForSaveMode', True)
 
-  # Don't minimize windows to dock
-  yield m.Plist('minimize-to-application', False, domain='com.apple.dock')
-
-  # Put the dock on the bottom
-  yield m.Plist('orientation', 'bottom', domain='com.apple.dock')
-
-  # Use automatic icon size
-  yield m.Plist('tilesize', None, domain='com.apple.dock')
-
-  # Don't auto-hide the dock
-  yield m.Plist('autohide', 1, domain='com.apple.dock')
-
-  # Disable magnification
-  yield m.Plist('magnification', 0, domain='com.apple.dock')
-
   if path.exists(path.expanduser(
       '~/Library/Preferences/com.apple.ActivityMonitor.plist')):
     # Fast updates for Activity Monitor (every second)
     yield m.Plist('UpdatePeriod', 1, domain='com.apple.ActivityMonitor')
-
-  # Dark interface
-  # yield m.Plist('AppleInterfaceStyle', 'Dark')
 
   # Finder show all file extensions
   yield m.Plist('AppleShowAllExtensions', 1)
@@ -126,9 +109,6 @@ def main():
   yield m.Pmset('displaysleep', '180', 'c')
   yield m.Pmset('sleep', '180', 'c')
 
-  yield m.Link('Library/Application Support/MobileSync',
-               path.expanduser('~/MobileSync'))
-
   if path.exists(path.expanduser('~/K')):
     # Avoid creating a dead links
     if not path.exists(path.expanduser('~/.atom')):
@@ -164,9 +144,7 @@ def main():
   # Basic packages
   yield m.Homebrew(tap='homebrew/core')
   yield m.Homebrew(tap='caskroom/cask')
-  # yield m.Homebrew(tap='caskroom/drivers')
   yield m.Homebrew(tap='rogerhub/sman')
-  # yield m.Homebrew('pstree', force_bottle=True)
   yield m.Homebrew('mcrypt', force_bottle=True)
   yield m.Homebrew('iperf')
   yield m.Homebrew('mtr', force_bottle=True)

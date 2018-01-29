@@ -42,6 +42,6 @@ class MkDir(task.Task):
 
   def Run(self):
     if self.sudo:
-      yield script.Script(['sudo', 'mkdir', '-p', self.target])
+      yield script.Script('sudo mkdir -p %s' % self.target)
     else:
       os.mkdir(self.target)
