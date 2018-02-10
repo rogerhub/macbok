@@ -41,21 +41,6 @@ def main():
   # TODO: This doesn't work. Fix it.
   # yield m.Plist('askForPasswordDelay', 0, domain='com.apple.screensaver')
 
-  # Tap to click
-  yield m.Plist('Clicking', 0,
-                domain='com.apple.driver.AppleBluetoothMultitouch.trackpad')
-  yield m.Plist('Clicking', 0,
-                domain='com.apple.AppleMultitouchTrackpad')
-
-  # Set click threshold to 'light'.
-  yield m.Plist('FirstClickThreshold', 0,
-                domain='com.apple.AppleMultitouchTrackpad')
-  yield m.Plist('SecondClickThreshold', 0,
-                domain='com.apple.AppleMultitouchTrackpad')
-
-  # Set tracking speed.
-  yield m.Plist('com.apple.trackpad.scaling', 1)
-
   # # Disable guest account.
   # TODO: This doesn't work. Fix it.
   # yield m.Plist('GuestEnabled', False, domain='com.apple.loginwindow',
