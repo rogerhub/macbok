@@ -9,7 +9,7 @@ You probably want to set up an OS X virtual machine, rather than run it live.
 
 1. Install Xcode command line tools with `xcode-select --install` (Or install the full Xcode app
    from the Mac App Store)
-2. Download macbok, and run `python2.7 default.py`
+2. Download macbok, and run `python default.py`
 3. If it doesn't work, run it a few more times.
 4. If that doesn't work, reboot, then go back to step 3.
 
