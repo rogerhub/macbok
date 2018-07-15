@@ -1,5 +1,6 @@
 from __future__ import print_function
 
+import logging
 import types
 from macbok.common.task import Task
 
@@ -15,10 +16,10 @@ def Execute(task_generator):
   Args:
     task_generator: A generator that yields configuration tasks.
   """
-  _ExecuteTask(task_generator())
+  _ExecuteTask(task_generator(), suppress_failures=True)
 
 
-def _ExecuteTask(task):
+def _ExecuteTask(task, suppress_failures=False):
   if isinstance(task, types.GeneratorType):
     value = None
     while True:
@@ -26,6 +27,12 @@ def _ExecuteTask(task):
         value = _ExecuteTask(task.send(value))
       except StopIteration:
         return value
+      except Exception:
+        if suppress_failures:
+          logging.exception('Exception raised while executing task')
+          value = None
+        else:
+          raise
   elif isinstance(task, Task):
     if hasattr(task, "OnlyIf"):
       if not _ExecuteTask(task.OnlyIf()):

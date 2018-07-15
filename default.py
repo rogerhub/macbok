@@ -15,6 +15,7 @@ def main():
 
   # Disable autocorrect
   yield m.Plist('NSAutomaticSpellingCorrectionEnabled', False)
+  yield m.Plist('WebAutomaticSpellingCorrectionEnabled', False)
   yield m.Plist('NSAutomaticCapitalizationEnabled', False)
 
   # Disables keyboard press-and-hold for accented character entry
@@ -34,61 +35,11 @@ def main():
   # Only show scrollbars when scrolling
   yield m.Plist('AppleShowScrollBars', 'WhenScrolling')
 
-  # Mute some system souds
+  # Mute some system sounds
   yield m.Plist('com.apple.sound.uiaudio.enabled', 0)
-
-  # Set ask for password delay to 0
-  # TODO: This doesn't work. Fix it.
-  # yield m.Plist('askForPasswordDelay', 0, domain='com.apple.screensaver')
-
-  # # Disable guest account.
-  # TODO: This doesn't work. Fix it.
-  # yield m.Plist('GuestEnabled', False, domain='com.apple.loginwindow',
-  #               sudo=True)
-
-  # Set up gnucash settings.
-  if path.exists(path.expanduser(
-      '~/Library/Preferences/org.gnucash.Gnucash.plist')):
-    # Sliding window for date completion.
-    # TODO: This is already the default in gnucash trunk.
-    yield m.Plist('/org/gnucash/general/date-backmonths', 10,
-                  domain='org.gnucash.Gnucash')
-    yield m.Plist('/org/gnucash/general/date-completion-sliding', 1,
-                  domain='org.gnucash.Gnucash')
-    yield m.Plist('/org/gnucash/general/date-completion-thisyear', 0,
-                  domain='org.gnucash.Gnucash')
-
-    # Disable auto-save.
-    yield m.Plist('/org/gnucash/general/autosave-interval-minutes', 0,
-                  domain='org.gnucash.Gnucash')
-
-    # Disable log files.
-    yield m.Plist('/org/gnucash/general/retain-type-never', 1,
-                  domain='org.gnucash.Gnucash')
-    yield m.Plist('/org/gnucash/general/retain-type-days', 0,
-                  domain='org.gnucash.Gnucash')
 
   # Open new finder windows in home directory.
   yield m.Plist('NewWindowTarget', 'PfHm', domain='com.apple.finder')
-
-  # TODO: Rewrite this with ~/Library/Preferences/com.apple.ServicesMenu.Services.plist
-  # # Disable context menus.
-  # yield m.Plist(
-  #     ('NSServicesStatus',
-  #      'com.apple.Stickies - Make Sticky - makeStickyFromTextService'),
-  #     {'enabled_context_menu': 0, 'enabled_services_menu': 0},
-  #     domain='pbs')
-  # yield m.Plist(
-  #     ('NSServicesStatus',
-  #      'com.apple.services.addToiTunesAsSpokenTrack - '
-  #      'Add to iTunes as a Spoken Track - runWorkflowAsService'),
-  #     {'enabled_context_menu': 0, 'enabled_services_menu': 0},
-  #     domain='pbs')
-  # yield m.Plist(
-  #     ('NSServicesStatus',
-  #      'com.todoist.mac.Todoist - Add to Todoist - addToTodoist'),
-  #     {'enabled_context_menu': 0, 'enabled_services_menu': 0},
-  #     domain='pbs')
 
   # On AC Power, keep the display and system on for 3 hours of inactivity.
   yield m.Pmset('displaysleep', '180', 'c')
@@ -128,8 +79,7 @@ def main():
 
   # Basic packages
   yield m.Homebrew(tap='homebrew/core')
-  yield m.Homebrew(tap='caskroom/cask')
-  yield m.Homebrew(tap='rogerhub/sman')
+  yield m.Homebrew(tap='homebrew/cask')
   yield m.Homebrew('mcrypt', force_bottle=True)
   yield m.Homebrew('iperf')
   yield m.Homebrew('mtr', force_bottle=True)
@@ -137,7 +87,6 @@ def main():
   yield m.Homebrew('wakeonlan')
   yield m.Homebrew('openssl', force_bottle=True)
   yield m.Homebrew('python', force_bottle=True)
-  yield m.Homebrew('python3', force_bottle=True)
   yield m.Homebrew('libav', force_bottle=True)
   yield m.Homebrew('git', force_bottle=True)
   yield m.Homebrew('nmap', force_bottle=True)
@@ -155,18 +104,17 @@ def main():
   yield m.Homebrew('whois', force_bottle=True)
   yield m.Homebrew('gnu-tar', force_bottle=True)
   yield m.Homebrew('the_silver_searcher', force_bottle=True)
-  yield m.Homebrew('go', force_bottle=True)  # Only for gofmt.
+  # yield m.Homebrew('go', force_bottle=True)  # Only for gofmt.
   yield m.Homebrew('ctags', force_bottle=True)
   yield m.Homebrew('smartmontools', force_bottle=True)
   yield m.Homebrew('tmux', force_bottle=True)
+  # yield m.Homebrew('openssh', force_bottle=True)
 
   # Cask packages
   yield m.Homebrew(cask_package='google-chrome')
   yield m.Homebrew(cask_package='gnucash')
   yield m.Homebrew(cask_package='vmware-fusion')
   yield m.Homebrew(cask_package='atom')
-  # yield m.Homebrew(cask_package='1password') # It's on the Mac App Store.
-  yield m.Homebrew(cask_package='sman')
 
 
 if __name__ == '__main__':
