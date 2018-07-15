@@ -6,4 +6,5 @@ from macbok.modules.homebrew import Homebrew
 from macbok.modules.link import Link
 from macbok.modules.plist import Plist
 from macbok.modules.pmset import Pmset
+from macbok.modules.sysctl import Sysctl
 from macbok.modules.touch import Touch

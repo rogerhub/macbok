@@ -13,28 +13,6 @@ import macbok as m
 def main():
   """Configures Roger's MacBook Pro."""
 
-  # Disable autocorrect
-  yield m.Plist('NSAutomaticSpellingCorrectionEnabled', False)
-  yield m.Plist('WebAutomaticSpellingCorrectionEnabled', False)
-  yield m.Plist('NSAutomaticCapitalizationEnabled', False)
-
-  # Disables keyboard press-and-hold for accented character entry
-  yield m.Plist('ApplePressAndHoldEnabled', False)
-
-  # Expand the Save panel by default
-  yield m.Plist('NSNavPanelExpandedStateForSaveMode', True)
-
-  if path.exists(path.expanduser(
-      '~/Library/Preferences/com.apple.ActivityMonitor.plist')):
-    # Fast updates for Activity Monitor (every second)
-    yield m.Plist('UpdatePeriod', 1, domain='com.apple.ActivityMonitor')
-
-  # Finder show all file extensions
-  yield m.Plist('AppleShowAllExtensions', 1)
-
-  # Only show scrollbars when scrolling
-  yield m.Plist('AppleShowScrollBars', 'WhenScrolling')
-
   # Mute some system sounds
   yield m.Plist('com.apple.sound.uiaudio.enabled', 0)
 
@@ -44,6 +22,10 @@ def main():
   # On AC Power, keep the display and system on for 3 hours of inactivity.
   yield m.Pmset('displaysleep', '180', 'c')
   yield m.Pmset('sleep', '180', 'c')
+
+  # Use stable IPv6 addresses. Otherwise, long-lived IPv6 connections are
+  # dropped constantly.
+  yield m.Sysctl('net.inet6.ip6.use_tempaddr', '0')
 
   if path.exists(path.expanduser('~/K')):
     # Avoid creating a dead links
