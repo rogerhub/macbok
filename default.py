@@ -16,6 +16,9 @@ def main():
   # Mute some system sounds
   yield m.Plist('com.apple.sound.uiaudio.enabled', 0)
 
+  # Disable "shake mouse pointer to locate"
+  yield m.Plist('CGDisableCursorLocationMagnification', 1)
+
   # Open new finder windows in home directory.
   yield m.Plist('NewWindowTarget', 'PfHm', domain='com.apple.finder')
 
