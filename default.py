@@ -30,6 +30,11 @@ def main():
   # dropped constantly.
   yield m.Sysctl('net.inet6.ip6.use_tempaddr', '0')
 
+  yield m.Text(
+      '/private/etc/sudoers.d/alf',
+      'roger ALL = NOPASSWD: /usr/libexec/ApplicationFirewall/socketfilterfw',
+      sudo=True)
+
   if path.exists(path.expanduser('~/K')):
     # Avoid creating a dead links
     if not path.exists(path.expanduser('~/.atom')):
@@ -94,6 +99,7 @@ def main():
   yield m.Homebrew('smartmontools', force_bottle=True)
   yield m.Homebrew('tmux', force_bottle=True)
   # yield m.Homebrew('openssh', force_bottle=True)
+  yield m.Homebrew('fping', force_bottle=True)
 
   # Cask packages
   yield m.Homebrew(cask_package='google-chrome')
