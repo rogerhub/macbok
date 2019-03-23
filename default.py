@@ -13,14 +13,11 @@ import macbok as m
 def main():
   """Configures Roger's MacBook Pro."""
 
-  # Mute some system sounds
-  yield m.Plist('com.apple.sound.uiaudio.enabled', 0)
-
-  # Disable "shake mouse pointer to locate"
-  yield m.Plist('CGDisableCursorLocationMagnification', 1)
-
   # Open new finder windows in home directory.
   yield m.Plist('NewWindowTarget', 'PfHm', domain='com.apple.finder')
+
+  # Maximum scrolling speed.
+  yield m.Plist('com.apple.scrollwheel.scaling', 1)
 
   # On AC Power, keep the display and system on for 3 hours of inactivity.
   yield m.Pmset('displaysleep', '180', 'c')
