@@ -83,26 +83,33 @@ def main():
   yield m.Homebrew('socat', force_bottle=True)
   yield m.Homebrew('colordiff', force_bottle=True)
   yield m.Homebrew('mpv', force_bottle=True)
-  # yield m.Homebrew('ykpers', force_bottle=True)
   yield m.Homebrew('gnupg', force_bottle=True)
   yield m.Homebrew('pinentry-mac', force_bottle=True)
-  # yield m.Homebrew('libu2f-host', force_bottle=True)
-  # yield m.Homebrew('libusb', force_bottle=True)
   yield m.Homebrew('whois', force_bottle=True)
   yield m.Homebrew('gnu-tar', force_bottle=True)
   yield m.Homebrew('the_silver_searcher', force_bottle=True)
-  # yield m.Homebrew('go', force_bottle=True)  # Only for gofmt.
   yield m.Homebrew('ctags', force_bottle=True)
   yield m.Homebrew('smartmontools', force_bottle=True)
   yield m.Homebrew('tmux', force_bottle=True)
-  # yield m.Homebrew('openssh', force_bottle=True)
   yield m.Homebrew('fping', force_bottle=True)
+  yield m.Homebrew('imagemagick', force_bottle=True)
+  yield m.Homebrew('exiftool', force_bottle=True)
 
   # Cask packages
   yield m.Homebrew(cask_package='google-chrome')
   yield m.Homebrew(cask_package='gnucash')
   yield m.Homebrew(cask_package='vmware-fusion')
   yield m.Homebrew(cask_package='atom')
+
+  yield m.Gitclone(
+      'https://github.com/t9md/atom-vim-mode-plus.git',
+      path.expanduser('~/Downloads/atom-vim-mode-plus'))
+  yield m.Gitclone(
+      'https://github.com/rogerhub/auto-detect-indentation.git',
+      path.expanduser('~/Downloads/auto-detect-indentation'))
+  yield m.Gitclone(
+      'https://github.com/rogerhub/python-indent.git',
+      path.expanduser('~/Downloads/python-indent'))
 
 
 if __name__ == '__main__':
