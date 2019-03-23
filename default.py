@@ -32,8 +32,8 @@ def main():
       'roger ALL = NOPASSWD: /usr/libexec/ApplicationFirewall/socketfilterfw',
       sudo=True)
 
+  # Avoid creating a dead links
   if path.exists(path.expanduser('~/K')):
-    # Avoid creating a dead links
     if not path.exists(path.expanduser('~/.atom')):
       os.mkdir(path.expanduser('~/.atom'))
     for atom_path in ['config.cson', 'init.js', 'keymap.cson', 'snippets.cson',
@@ -50,16 +50,7 @@ def main():
     yield m.Link('../K/gpg-agent.conf', path.expanduser('~/.gnupg/gpg-agent.conf'))
     yield m.Link('K/tmux.conf', path.expanduser('~/.tmux.conf'))
     yield m.Link('K/bash_aliases-mac', path.expanduser('~/.bash_aliases'))
-    if not path.exists(path.expanduser('~/.ssh')):
-      os.mkdir(path.expanduser('~/.ssh'))
-    yield m.Link('../K/ssh/known_hosts', path.expanduser('~/.ssh/known_hosts'))
-    yield m.Link('../K/ssh/config', path.expanduser('~/.ssh/config'))
-    if not path.exists(path.expanduser('~/.ssh/ctl')):
-      os.mkdir(path.expanduser('~/.ssh/ctl'))
-
-    # Set the alert sound to be this empty audio file.
-    yield m.Plist('com.apple.sound.beep.sound',
-                  path.expanduser('~/K/empty.m4a'))
+    yield m.Link('K/ssh', path.expanduser('~/.ssh'))
 
   yield m.Touch(path.expanduser('~/.bash_sessions_disable'))
   yield m.Touch(path.expanduser('~/.hushlogin'))
