@@ -89,7 +89,6 @@ def main():
   # Cask packages
   yield m.Homebrew(cask_package='google-chrome')
   yield m.Homebrew(cask_package='gnucash')
-  yield m.Homebrew(cask_package='vmware-fusion')
   yield m.Homebrew(cask_package='atom')
 
   yield m.Gitclone(
