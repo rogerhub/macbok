@@ -38,19 +38,21 @@ def main():
       os.mkdir(path.expanduser('~/.atom'))
     for atom_path in ['config.cson', 'init.js', 'keymap.cson', 'snippets.cson',
                       'styles.less']:
-      yield m.Link('../K/atom/' + atom_path,
+      yield m.Link('../K/.atom/' + atom_path,
                    path.expanduser('~/.atom/' + atom_path))
-    yield m.Link('K/bcrc', path.expanduser('~/.bcrc'))
-    yield m.Link('K/colordiffrc', path.expanduser('~/.colordiffrc'))
-    yield m.Link('K/editrc', path.expanduser('~/.editrc'))
-    yield m.Link('K/gitconfig', path.expanduser('~/.gitconfig'))
-    yield m.Link('K/gitignore', path.expanduser('~/.gitignore'))
+    yield m.Link('K/.bcrc', path.expanduser('~/.bcrc'))
+    yield m.Link('K/.colordiffrc', path.expanduser('~/.colordiffrc'))
+    yield m.Link('K/.editrc', path.expanduser('~/.editrc'))
+    yield m.Link('K/.gitconfig', path.expanduser('~/.gitconfig'))
+    yield m.Link('K/.gitignore', path.expanduser('~/.gitignore'))
     if not path.exists(path.expanduser('~/.gnupg')):
       os.mkdir(path.expanduser('~/.gnupg'))
-    yield m.Link('../K/gpg-agent.conf', path.expanduser('~/.gnupg/gpg-agent.conf'))
-    yield m.Link('K/tmux.conf', path.expanduser('~/.tmux.conf'))
+    yield m.Link(
+        '../K/.gnupg/gpg-agent.conf',
+        path.expanduser('~/.gnupg/gpg-agent.conf'))
+    yield m.Link('K/.tmux.conf', path.expanduser('~/.tmux.conf'))
     yield m.Link('K/bash_aliases-mac', path.expanduser('~/.bash_aliases'))
-    yield m.Link('K/ssh', path.expanduser('~/.ssh'))
+    yield m.Link('K/.ssh', path.expanduser('~/.ssh'))
 
   yield m.Touch(path.expanduser('~/.bash_sessions_disable'))
   yield m.Touch(path.expanduser('~/.hushlogin'))
@@ -100,6 +102,9 @@ def main():
   yield m.Gitclone(
       'https://github.com/rogerhub/python-indent.git',
       path.expanduser('~/Downloads/python-indent'))
+  yield m.Gitclone(
+      'https://github.com/rogerhub/advanced-open-file.git',
+      path.expanduser('~/Downloads/advanced-open-file'))
 
 
 if __name__ == '__main__':
