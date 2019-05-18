@@ -87,6 +87,7 @@ def main():
   yield m.Homebrew('fping', force_bottle=True)
   yield m.Homebrew('imagemagick', force_bottle=True)
   yield m.Homebrew('exiftool', force_bottle=True)
+  yield m.Homebrew('iperf3', force_bottle=True)
 
   # Cask packages
   yield m.Homebrew(cask_package='google-chrome')
