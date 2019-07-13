@@ -82,12 +82,12 @@ def main():
   yield m.Homebrew('gnu-tar', force_bottle=True)
   yield m.Homebrew('the_silver_searcher', force_bottle=True)
   yield m.Homebrew('ctags', force_bottle=True)
-  yield m.Homebrew('smartmontools', force_bottle=True)
   yield m.Homebrew('tmux', force_bottle=True)
   yield m.Homebrew('fping', force_bottle=True)
   yield m.Homebrew('imagemagick', force_bottle=True)
   yield m.Homebrew('exiftool', force_bottle=True)
   yield m.Homebrew('iperf3', force_bottle=True)
+  yield m.Homebrew('webp', force_bottle=True)
 
   # Cask packages
   yield m.Homebrew(cask_package='google-chrome')
@@ -103,9 +103,6 @@ def main():
   yield m.Gitclone(
       'https://github.com/rogerhub/python-indent.git',
       path.expanduser('~/Downloads/python-indent'))
-  yield m.Gitclone(
-      'https://github.com/rogerhub/advanced-open-file.git',
-      path.expanduser('~/Downloads/advanced-open-file'))
 
 
 if __name__ == '__main__':
