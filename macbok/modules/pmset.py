@@ -21,14 +21,15 @@ class Pmset(task.Task):
   def _CurrentSettings(self):
     with self.TaskLock():
       result = yield script.Script('pmset -g custom', _internal=True)
-      match = re.match(r'^Battery Power:\n(.*)AC Power:\n(.*)', result,
+      match = re.match(r'^(Battery Power:\n(.*))?AC Power:\n(.*)', result,
                        re.DOTALL)
       if not match:
         raise ValueError('Unrecognized output: %s' % result)
-      yield {
-        'battery_power': self._ParseKeyValue(match.group(1)),
-        'ac_power': self._ParseKeyValue(match.group(2)),
-      }
+      settings = {}
+      if match.group(2):
+        settings['battery_power'] = self._ParseKeyValue(match.group(2))
+      settings['ac_power'] = self._ParseKeyValue(match.group(3))
+      yield settings
 
   def _ParseKeyValue(self, payload):
     """Turns a multi-line string of '  key value' into a dict."""
