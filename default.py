@@ -17,7 +17,18 @@ def main():
   yield m.Plist('NewWindowTarget', 'PfHm', domain='com.apple.finder')
 
   # Maximum scrolling speed.
-  yield m.Plist('com.apple.scrollwheel.scaling', 1)
+  yield m.Plist('com.apple.scrollwheel.scaling', 1.0)
+
+  # Mouse tracking speed.
+  yield m.Plist('com.apple.mouse.scaling', 2.5)
+
+  # Dock preferences
+  yield m.Plist('minimize-to-application', 1, domain='com.apple.dock')
+  yield m.Plist('orientation', 'left', domain='com.apple.dock')
+  yield m.Plist('show-recents', 0, domain='com.apple.dock')
+
+  # Move windows with ctrl+cmd drag.
+  yield m.Plist('NSWindowShouldDragOnGesture', True)
 
   # On AC Power, keep the display and system on for 3 hours of inactivity.
   yield m.Pmset('displaysleep', '180', 'c')
